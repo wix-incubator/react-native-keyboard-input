@@ -1,0 +1,24 @@
+{
+  "name": "react-native-custom-input-controller",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wix/react-native-custom-input-controller.git"
+  },
+  "version": "1.0.0",
+  "description": "React Native Custom Input Controller",
+  "nativePackage": true,
+  "keywords": [
+    "react-native",
+    "react",
+    "react-component",
+    "custom-input",
+    "input"
+  ],
+  "bugs": {
+    "url": "https://github.com/wix/react-native-custom-input-controller/issues"
+  },
+  "homepage": "https://github.com/wix/react-native-custom-input-controller",
+  "main": "index.js",
+  "author": "Leo Natan <lnatan@wix.com>",
+  "license": "MIT"
+}

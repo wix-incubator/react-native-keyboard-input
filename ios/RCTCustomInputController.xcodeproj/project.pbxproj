@@ -1,0 +1,285 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		39DF4FEC1E00394E00F5B4B2 /* RCTCustomInputController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39DF4FEB1E00394E00F5B4B2 /* RCTCustomInputController.m */; };
+		39DF4FED1E00394E00F5B4B2 /* RCTCustomInputController.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 39DF4FEA1E00394E00F5B4B2 /* RCTCustomInputController.h */; };
+		39DF501A1E003AD100F5B4B2 /* WXInputViewControllerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 39DF50191E003AD100F5B4B2 /* WXInputViewControllerManager.m */; };
+		39DF504C1E00426500F5B4B2 /* RCTCustomKeyboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39DF504B1E00426500F5B4B2 /* RCTCustomKeyboardViewController.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		39DF4FE51E00394E00F5B4B2 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+				39DF4FED1E00394E00F5B4B2 /* RCTCustomInputController.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		39DF4FE71E00394E00F5B4B2 /* libRCTCustomInputController.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRCTCustomInputController.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		39DF4FEA1E00394E00F5B4B2 /* RCTCustomInputController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCTCustomInputController.h; sourceTree = "<group>"; };
+		39DF4FEB1E00394E00F5B4B2 /* RCTCustomInputController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RCTCustomInputController.m; sourceTree = "<group>"; };
+		39DF50181E003AD100F5B4B2 /* WXInputViewControllerManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXInputViewControllerManager.h; sourceTree = "<group>"; };
+		39DF50191E003AD100F5B4B2 /* WXInputViewControllerManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WXInputViewControllerManager.m; sourceTree = "<group>"; };
+		39DF504A1E00426500F5B4B2 /* RCTCustomKeyboardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTCustomKeyboardViewController.h; sourceTree = "<group>"; };
+		39DF504B1E00426500F5B4B2 /* RCTCustomKeyboardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTCustomKeyboardViewController.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		39DF4FE41E00394E00F5B4B2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		39DF4FDE1E00394E00F5B4B2 = {
+			isa = PBXGroup;
+			children = (
+				39DF4FE91E00394E00F5B4B2 /* RCTCustomInputController */,
+				39DF4FE81E00394E00F5B4B2 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		39DF4FE81E00394E00F5B4B2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				39DF4FE71E00394E00F5B4B2 /* libRCTCustomInputController.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		39DF4FE91E00394E00F5B4B2 /* RCTCustomInputController */ = {
+			isa = PBXGroup;
+			children = (
+				39DF504A1E00426500F5B4B2 /* RCTCustomKeyboardViewController.h */,
+				39DF504B1E00426500F5B4B2 /* RCTCustomKeyboardViewController.m */,
+				39DF50181E003AD100F5B4B2 /* WXInputViewControllerManager.h */,
+				39DF50191E003AD100F5B4B2 /* WXInputViewControllerManager.m */,
+				39DF4FEA1E00394E00F5B4B2 /* RCTCustomInputController.h */,
+				39DF4FEB1E00394E00F5B4B2 /* RCTCustomInputController.m */,
+			);
+			path = RCTCustomInputController;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		39DF4FE61E00394E00F5B4B2 /* RCTCustomInputController */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 39DF4FF01E00394E00F5B4B2 /* Build configuration list for PBXNativeTarget "RCTCustomInputController" */;
+			buildPhases = (
+				39DF4FE31E00394E00F5B4B2 /* Sources */,
+				39DF4FE41E00394E00F5B4B2 /* Frameworks */,
+				39DF4FE51E00394E00F5B4B2 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RCTCustomInputController;
+			productName = RCTCustomInputController;
+			productReference = 39DF4FE71E00394E00F5B4B2 /* libRCTCustomInputController.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		39DF4FDF1E00394E00F5B4B2 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0820;
+				ORGANIZATIONNAME = "Leo Natan";
+				TargetAttributes = {
+					39DF4FE61E00394E00F5B4B2 = {
+						CreatedOnToolsVersion = 8.2;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 39DF4FE21E00394E00F5B4B2 /* Build configuration list for PBXProject "RCTCustomInputController" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 39DF4FDE1E00394E00F5B4B2;
+			productRefGroup = 39DF4FE81E00394E00F5B4B2 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				39DF4FE61E00394E00F5B4B2 /* RCTCustomInputController */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		39DF4FE31E00394E00F5B4B2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				39DF501A1E003AD100F5B4B2 /* WXInputViewControllerManager.m in Sources */,
+				39DF504C1E00426500F5B4B2 /* RCTCustomKeyboardViewController.m in Sources */,
+				39DF4FEC1E00394E00F5B4B2 /* RCTCustomInputController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		39DF4FEE1E00394E00F5B4B2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		39DF4FEF1E00394E00F5B4B2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		39DF4FF11E00394E00F5B4B2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../../../React/**",
+					"$(SRCROOT)/../../react-native/React/**",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		39DF4FF21E00394E00F5B4B2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../../../React/**",
+					"$(SRCROOT)/../../react-native/React/**",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		39DF4FE21E00394E00F5B4B2 /* Build configuration list for PBXProject "RCTCustomInputController" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				39DF4FEE1E00394E00F5B4B2 /* Debug */,
+				39DF4FEF1E00394E00F5B4B2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		39DF4FF01E00394E00F5B4B2 /* Build configuration list for PBXNativeTarget "RCTCustomInputController" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				39DF4FF11E00394E00F5B4B2 /* Debug */,
+				39DF4FF21E00394E00F5B4B2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 39DF4FDF1E00394E00F5B4B2 /* Project object */;
+}
