@@ -54,7 +54,7 @@ static const void* WXTextFieldInputViewHelperView = &WXTextFieldInputViewHelperV
 				.super_class = originalClass,
 			};
 			
-			BOOL (*objc_msgSendSuper_typed)(struct objc_super *, SEL, id) = (void *)&objc_msgSendSuper;
+			void (*objc_msgSendSuper_typed)(struct objc_super *, SEL, id) = (void *)&objc_msgSendSuper;
 			objc_msgSendSuper_typed(&super, @selector(willMoveToSuperview:), newSuperview);
 			
 			cleanup(_self);
