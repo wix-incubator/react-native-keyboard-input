@@ -4,7 +4,7 @@
     "type": "git",
     "url": "https://github.com/wix/react-native-custom-input-controller.git"
   },
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "React Native Custom Input Controller",
   "nativePackage": true,
   "keywords": [
