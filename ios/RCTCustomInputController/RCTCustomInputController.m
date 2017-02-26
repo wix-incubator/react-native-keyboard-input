@@ -7,7 +7,7 @@
 
 #import "RCTCustomInputController.h"
 #import "WXInputViewControllerManager.h"
-#import "RCTUIManager.h"
+#import <React/RCTUIManager.h>
 #import "RCTCustomKeyboardViewController.h"
 
 @implementation RCTCustomInputController

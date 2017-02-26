@@ -6,7 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "RCTRootView.h"
+#import <React/RCTRootView.h>
 
 @interface RCTCustomKeyboardViewController : UIInputViewController
 
