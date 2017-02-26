@@ -5,7 +5,7 @@
 //  Copyright © 2016 Leo Natan. All rights reserved.
 //
 
-#import <React/RCTBridgeModule.h>
+#import "RCTBridgeModule.h"
 
 @interface RCTCustomInputController : NSObject <RCTBridgeModule>
 
