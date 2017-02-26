@@ -1,1 +1,3 @@
-module.exports = require('./index');
+import TextInputKeyboardManger from './src/TextInputKeyboardManger';
+
+export {TextInputKeyboardManger};
