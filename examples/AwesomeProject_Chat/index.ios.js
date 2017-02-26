@@ -24,11 +24,9 @@ import {TextInputKeyboardManger} from 'react-native-custom-input-controller';
 const screenSize = Dimensions.get('window');
 const trackInteractive = true;
 
-let test = true;
-
-const KeyboardToolbar = ({onActionPress, onTestPress, onLayout, onInputFocus, inputRefCallback}) =>
+const KeyboardToolbar = ({onActionPress, buttons, onLayout, onInputFocus, inputRefCallback}) =>
   <KeyboardTrackingView style={styles.trackingToolbarContainer} onLayout={onLayout} trackInteractive={trackInteractive}>
-    <View style={{borderTopWidth: StyleSheet.hairlineWidth, borderColor: '#bbb' }}/>
+    <View style={{borderTopWidth: StyleSheet.hairlineWidth, borderColor: '#bbb'}}/>
     <BlurView blurType="xlight" style={styles.blurContainer}>
       <View style={styles.inputContainer}>
         <AutoGrowingTextInput
@@ -41,9 +39,15 @@ const KeyboardToolbar = ({onActionPress, onTestPress, onLayout, onInputFocus, in
           <Text>Action</Text>
         </TouchableOpacity>
       </View>
-      <TouchableOpacity onPress={onTestPress} style={{paddingLeft: 15, paddingBottom: 10}}>
-        <Text>Test</Text>
-      </TouchableOpacity>
+      <View style={{flexDirection: 'row',}}>
+        {
+          buttons.map((button, index) =>
+            <TouchableOpacity onPress={button.onPress} style={{paddingLeft: 15, paddingBottom: 10}} key={index}>
+              <Text>{button.text}</Text>
+            </TouchableOpacity>
+          )
+        }
+      </View>
     </BlurView>
   </KeyboardTrackingView>;
 
@@ -81,19 +85,29 @@ class AwesomeProject extends Component {
   }
 
   showKeyboardView() {
-    if(test) {
-      const params = {
-        component: 'KeyboardView',
-        initialProps: {
-          title: 'there!!'
-        }
-      };
-      TextInputKeyboardManger.setInputComponent(this._textInput, params);
-    } else {
-      TextInputKeyboardManger.removeInputComponent(this._textInput);
-    }
+    const params = {
+      component: 'KeyboardView',
+      initialProps: {
+        title: 'there!!'
+      }
+    };
+    TextInputKeyboardManger.setInputComponent(this._textInput, params);
+  }
 
-    test = !test;
+  hideKeyboardView() {
+    TextInputKeyboardManger.removeInputComponent(this._textInput);
+  }
+
+  getToolbarButtons() {
+    return [
+      {
+        text: 'show', onPress: () => this.showKeyboardView()
+      },
+      {
+        text: 'hide',
+        onPress: () => this.hideKeyboardView()
+      }
+    ];
   }
 
   render() {
@@ -105,8 +119,8 @@ class AwesomeProject extends Component {
         >
           <Text style={styles.welcome}>Keyboards example</Text>
         </ScrollView>
-        <KeyboardToolbar onActionPress={() => this._textInput.blur()}
-                         onTestPress={() => this.showKeyboardView()}
+        <KeyboardToolbar onActionPress={() => this._textInput._textInput.blur()}
+                         buttons={this.getToolbarButtons()}
                          onLayout={(event) => this.setState({keyboardToolbarHeight: event.nativeEvent.layout.height})}
                          inputRefCallback={(r) => this._textInput = r}/>
       </View>
