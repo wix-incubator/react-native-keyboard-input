@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		39DF4FEC1E00394E00F5B4B2 /* RCTCustomInputController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39DF4FEB1E00394E00F5B4B2 /* RCTCustomInputController.m */; };
 		39DF4FED1E00394E00F5B4B2 /* RCTCustomInputController.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 39DF4FEA1E00394E00F5B4B2 /* RCTCustomInputController.h */; };
-		39DF501A1E003AD100F5B4B2 /* WXInputViewControllerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 39DF50191E003AD100F5B4B2 /* WXInputViewControllerManager.m */; };
 		39DF504C1E00426500F5B4B2 /* RCTCustomKeyboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39DF504B1E00426500F5B4B2 /* RCTCustomKeyboardViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -30,8 +29,6 @@
 		39DF4FE71E00394E00F5B4B2 /* libRCTCustomInputController.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRCTCustomInputController.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		39DF4FEA1E00394E00F5B4B2 /* RCTCustomInputController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCTCustomInputController.h; sourceTree = "<group>"; };
 		39DF4FEB1E00394E00F5B4B2 /* RCTCustomInputController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RCTCustomInputController.m; sourceTree = "<group>"; };
-		39DF50181E003AD100F5B4B2 /* WXInputViewControllerManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXInputViewControllerManager.h; sourceTree = "<group>"; };
-		39DF50191E003AD100F5B4B2 /* WXInputViewControllerManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WXInputViewControllerManager.m; sourceTree = "<group>"; };
 		39DF504A1E00426500F5B4B2 /* RCTCustomKeyboardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTCustomKeyboardViewController.h; sourceTree = "<group>"; };
 		39DF504B1E00426500F5B4B2 /* RCTCustomKeyboardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTCustomKeyboardViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -68,8 +65,6 @@
 			children = (
 				39DF504A1E00426500F5B4B2 /* RCTCustomKeyboardViewController.h */,
 				39DF504B1E00426500F5B4B2 /* RCTCustomKeyboardViewController.m */,
-				39DF50181E003AD100F5B4B2 /* WXInputViewControllerManager.h */,
-				39DF50191E003AD100F5B4B2 /* WXInputViewControllerManager.m */,
 				39DF4FEA1E00394E00F5B4B2 /* RCTCustomInputController.h */,
 				39DF4FEB1E00394E00F5B4B2 /* RCTCustomInputController.m */,
 			);
@@ -133,7 +128,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				39DF501A1E003AD100F5B4B2 /* WXInputViewControllerManager.m in Sources */,
 				39DF504C1E00426500F5B4B2 /* RCTCustomKeyboardViewController.m in Sources */,
 				39DF4FEC1E00394E00F5B4B2 /* RCTCustomInputController.m in Sources */,
 			);

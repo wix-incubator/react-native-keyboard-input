@@ -23,18 +23,26 @@ export default class AwesomeProject extends Component {
       <View style={styles.container}>
         <TextInput
           ref='myTextInput'
-          style={{height: 40, borderColor: 'gray', borderWidth: 1, padding: 8, margin: 20}}
+          style={{ height: 40, borderColor: 'gray', borderWidth: 1, padding: 8, margin: 20 }}
         />
-        <TouchableOpacity onPress={() => this._onPressButton() }>
+        <TouchableOpacity onPress={() => this._onResetButton()}>
+          <Text>Reset</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => this._onPressButton()}>
           <Text>Change</Text>
         </TouchableOpacity>
       </View>
     );
   }
-  
+
   _onPressButton() {
     const reactTag = ReactNative.findNodeHandle(this.refs['myTextInput']);
-    CustomInputController.presentCustomInputView(reactTag, 'CustomInput');
+    CustomInputController.presentCustomInputComponent(reactTag, 'CustomInput');
+  }
+
+  _onResetButton() {
+    const reactTag = ReactNative.findNodeHandle(this.refs['myTextInput']);
+    CustomInputController.resetInput(reactTag);
   }
 }
 
@@ -51,17 +59,17 @@ class CustomInput extends Component {
   getRandomColor() {
     const letters = '0123456789ABCDEF'.split('');
     let color = '#';
-    
-    for (var i = 0; i < 6; i++ ) {
+
+    for (var i = 0; i < 6; i++) {
       color += letters[Math.floor(Math.random() * 16)];
     }
-    
+
     return color;
   };
 
   render() {
     return (
-      <View style={{flex: 1, backgroundColor: this.getRandomColor()}} />
+      <View style={{ flex: 1, backgroundColor: this.getRandomColor() }} />
     )
   }
 }
