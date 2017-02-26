@@ -22,6 +22,7 @@ import {KeyboardTrackingView} from 'react-native-keyboard-tracking-view';
 import {AutoGrowingTextInput} from 'react-native-autogrow-textinput';
 import {TextInputKeyboardManger} from 'react-native-custom-input-controller';
 
+const IsIOS = Platform.OS === 'ios';
 const screenSize = Dimensions.get('window');
 const trackInteractive = true;
 
@@ -116,14 +117,14 @@ class AwesomeProject extends Component {
     return (
       <View style={styles.container}>
         <ScrollView contentContainerStyle={styles.scrollContainer}
-                    contentInset={{bottom: (this.state.keyboardHeight + this.state.keyboardToolbarHeight)}}
+                    contentInset={IsIOS && {bottom: (this.state.keyboardHeight + this.state.keyboardToolbarHeight)}}
                     keyboardDismissMode={trackInteractive ? 'interactive' : 'none'}
         >
           <Text style={styles.welcome}>Keyboards example</Text>
         </ScrollView>
         <KeyboardToolbar
-          ContainerComponent={Platform.OS === 'ios' ? KeyboardTrackingView : View}
-          InnerContainerComponent={Platform.OS === 'ios' ? BlurView : View}
+          ContainerComponent={IsIOS ? KeyboardTrackingView : View}
+          InnerContainerComponent={IsIOS ? BlurView : View}
           onActionPress={() => this._textInput._textInput.blur()}
           buttons={this.getToolbarButtons()}
           onLayout={(event) => this.setState({keyboardToolbarHeight: event.nativeEvent.layout.height})}
@@ -140,7 +141,8 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     justifyContent: 'center',
-    padding: 15
+    padding: 15,
+    flex: 1
   },
   welcome: {
     fontSize: 20,
