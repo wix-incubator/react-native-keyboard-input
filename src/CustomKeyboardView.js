@@ -63,7 +63,7 @@ export default class CustomKeyboardView extends Component {
       const KeyboardComponent = KeyboardRegistry.getComponent(this.props.component);
       return (
         <View style={{width: ScreenSize.width, height: this.state.androidKeyboardHeight}}>
-          <KeyboardComponent/>
+          <KeyboardComponent {...this.props.initialProps}/>
         </View>
       );
     }
