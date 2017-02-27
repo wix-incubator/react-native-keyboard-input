@@ -1,3 +1,5 @@
-import TextInputKeyboardManger from './src/TextInputKeyboardManger';
+import TextInputKeyboardMangerIOS from './src/TextInputKeyboardMangerIOS';
+import CustomKeyboardView from './src/CustomKeyboardView';
+import KeyboardRegistry from './src/KeyboardsRegistry';
 
-export {TextInputKeyboardManger};
+export {TextInputKeyboardMangerIOS, CustomKeyboardView, KeyboardRegistry};

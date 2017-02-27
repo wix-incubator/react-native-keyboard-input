@@ -20,39 +20,11 @@ import {
 import {BlurView} from 'react-native-blur';
 import {KeyboardTrackingView} from 'react-native-keyboard-tracking-view';
 import {AutoGrowingTextInput} from 'react-native-autogrow-textinput';
-import {TextInputKeyboardManger} from 'react-native-custom-input-controller';
+import {CustomKeyboardView, KeyboardRegistry} from 'react-native-custom-input-controller';
 
 const IsIOS = Platform.OS === 'ios';
-const screenSize = Dimensions.get('window');
-const trackInteractive = true;
-
-const KeyboardToolbar = ({ContainerComponent, InnerContainerComponent, onActionPress, buttons, onLayout, onInputFocus, inputRefCallback}) =>
-  <ContainerComponent style={styles.trackingToolbarContainer} onLayout={onLayout} trackInteractive={trackInteractive}>
-    <View style={{borderTopWidth: StyleSheet.hairlineWidth, borderColor: '#bbb'}}/>
-    <InnerContainerComponent blurType="xlight" style={styles.blurContainer}>
-      <View style={styles.inputContainer}>
-        <AutoGrowingTextInput
-          maxHeight={200}
-          style={styles.textInput}
-          ref={(r) => inputRefCallback && inputRefCallback(r)}
-          placeholder={'Message'}
-          underlineColorAndroid="transparent"
-        />
-        <TouchableOpacity style={styles.sendButton} onPress={onActionPress}>
-          <Text>Action</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={{flexDirection: 'row',}}>
-        {
-          buttons.map((button, index) =>
-            <TouchableOpacity onPress={button.onPress} style={{paddingLeft: 15, paddingBottom: 10}} key={index}>
-              <Text>{button.text}</Text>
-            </TouchableOpacity>
-          )
-        }
-      </View>
-    </InnerContainerComponent>
-  </ContainerComponent>;
+const ScreenSize = Dimensions.get('window');
+const TrackInteractive = true;
 
 class AwesomeProject extends Component {
   constructor(props) {
@@ -61,14 +33,20 @@ class AwesomeProject extends Component {
     this._keyboardWillHide = this._keyboardWillHide.bind(this);
     this.state = {
       keyboardHeight: 0,
-      keyboardToolbarHeight: 0
+      keyboardToolbarHeight: 0,
+      customKeyboard: {
+        component: undefined,
+        initialProps: undefined
+      }
     };
   }
 
   componentWillMount() {
+    const showEvent = IsIOS ? 'keyboardWillShow' : 'keyboardDidShow';
+    const hideEvent = IsIOS ? 'keyboardWillHide' : 'keyboardDidHide';
     this.keyboardEventListeners = [
-      Keyboard.addListener('keyboardWillShow', this._keyboardWillShow),
-      Keyboard.addListener('keyboardWillHide', this._keyboardWillHide)
+      Keyboard.addListener(showEvent, this._keyboardWillShow),
+      Keyboard.addListener(hideEvent, this._keyboardWillHide)
     ];
   }
 
@@ -87,24 +65,28 @@ class AwesomeProject extends Component {
     this.setState({keyboardHeight: 0});
   }
 
-  showKeyboardView() {
-    const params = {
-      component: 'KeyboardView',
-      initialProps: {
-        title: 'there!!'
+  showKeyboardView(component, title) {
+    this.setState({
+      customKeyboard: {
+        component: component,
+        initialProps: {title}
       }
-    };
-    TextInputKeyboardManger.setInputComponent(this._textInput, params);
+    });
   }
 
   hideKeyboardView() {
-    TextInputKeyboardManger.removeInputComponent(this._textInput);
+    this.setState({customKeyboard: {}});
   }
 
   getToolbarButtons() {
     return [
       {
-        text: 'show', onPress: () => this.showKeyboardView()
+        text: 'show1',
+        onPress: () => this.showKeyboardView('KeyboardView', 'FIRST - 1')
+      },
+      {
+        text: 'show2',
+        onPress: () => this.showKeyboardView('AnotherKeyboardView', 'SECOND - 2')
       },
       {
         text: 'hide',
@@ -113,22 +95,58 @@ class AwesomeProject extends Component {
     ];
   }
 
+  renderKeyboardToolbar() {
+    const ContainerComponent = IsIOS ? KeyboardTrackingView : View;
+    const InnerContainerComponent = IsIOS ? BlurView : View;
+    return (
+      <ContainerComponent
+        style={styles.trackingToolbarContainer}
+        onLayout={(event) => this.setState({keyboardToolbarHeight: event.nativeEvent.layout.height})}
+        trackInteractive={TrackInteractive}
+      >
+        <View style={{borderTopWidth: StyleSheet.hairlineWidth, borderColor: '#bbb'}}/>
+        <InnerContainerComponent blurType="xlight" style={styles.blurContainer}>
+          <View style={styles.inputContainer}>
+            <AutoGrowingTextInput
+              maxHeight={200}
+              style={styles.textInput}
+              ref={(r) => this._textInput = r}
+              placeholder={'Message'}
+              underlineColorAndroid="transparent"
+            />
+            <TouchableOpacity style={styles.sendButton} onPress={() => Keyboard.dismiss()}>
+              <Text>Action</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={{flexDirection: 'row'}}>
+            {
+              this.getToolbarButtons().map((button, index) =>
+                <TouchableOpacity onPress={button.onPress} style={{paddingLeft: 15, paddingBottom: 10}} key={index}>
+                  <Text>{button.text}</Text>
+                </TouchableOpacity>
+              )
+            }
+          </View>
+          <CustomKeyboardView
+            inputRef={this._textInput}
+            component={this.state.customKeyboard.component}
+            initialProps={this.state.customKeyboard.initialProps}
+          />
+        </InnerContainerComponent>
+      </ContainerComponent>
+    );
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <ScrollView contentContainerStyle={styles.scrollContainer}
                     contentInset={IsIOS && {bottom: (this.state.keyboardHeight + this.state.keyboardToolbarHeight)}}
-                    keyboardDismissMode={trackInteractive ? 'interactive' : 'none'}
+                    keyboardDismissMode={TrackInteractive ? 'interactive' : 'none'}
         >
           <Text style={styles.welcome}>Keyboards example</Text>
         </ScrollView>
-        <KeyboardToolbar
-          ContainerComponent={IsIOS ? KeyboardTrackingView : View}
-          InnerContainerComponent={IsIOS ? BlurView : View}
-          onActionPress={() => this._textInput._textInput.blur()}
-          buttons={this.getToolbarButtons()}
-          onLayout={(event) => this.setState({keyboardToolbarHeight: event.nativeEvent.layout.height})}
-          inputRefCallback={(r) => this._textInput = r}/>
+        {this.renderKeyboardToolbar()}
       </View>
     );
   }
@@ -155,7 +173,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     left: 0,
-    width: screenSize.width
+    width: ScreenSize.width
   },
   inputContainer: {
     flex: 1,
@@ -196,5 +214,17 @@ class KeyboardView extends Component {
   }
 }
 
+class AnotherKeyboardView extends Component {
+  render() {
+    return (
+      <ScrollView contentContainerStyle={{flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+        <Text>*** ANOTHER ONE ***</Text>
+        <Text>{this.props.title}</Text>
+      </ScrollView>
+    );
+  }
+}
+
 AppRegistry.registerComponent('AwesomeProject', () => AwesomeProject);
-AppRegistry.registerComponent('KeyboardView', () => KeyboardView);
+KeyboardRegistry.registerComponent('KeyboardView', () => KeyboardView);
+KeyboardRegistry.registerComponent('AnotherKeyboardView', () => AnotherKeyboardView);

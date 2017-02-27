@@ -2,7 +2,7 @@ import ReactNative, {NativeModules} from 'react-native';
 
 const CustomInputController = NativeModules.CustomInputController;
 
-export default class TextInputKeyboardManger {
+export default class TextInputKeyboardMangerIOS {
 
   static setInputComponent = (textInputRef, {component, initialProps}) => {
     if (!textInputRef || !CustomInputController) {
@@ -23,5 +23,5 @@ export default class TextInputKeyboardManger {
       CustomInputController.resetInput(reactTag);
     }
   };
-
 }
+
