@@ -206,9 +206,9 @@ const styles = StyleSheet.create({
 class KeyboardView extends Component {
   render() {
     return (
-      <ScrollView contentContainerStyle={{flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
-        <Text>HELOOOO!!!</Text>
-        <Text>{this.props.title}</Text>
+      <ScrollView contentContainerStyle={{flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center', backgroundColor: 'purple'}}>
+        <Text style={{color: 'white'}}>HELOOOO!!!</Text>
+        <Text style={{color: 'white'}}>{this.props.title}</Text>
       </ScrollView>
     );
   }
@@ -217,7 +217,7 @@ class KeyboardView extends Component {
 class AnotherKeyboardView extends Component {
   render() {
     return (
-      <ScrollView contentContainerStyle={{flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+      <ScrollView contentContainerStyle={{flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center', backgroundColor: 'orange'}}>
         <Text>*** ANOTHER ONE ***</Text>
         <Text>{this.props.title}</Text>
       </ScrollView>
