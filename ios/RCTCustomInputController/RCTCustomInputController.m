@@ -45,17 +45,25 @@
 
 RCT_EXPORT_MODULE(CustomInputController)
 
-RCT_EXPORT_METHOD(presentCustomInputComponent:(nonnull NSNumber*)inputFieldTag : (nonnull NSString*)moduleName)
+RCT_EXPORT_METHOD(presentCustomInputComponent:(nonnull NSNumber*)inputFieldTag : (nonnull NSDictionary*)params)
 {
 	RCTBridge* bridge = [(RCTRootView*)[[UIApplication sharedApplication].delegate.window.rootViewController view] bridge];
 	
 	UIView* inputField = [self.bridge.uiManager viewForReactTag:inputFieldTag];
-	if([inputField isKindOfClass:[UITextField class]] == NO && [inputField isKindOfClass:[UITextView class]] == NO)
+    if([inputField respondsToSelector:@selector(reactWillMakeFirstResponder)])
+    {
+        [inputField performSelector:@selector(reactWillMakeFirstResponder)];
+    }
+	if([inputField canBecomeFirstResponder] == NO)
 	{
 		return;
 	}
-	
-	RCTRootView* rv = [[RCTRootView alloc] initWithBridge:bridge moduleName:@"CustomInput" initialProperties:nil];
+    if([inputField respondsToSelector:@selector(reactDidMakeFirstResponder)])
+    {
+        [inputField performSelector:@selector(reactDidMakeFirstResponder)];
+    }
+    
+	RCTRootView* rv = [[RCTRootView alloc] initWithBridge:bridge moduleName:params[@"component"] initialProperties:params[@"initialProps"]];
 	UIViewController* vc = [UIViewController new];
 	vc.view = rv;
 	
@@ -74,15 +82,16 @@ RCT_EXPORT_METHOD(presentCustomInputComponent:(nonnull NSNumber*)inputFieldTag :
 RCT_EXPORT_METHOD(resetInput:(nonnull NSNumber*)inputFieldTag)
 {
 	UIView* inputField = [self.bridge.uiManager viewForReactTag:inputFieldTag];
-	if([inputField isKindOfClass:[UITextField class]] == NO && [inputField isKindOfClass:[UITextView class]] == NO)
-	{
-		return;
-	}
+    if([inputField respondsToSelector:@selector(reactWillMakeFirstResponder)])
+    {
+        [inputField performSelector:@selector(reactWillMakeFirstResponder)];
+    }
+    
+    if([inputField canBecomeFirstResponder] == NO)
+    {
+        return;
+    }
 	
-	if([inputField respondsToSelector:@selector(reactWillMakeFirstResponder)])
-	{
-		[inputField performSelector:@selector(reactWillMakeFirstResponder)];
-	}
 	[inputField becomeFirstResponder];
 	if([inputField respondsToSelector:@selector(reactDidMakeFirstResponder)])
 	{
