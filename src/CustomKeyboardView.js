@@ -17,7 +17,7 @@ export default class CustomKeyboardView extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {androidKeyboardHeight: 0};
+    this.state = {androidKeyboardHeight: 0, canShowAndroidKeyboardComponent: false};
 
     const {inputRef, component, initialProps} = props;
     if(TextInputKeyboardMangerIOS && inputRef && component) {
@@ -46,8 +46,13 @@ export default class CustomKeyboardView extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (IsAndroid) {
-      if (this.props.component) {
+      if (nextProps.component) {
         Keyboard.dismiss();
+        setTimeout(() => {
+          this.setState({canShowAndroidKeyboardComponent: true});
+        }, 55);
+      } else {
+        this.setState({canShowAndroidKeyboardComponent: false});
       }
     } else if(TextInputKeyboardMangerIOS && nextProps.inputRef && nextProps.component != this.props.component) {
       if(nextProps.component) {
@@ -59,7 +64,7 @@ export default class CustomKeyboardView extends Component {
   }
 
   render() {
-    if (IsAndroid && this.props.component) {
+    if (IsAndroid && this.props.component && this.state.canShowAndroidKeyboardComponent) {
       const KeyboardComponent = KeyboardRegistry.getComponent(this.props.component);
       return (
         <View style={{width: ScreenSize.width, height: this.state.androidKeyboardHeight}}>
