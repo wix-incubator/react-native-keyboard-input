@@ -22,6 +22,8 @@ import {KeyboardTrackingView} from 'react-native-keyboard-tracking-view';
 import {AutoGrowingTextInput} from 'react-native-autogrow-textinput';
 import {CustomKeyboardView, KeyboardRegistry} from 'react-native-custom-input-controller';
 
+import './demoKeyboards';
+
 const IsIOS = Platform.OS === 'ios';
 const ScreenSize = Dimensions.get('window');
 const TrackInteractive = true;
@@ -203,28 +205,4 @@ const styles = StyleSheet.create({
   }
 });
 
-class KeyboardView extends Component {
-  render() {
-    return (
-      <ScrollView contentContainerStyle={{flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center', backgroundColor: 'purple'}}>
-        <Text style={{color: 'white'}}>HELOOOO!!!</Text>
-        <Text style={{color: 'white'}}>{this.props.title}</Text>
-      </ScrollView>
-    );
-  }
-}
-
-class AnotherKeyboardView extends Component {
-  render() {
-    return (
-      <ScrollView contentContainerStyle={{flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center', backgroundColor: 'orange'}}>
-        <Text>*** ANOTHER ONE ***</Text>
-        <Text>{this.props.title}</Text>
-      </ScrollView>
-    );
-  }
-}
-
 AppRegistry.registerComponent('AwesomeProject', () => AwesomeProject);
-KeyboardRegistry.registerComponent('KeyboardView', () => KeyboardView);
-KeyboardRegistry.registerComponent('AnotherKeyboardView', () => AnotherKeyboardView);
