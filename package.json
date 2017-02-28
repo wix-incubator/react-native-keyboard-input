@@ -20,5 +20,8 @@
   "homepage": "https://github.com/wix/react-native-custom-input-controller",
   "main": "index.js",
   "author": "Leo Natan <lnatan@wix.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "lodash": "^4.17.4"
+  }
 }

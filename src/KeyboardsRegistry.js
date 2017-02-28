@@ -1,4 +1,5 @@
 import {AppRegistry} from 'react-native';
+import _ from 'lodash';
 
 export default class KeyboardRegistry {
   static registeredKeyboards = {};
@@ -15,5 +16,9 @@ export default class KeyboardRegistry {
       return undefined;
     }
     return generator();
+  }
+
+  static getAllKeyboards = () => {
+    return _.values(_.mapValues(KeyboardRegistry.registeredKeyboards, 'params'));
   }
 }
