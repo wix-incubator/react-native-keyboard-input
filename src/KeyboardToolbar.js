@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react';
+import React, {PropTypes} from 'react';
 import {StyleSheet, View, Platform, Dimensions} from 'react-native';
 import {KeyboardTrackingView} from 'react-native-keyboard-tracking-view';
 import CustomKeyboardView from './CustomKeyboardView';
@@ -11,14 +11,14 @@ const KeyboardToolbar = ({content, trackInteractive, onHeightChanged, kbInputRef
   return (
     <ContainerComponent
       style={styles.trackingToolbarContainer}
-      onLayout={(event) => onHeightChanged && onHeightChanged(event.nativeEvent.layout.height)}
+      onLayout={event => onHeightChanged && onHeightChanged(event.nativeEvent.layout.height)}
       trackInteractive={trackInteractive}
     >
       {content}
       <CustomKeyboardView inputRef={kbInputRef} component={kbComponent} initialProps={kbInitialProps}/>
     </ContainerComponent>
   );
-}
+};
 
 KeyboardToolbar.propTypes = {
   content: PropTypes.element,
@@ -30,16 +30,16 @@ KeyboardToolbar.propTypes = {
 };
 
 KeyboardToolbar.defaultProps = {
-  trackInteractive: false
+  trackInteractive: false,
 };
 
 const styles = StyleSheet.create({
   trackingToolbarContainer: {
+    width: ScreenSize.width,
     position: 'absolute',
-      bottom: 0,
-      left: 0,
-      width: ScreenSize.width
-  }
+    bottom: 0,
+    left: 0,
+  },
 });
 
 export default KeyboardToolbar;

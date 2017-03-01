@@ -26,7 +26,8 @@
   },
   "scripts": {
     "start": "react-native start",
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint src -c .eslintrc"
   },
   "dependencies": {
     "react-native-keyboard-tracking-view": "latest",
@@ -43,7 +44,13 @@
     "react-native-autogrow-textinput": "^3.0.0",
     "babel-jest": "19.0.0",
     "babel-preset-react-native": "1.9.1",
-    "jest": "19.0.1"
+    "jest": "19.0.1",
+    "eslint": "^3.0.0",
+    "eslint-config-airbnb": "^14.0.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "4.0.0",
+    "eslint-plugin-react": "^6.9.0",
+    "eslint-plugin-react-native": "^2.0.0"
   },
   "jest": {
     "preset": "react-native"

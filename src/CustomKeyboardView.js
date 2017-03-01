@@ -1,9 +1,8 @@
 import React, {Component, PropTypes} from 'react';
-import {View, Platform, Dimensions, AppRegistry, Keyboard} from 'react-native';
+import {View, Platform, Dimensions, Keyboard} from 'react-native';
 import TextInputKeyboardMangerIOS from './TextInputKeyboardMangerIOS';
 import KeyboardRegistry from './KeyboardsRegistry';
 
-const IsIOS = Platform.OS === 'ios';
 const IsAndroid = Platform.OS === 'android';
 const ScreenSize = Dimensions.get('window');
 
@@ -20,28 +19,17 @@ export default class CustomKeyboardView extends Component {
     this.state = {androidKeyboardHeight: 0, canShowAndroidKeyboardComponent: false};
 
     const {inputRef, component, initialProps} = props;
-    if(TextInputKeyboardMangerIOS && inputRef && component) {
-      TextInputKeyboardMangerIOS.setInputComponent(inputRef, {componentt, initialProps});
-    }
-  }
-
-  _androidKeyboardDidShow(event) {
-    const keyboardHeight = event.endCoordinates.height;
-    if (this.state.androidKeyboardHeight !== keyboardHeight) {
-      this.setState({androidKeyboardHeight: keyboardHeight});
+    if (TextInputKeyboardMangerIOS && inputRef && component) {
+      TextInputKeyboardMangerIOS.setInputComponent(inputRef, {component, initialProps});
     }
   }
 
   componentWillMount() {
     if (IsAndroid) {
       this.keyboardEventListeners = [
-        Keyboard.addListener('keyboardDidShow', this._androidKeyboardDidShow.bind(this)),
+        Keyboard.addListener('keyboardDidShow', this.androidKeyboardDidShow.bind(this)),
       ];
     }
-  }
-
-  componentWillUnmount() {
-    this.keyboardEventListeners.forEach((eventListener) => eventListener.remove());
   }
 
   componentWillReceiveProps(nextProps) {
@@ -54,12 +42,26 @@ export default class CustomKeyboardView extends Component {
       } else {
         this.setState({canShowAndroidKeyboardComponent: false});
       }
-    } else if(TextInputKeyboardMangerIOS && nextProps.inputRef && nextProps.component != this.props.component) {
-      if(nextProps.component) {
-        TextInputKeyboardMangerIOS.setInputComponent(nextProps.inputRef, {component: nextProps.component, initialProps: nextProps.initialProps});
+    } else if (TextInputKeyboardMangerIOS && nextProps.inputRef && nextProps.component !== this.props.component) {
+      if (nextProps.component) {
+        TextInputKeyboardMangerIOS.setInputComponent(nextProps.inputRef, {
+          component: nextProps.component,
+          initialProps: nextProps.initialProps,
+        });
       } else {
         TextInputKeyboardMangerIOS.removeInputComponent(nextProps.inputRef);
       }
+    }
+  }
+
+  componentWillUnmount() {
+    this.keyboardEventListeners.forEach(eventListener => eventListener.remove());
+  }
+
+  androidKeyboardDidShow(event) {
+    const keyboardHeight = event.endCoordinates.height;
+    if (this.state.androidKeyboardHeight !== keyboardHeight) {
+      this.setState({androidKeyboardHeight: keyboardHeight});
     }
   }
 

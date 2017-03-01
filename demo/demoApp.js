@@ -10,7 +10,6 @@ import {
   Text,
   View,
   ScrollView,
-  TextInput,
   TouchableOpacity,
   Keyboard,
   PixelRatio,
@@ -28,15 +27,15 @@ const TrackInteractive = true;
 class AwesomeProject extends Component {
   constructor(props) {
     super(props);
-    this._keyboardWillShow = this._keyboardWillShow.bind(this);
-    this._keyboardWillHide = this._keyboardWillHide.bind(this);
+    this.keyboardWillShow = this.keyboardWillShow.bind(this);
+    this.keyboardWillHide = this.keyboardWillHide.bind(this);
     this.state = {
       keyboardHeight: 0,
       keyboardToolbarHeight: 0,
       customKeyboard: {
         component: undefined,
-        initialProps: undefined
-      }
+        initialProps: undefined,
+      },
     };
   }
 
@@ -44,8 +43,8 @@ class AwesomeProject extends Component {
     const showEvent = IsIOS ? 'keyboardWillShow' : 'keyboardDidShow';
     const hideEvent = IsIOS ? 'keyboardWillHide' : 'keyboardDidHide';
     this.keyboardEventListeners = [
-      Keyboard.addListener(showEvent, this._keyboardWillShow),
-      Keyboard.addListener(hideEvent, this._keyboardWillHide)
+      Keyboard.addListener(showEvent, this.keyboardWillShow),
+      Keyboard.addListener(hideEvent, this.keyboardWillHide),
     ];
   }
 
@@ -53,23 +52,23 @@ class AwesomeProject extends Component {
     this.keyboardEventListeners.forEach((eventListener) => eventListener.remove());
   }
 
-  _keyboardWillShow(event) {
+  keyboardWillShow(event) {
     const keyboardHeight = event.endCoordinates.height;
     if (this.state.keyboardHeight !== keyboardHeight) {
       this.setState({keyboardHeight});
     }
   }
 
-  _keyboardWillHide() {
+  keyboardWillHide() {
     this.setState({keyboardHeight: 0});
   }
 
   showKeyboardView(component, title) {
     this.setState({
       customKeyboard: {
-        component: component,
-        initialProps: {title}
-      }
+        component,
+        initialProps: {title},
+      },
     });
   }
 
@@ -81,16 +80,16 @@ class AwesomeProject extends Component {
     return [
       {
         text: 'show1',
-        onPress: () => this.showKeyboardView('KeyboardView', 'FIRST - 1')
+        onPress: () => this.showKeyboardView('KeyboardView', 'FIRST - 1'),
       },
       {
         text: 'show2',
-        onPress: () => this.showKeyboardView('AnotherKeyboardView', 'SECOND - 2')
+        onPress: () => this.showKeyboardView('AnotherKeyboardView', 'SECOND - 2'),
       },
       {
         text: 'hide',
-        onPress: () => this.hideKeyboardView()
-      }
+        onPress: () => this.hideKeyboardView(),
+      },
     ];
   }
 
@@ -103,7 +102,9 @@ class AwesomeProject extends Component {
           <AutoGrowingTextInput
             maxHeight={200}
             style={styles.textInput}
-            ref={(r) => this._textInput = r}
+            ref={(r) => {
+              this.textInputRef = r;
+            }}
             placeholder={'Message'}
             underlineColorAndroid="transparent"
           />
@@ -136,9 +137,9 @@ class AwesomeProject extends Component {
         </ScrollView>
         <KeyboardToolbar
           content={this.keyboardToolbarContent()}
-          onHeightChanged={(height) => this.setState({keyboardToolbarHeight: height})}
+          onHeightChanged={height => this.setState({keyboardToolbarHeight: height})}
           trackInteractive={TrackInteractive}
-          kbInputRef={this._textInput}
+          kbInputRef={this.textInputRef}
           kbComponent={this.state.customKeyboard.component}
           kbInitialProp={this.state.customKeyboard.initialProps}
         />
@@ -150,19 +151,19 @@ class AwesomeProject extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5FCFF'
+    backgroundColor: '#F5FCFF',
   },
   scrollContainer: {
     justifyContent: 'center',
     padding: 15,
-    flex: 1
+    flex: 1,
   },
   welcome: {
     fontSize: 20,
     textAlign: 'center',
     margin: 10,
     paddingTop: 50,
-    paddingBottom: 50
+    paddingBottom: 50,
   },
   inputContainer: {
     flex: 1,
@@ -184,12 +185,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     backgroundColor: 'white',
     borderWidth: 0.5 / PixelRatio.get(),
-    borderRadius: 18
+    borderRadius: 18,
   },
   sendButton: {
     paddingRight: 15,
-    paddingLeft: 15
-  }
+    paddingLeft: 15,
+  },
 });
 
 AppRegistry.registerComponent('AwesomeProject', () => AwesomeProject);
