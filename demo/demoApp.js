@@ -136,7 +136,7 @@ class AwesomeProject extends Component {
           <Text style={styles.welcome}>Keyboards example</Text>
         </ScrollView>
         <KeyboardToolbar
-          content={this.keyboardToolbarContent()}
+          renderContent={this.keyboardToolbarContent.bind(this)}
           onHeightChanged={height => this.setState({keyboardToolbarHeight: height})}
           trackInteractive={TrackInteractive}
           kbInputRef={this.textInputRef}
