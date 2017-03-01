@@ -16,7 +16,9 @@
     "max-len": [2, 120, 4, {"ignoreUrls": true}],
     "class-methods-use-this": "off",
     "arrow-body-style": "off",
-    "no-plusplus": "off"
+    "no-plusplus": "off",
+    "no-array-index-key": "off",
+    "no-multi-comp": "off"
   },
   "env": {
     "browser": true,

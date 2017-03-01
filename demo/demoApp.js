@@ -27,6 +27,7 @@ const TrackInteractive = true;
 class AwesomeProject extends Component {
   constructor(props) {
     super(props);
+    this.keyboardToolbarContent = this.keyboardToolbarContent.bind(this);
     this.keyboardWillShow = this.keyboardWillShow.bind(this);
     this.keyboardWillHide = this.keyboardWillHide.bind(this);
     this.state = {
@@ -52,30 +53,6 @@ class AwesomeProject extends Component {
     this.keyboardEventListeners.forEach((eventListener) => eventListener.remove());
   }
 
-  keyboardWillShow(event) {
-    const keyboardHeight = event.endCoordinates.height;
-    if (this.state.keyboardHeight !== keyboardHeight) {
-      this.setState({keyboardHeight});
-    }
-  }
-
-  keyboardWillHide() {
-    this.setState({keyboardHeight: 0});
-  }
-
-  showKeyboardView(component, title) {
-    this.setState({
-      customKeyboard: {
-        component,
-        initialProps: {title},
-      },
-    });
-  }
-
-  hideKeyboardView() {
-    this.setState({customKeyboard: {}});
-  }
-
   getToolbarButtons() {
     return [
       {
@@ -91,6 +68,30 @@ class AwesomeProject extends Component {
         onPress: () => this.hideKeyboardView(),
       },
     ];
+  }
+
+  hideKeyboardView() {
+    this.setState({customKeyboard: {}});
+  }
+
+  showKeyboardView(component, title) {
+    this.setState({
+      customKeyboard: {
+        component,
+        initialProps: {title},
+      },
+    });
+  }
+
+  keyboardWillShow(event) {
+    const keyboardHeight = event.endCoordinates.height;
+    if (this.state.keyboardHeight !== keyboardHeight) {
+      this.setState({keyboardHeight});
+    }
+  }
+
+  keyboardWillHide() {
+    this.setState({keyboardHeight: 0});
   }
 
   keyboardToolbarContent() {
@@ -117,8 +118,7 @@ class AwesomeProject extends Component {
             this.getToolbarButtons().map((button, index) =>
               <TouchableOpacity onPress={button.onPress} style={{paddingLeft: 15, paddingBottom: 10}} key={index}>
                 <Text>{button.text}</Text>
-              </TouchableOpacity>
-            )
+              </TouchableOpacity>)
           }
         </View>
       </InnerContainerComponent>
@@ -136,7 +136,7 @@ class AwesomeProject extends Component {
           <Text style={styles.welcome}>Keyboards example</Text>
         </ScrollView>
         <KeyboardToolbar
-          renderContent={this.keyboardToolbarContent.bind(this)}
+          renderContent={this.keyboardToolbarContent}
           onHeightChanged={height => this.setState({keyboardToolbarHeight: height})}
           trackInteractive={TrackInteractive}
           kbInputRef={this.textInputRef}
