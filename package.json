@@ -22,6 +22,7 @@
   "author": "Leo Natan <lnatan@wix.com>",
   "license": "MIT",
   "dependencies": {
+    "react-native-keyboard-tracking-view": "latest",
     "lodash": "^4.17.4"
   }
 }

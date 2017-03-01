@@ -13,19 +13,16 @@ import {
   TextInput,
   TouchableOpacity,
   Keyboard,
-  Dimensions,
   PixelRatio,
   Platform
 } from 'react-native';
-import {BlurView} from 'react-native-blur';
-import {KeyboardTrackingView} from 'react-native-keyboard-tracking-view';
 import {AutoGrowingTextInput} from 'react-native-autogrow-textinput';
-import {CustomKeyboardView, KeyboardRegistry} from 'react-native-custom-input-controller';
+import {BlurView} from 'react-native-blur';
+import {KeyboardToolbar} from 'react-native-custom-input-controller';
 
 import './demoKeyboards';
 
 const IsIOS = Platform.OS === 'ios';
-const ScreenSize = Dimensions.get('window');
 const TrackInteractive = true;
 
 class AwesomeProject extends Component {
@@ -97,58 +94,54 @@ class AwesomeProject extends Component {
     ];
   }
 
-  renderKeyboardToolbar() {
-    const ContainerComponent = IsIOS ? KeyboardTrackingView : View;
-    const InnerContainerComponent = IsIOS ? BlurView : View;
+  keyboardToolbarContent() {
+    const InnerContainerComponent = (IsIOS && BlurView) ? BlurView : View;
     return (
-      <ContainerComponent
-        style={styles.trackingToolbarContainer}
-        onLayout={(event) => this.setState({keyboardToolbarHeight: event.nativeEvent.layout.height})}
-        trackInteractive={TrackInteractive}
-      >
+      <InnerContainerComponent blurType="xlight" style={styles.blurContainer}>
         <View style={{borderTopWidth: StyleSheet.hairlineWidth, borderColor: '#bbb'}}/>
-        <InnerContainerComponent blurType="xlight" style={styles.blurContainer}>
-          <View style={styles.inputContainer}>
-            <AutoGrowingTextInput
-              maxHeight={200}
-              style={styles.textInput}
-              ref={(r) => this._textInput = r}
-              placeholder={'Message'}
-              underlineColorAndroid="transparent"
-            />
-            <TouchableOpacity style={styles.sendButton} onPress={() => Keyboard.dismiss()}>
-              <Text>Action</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={{flexDirection: 'row'}}>
-            {
-              this.getToolbarButtons().map((button, index) =>
-                <TouchableOpacity onPress={button.onPress} style={{paddingLeft: 15, paddingBottom: 10}} key={index}>
-                  <Text>{button.text}</Text>
-                </TouchableOpacity>
-              )
-            }
-          </View>
-          <CustomKeyboardView
-            inputRef={this._textInput}
-            component={this.state.customKeyboard.component}
-            initialProps={this.state.customKeyboard.initialProps}
+        <View style={styles.inputContainer}>
+          <AutoGrowingTextInput
+            maxHeight={200}
+            style={styles.textInput}
+            ref={(r) => this._textInput = r}
+            placeholder={'Message'}
+            underlineColorAndroid="transparent"
           />
-        </InnerContainerComponent>
-      </ContainerComponent>
+          <TouchableOpacity style={styles.sendButton} onPress={() => Keyboard.dismiss()}>
+            <Text>Action</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={{flexDirection: 'row'}}>
+          {
+            this.getToolbarButtons().map((button, index) =>
+              <TouchableOpacity onPress={button.onPress} style={{paddingLeft: 15, paddingBottom: 10}} key={index}>
+                <Text>{button.text}</Text>
+              </TouchableOpacity>
+            )
+          }
+        </View>
+      </InnerContainerComponent>
     );
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <ScrollView contentContainerStyle={styles.scrollContainer}
-                    contentInset={IsIOS && {bottom: (this.state.keyboardHeight + this.state.keyboardToolbarHeight)}}
-                    keyboardDismissMode={TrackInteractive ? 'interactive' : 'none'}
+        <ScrollView
+          contentContainerStyle={styles.scrollContainer}
+          contentInset={IsIOS && {bottom: (this.state.keyboardHeight + this.state.keyboardToolbarHeight)}}
+          keyboardDismissMode={TrackInteractive ? 'interactive' : 'none'}
         >
           <Text style={styles.welcome}>Keyboards example</Text>
         </ScrollView>
-        {this.renderKeyboardToolbar()}
+        <KeyboardToolbar
+          content={this.keyboardToolbarContent()}
+          onHeightChanged={(height) => this.setState({keyboardToolbarHeight: height})}
+          trackInteractive={TrackInteractive}
+          kbInputRef={this._textInput}
+          kbComponent={this.state.customKeyboard.component}
+          kbInitialProp={this.state.customKeyboard.initialProps}
+        />
       </View>
     );
   }
@@ -170,12 +163,6 @@ const styles = StyleSheet.create({
     margin: 10,
     paddingTop: 50,
     paddingBottom: 50
-  },
-  trackingToolbarContainer: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    width: ScreenSize.width
   },
   inputContainer: {
     flex: 1,

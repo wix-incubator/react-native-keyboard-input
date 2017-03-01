@@ -11,8 +11,7 @@
 		"react-native": "^0.38.0",
 		"react-native-autogrow-textinput": "^3.0.0",
 		"react-native-blur": "~1.0.0",
-		"react-native-custom-input-controller": "file:../../",
-		"react-native-keyboard-tracking-view": "latest"
+		"react-native-custom-input-controller": "file:../../"
 	},
 	"jest": {
 		"preset": "react-native"
