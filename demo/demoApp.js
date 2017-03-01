@@ -64,13 +64,13 @@ class AwesomeProject extends Component {
         onPress: () => this.showKeyboardView('AnotherKeyboardView', 'SECOND - 2'),
       },
       {
-        text: 'hide',
-        onPress: () => this.hideKeyboardView(),
+        text: 'reset',
+        onPress: () => this.resetKeyboardView(),
       },
     ];
   }
 
-  hideKeyboardView() {
+  resetKeyboardView() {
     this.setState({customKeyboard: {}});
   }
 
@@ -108,6 +108,7 @@ class AwesomeProject extends Component {
             }}
             placeholder={'Message'}
             underlineColorAndroid="transparent"
+            onFocus={() => this.resetKeyboardView()}
           />
           <TouchableOpacity style={styles.sendButton} onPress={() => Keyboard.dismiss()}>
             <Text>Action</Text>
