@@ -16,7 +16,10 @@
 	if(self)
 	{
 		self.inputView = [[UIInputView alloc] initWithFrame:CGRectZero inputViewStyle:UIInputViewStyleKeyboard];
-		
+        //example for changing keyboard size
+        //self.inputView.allowsSelfSizing = YES;
+        //[self.inputView.heightAnchor constraintEqualToConstant:600].active = YES;
+        
 		rootView.translatesAutoresizingMaskIntoConstraints = NO;
 		[self.inputView addSubview:rootView];
 		

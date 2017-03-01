@@ -23,10 +23,10 @@
 		140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		395D97F71E01368800466F9A /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 395D97E41E01367E00466F9A /* libRCTAnimation.a */; };
-		39DF50491E003DF900F5B4B2 /* libRCTCustomInputController.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 39DF50461E003DED00F5B4B2 /* libRCTCustomInputController.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		D898F4CD1E6302EA00DED0C5 /* libKeyboardTrackingView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D898F4B31E6302D200DED0C5 /* libKeyboardTrackingView.a */; };
 		D898F4CE1E6302EA00DED0C5 /* libRNBlur.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D898F4CC1E6302D800DED0C5 /* libRNBlur.a */; };
+		D898F5451E66F2A800DED0C5 /* libRCTCustomInputController.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D898F5411E66EF8D00DED0C5 /* libRCTCustomInputController.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -156,20 +156,6 @@
 			remoteGlobalIDString = 2D2A28131D9B038B00D4039D;
 			remoteInfo = "React-tvOS";
 		};
-		39DF50451E003DED00F5B4B2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 39DF50411E003DED00F5B4B2 /* RCTCustomInputController.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 39DF4FE71E00394E00F5B4B2;
-			remoteInfo = RCTCustomInputController;
-		};
-		39DF50471E003DF300F5B4B2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 39DF50411E003DED00F5B4B2 /* RCTCustomInputController.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 39DF4FE61E00394E00F5B4B2;
-			remoteInfo = RCTCustomInputController;
-		};
 		78C398B81ACF4ADC00677621 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */;
@@ -198,6 +184,13 @@
 			remoteGlobalIDString = A68BD7BC1BC31318005F02DF;
 			remoteInfo = RNBlur;
 		};
+		D898F5401E66EF8D00DED0C5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D898F53C1E66EF8D00DED0C5 /* RCTCustomInputController.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 39DF4FE71E00394E00F5B4B2;
+			remoteInfo = RCTCustomInputController;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -221,11 +214,12 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = AwesomeProject/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		395D97DD1E01367D00466F9A /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
-		39DF50411E003DED00F5B4B2 /* RCTCustomInputController.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCustomInputController.xcodeproj; path = "../node_modules/react-native-custom-input-controller/ios/RCTCustomInputController.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		D898F4AE1E6302D200DED0C5 /* KeyboardTrackingView.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KeyboardTrackingView.xcodeproj; path = "../node_modules/react-native-keyboard-tracking-view/lib/KeyboardTrackingView.xcodeproj"; sourceTree = "<group>"; };
 		D898F4C71E6302D800DED0C5 /* RNBlur.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNBlur.xcodeproj; path = "../node_modules/react-native-blur/ios/RNBlur.xcodeproj"; sourceTree = "<group>"; };
+		D898F53C1E66EF8D00DED0C5 /* RCTCustomInputController.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCustomInputController.xcodeproj; path = ../lib/ios/RCTCustomInputController.xcodeproj; sourceTree = "<group>"; };
+		D898F5431E66EFB700DED0C5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -241,10 +235,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D898F5451E66F2A800DED0C5 /* libRCTCustomInputController.a in Frameworks */,
 				D898F4CD1E6302EA00DED0C5 /* libKeyboardTrackingView.a in Frameworks */,
 				D898F4CE1E6302EA00DED0C5 /* libRNBlur.a in Frameworks */,
 				395D97F71E01368800466F9A /* libRCTAnimation.a in Frameworks */,
-				39DF50491E003DF900F5B4B2 /* libRCTCustomInputController.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
@@ -370,14 +364,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		39DF50421E003DED00F5B4B2 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				39DF50461E003DED00F5B4B2 /* libRCTCustomInputController.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		78C398B11ACF4ADC00677621 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -390,9 +376,9 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				D898F53C1E66EF8D00DED0C5 /* RCTCustomInputController.xcodeproj */,
 				D898F4C71E6302D800DED0C5 /* RNBlur.xcodeproj */,
 				D898F4AE1E6302D200DED0C5 /* KeyboardTrackingView.xcodeproj */,
-				39DF50411E003DED00F5B4B2 /* RCTCustomInputController.xcodeproj */,
 				395D97DD1E01367D00466F9A /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
@@ -424,6 +410,7 @@
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* AwesomeProjectTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
+				D898F5421E66EFB600DED0C5 /* Frameworks */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -452,6 +439,22 @@
 				D898F4CC1E6302D800DED0C5 /* libRNBlur.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		D898F53D1E66EF8D00DED0C5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D898F5411E66EF8D00DED0C5 /* libRCTCustomInputController.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D898F5421E66EFB600DED0C5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D898F5431E66EFB700DED0C5 /* UIKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -487,7 +490,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				39DF50481E003DF300F5B4B2 /* PBXTargetDependency */,
 			);
 			name = AwesomeProject;
 			productName = "Hello World";
@@ -537,8 +539,8 @@
 					ProjectRef = 395D97DD1E01367D00466F9A /* RCTAnimation.xcodeproj */;
 				},
 				{
-					ProductGroup = 39DF50421E003DED00F5B4B2 /* Products */;
-					ProjectRef = 39DF50411E003DED00F5B4B2 /* RCTCustomInputController.xcodeproj */;
+					ProductGroup = D898F53D1E66EF8D00DED0C5 /* Products */;
+					ProjectRef = D898F53C1E66EF8D00DED0C5 /* RCTCustomInputController.xcodeproj */;
 				},
 				{
 					ProductGroup = 00C302B61ABCB90400DB3ED1 /* Products */;
@@ -709,13 +711,6 @@
 			remoteRef = 39B037731DE6EC2100E6167D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		39DF50461E003DED00F5B4B2 /* libRCTCustomInputController.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRCTCustomInputController.a;
-			remoteRef = 39DF50451E003DED00F5B4B2 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		78C398B91ACF4ADC00677621 /* libRCTLinking.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -742,6 +737,13 @@
 			fileType = archive.ar;
 			path = libRNBlur.a;
 			remoteRef = D898F4CB1E6302D800DED0C5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D898F5411E66EF8D00DED0C5 /* libRCTCustomInputController.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTCustomInputController.a;
+			remoteRef = D898F5401E66EF8D00DED0C5 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -807,11 +809,6 @@
 			isa = PBXTargetDependency;
 			target = 13B07F861A680F5B00A75B9A /* AwesomeProject */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
-		};
-		39DF50481E003DF300F5B4B2 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = RCTCustomInputController;
-			targetProxy = 39DF50471E003DF300F5B4B2 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

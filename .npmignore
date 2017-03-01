@@ -1,2 +1,6 @@
-examples/
+demo/
+ios/
+android/
 Supplementals/
+index.android.js
+index.ios.js
