@@ -18,7 +18,7 @@
 		self.inputView = [[UIInputView alloc] initWithFrame:CGRectZero inputViewStyle:UIInputViewStyleKeyboard];
 		
 		rootView.translatesAutoresizingMaskIntoConstraints = NO;
-		[self.view addSubview:rootView];
+		[self.inputView addSubview:rootView];
 		
 		[rootView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor].active = YES;
 		[rootView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor].active = YES;
