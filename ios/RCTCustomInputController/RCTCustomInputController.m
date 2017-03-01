@@ -64,9 +64,6 @@ RCT_EXPORT_METHOD(presentCustomInputComponent:(nonnull NSNumber*)inputFieldTag :
     }
     
 	RCTRootView* rv = [[RCTRootView alloc] initWithBridge:bridge moduleName:params[@"component"] initialProperties:params[@"initialProps"]];
-	UIViewController* vc = [UIViewController new];
-	vc.view = rv;
-	
 	RCTCustomKeyboardViewController* customKeyboardController = [[RCTCustomKeyboardViewController alloc] initWithRootView:rv];
 	
 	_WXInputHelperView* helperView = [[_WXInputHelperView alloc] initWithFrame:CGRectZero];
