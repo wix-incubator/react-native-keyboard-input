@@ -33,8 +33,9 @@ export default class CustomKeyboardView extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    const {inputRef, component, initialProps} = nextProps;
     if (IsAndroid) {
-      if (nextProps.component) {
+      if (component) {
         Keyboard.dismiss();
         setTimeout(() => {
           this.setState({canShowAndroidKeyboardComponent: true});
@@ -42,14 +43,11 @@ export default class CustomKeyboardView extends Component {
       } else {
         this.setState({canShowAndroidKeyboardComponent: false});
       }
-    } else if (TextInputKeyboardMangerIOS && nextProps.inputRef && nextProps.component !== this.props.component) {
-      if (nextProps.component) {
-        TextInputKeyboardMangerIOS.setInputComponent(nextProps.inputRef, {
-          component: nextProps.component,
-          initialProps: nextProps.initialProps,
-        });
+    } else if (TextInputKeyboardMangerIOS && inputRef && component !== this.props.component) {
+      if (component) {
+        TextInputKeyboardMangerIOS.setInputComponent(inputRef, {component, initialProps});
       } else {
-        TextInputKeyboardMangerIOS.removeInputComponent(nextProps.inputRef);
+        TextInputKeyboardMangerIOS.removeInputComponent(inputRef);
       }
     }
   }

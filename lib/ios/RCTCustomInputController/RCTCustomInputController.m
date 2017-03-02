@@ -45,55 +45,53 @@
 
 RCT_EXPORT_MODULE(CustomInputController)
 
-RCT_EXPORT_METHOD(presentCustomInputComponent:(nonnull NSNumber*)inputFieldTag : (nonnull NSDictionary*)params)
+-(BOOL)reactCanBecomeFirstResponder:(UIView*)inputField
 {
-	RCTBridge* bridge = [(RCTRootView*)[[UIApplication sharedApplication].delegate.window.rootViewController view] bridge];
-	
-	UIView* inputField = [self.bridge.uiManager viewForReactTag:inputFieldTag];
     if([inputField respondsToSelector:@selector(reactWillMakeFirstResponder)])
     {
         [inputField performSelector:@selector(reactWillMakeFirstResponder)];
     }
-	if([inputField canBecomeFirstResponder] == NO)
-	{
-		return;
-	}
+    return [inputField canBecomeFirstResponder];
+}
+
+-(void)reactDidMakeFirstResponder:(UIView*)inputField
+{
     if([inputField respondsToSelector:@selector(reactDidMakeFirstResponder)])
     {
         [inputField performSelector:@selector(reactDidMakeFirstResponder)];
     }
-    
-	RCTRootView* rv = [[RCTRootView alloc] initWithBridge:bridge moduleName:params[@"component"] initialProperties:params[@"initialProps"]];
-	RCTCustomKeyboardViewController* customKeyboardController = [[RCTCustomKeyboardViewController alloc] initWithRootView:rv];
-	
-	_WXInputHelperView* helperView = [[_WXInputHelperView alloc] initWithFrame:CGRectZero];
-	helperView.backgroundColor = [UIColor clearColor];
-	[inputField.superview addSubview:helperView];
-	[inputField.superview sendSubviewToBack:helperView];
-	
-	helperView.inputViewController = customKeyboardController;
-	[helperView reloadInputViews];
-	[helperView becomeFirstResponder];
+}
+
+RCT_EXPORT_METHOD(presentCustomInputComponent:(nonnull NSNumber*)inputFieldTag params:(nonnull NSDictionary*)params)
+{
+	UIView* inputField = [self.bridge.uiManager viewForReactTag:inputFieldTag];
+    if([self reactCanBecomeFirstResponder:inputField])
+	{
+        [self reactDidMakeFirstResponder:inputField];
+        
+        RCTBridge* bridge = [(RCTRootView*)[UIApplication sharedApplication].delegate.window.rootViewController.view bridge];
+        RCTRootView* rv = [[RCTRootView alloc] initWithBridge:bridge moduleName:params[@"component"] initialProperties:params[@"initialProps"]];
+        RCTCustomKeyboardViewController* customKeyboardController = [[RCTCustomKeyboardViewController alloc] initWithRootView:rv];
+        
+        _WXInputHelperView* helperView = [[_WXInputHelperView alloc] initWithFrame:CGRectZero];
+        helperView.backgroundColor = [UIColor clearColor];
+        [inputField.superview addSubview:helperView];
+        [inputField.superview sendSubviewToBack:helperView];
+        
+        helperView.inputViewController = customKeyboardController;
+        [helperView reloadInputViews];
+        [helperView becomeFirstResponder];
+	}
 }
 
 RCT_EXPORT_METHOD(resetInput:(nonnull NSNumber*)inputFieldTag)
 {
 	UIView* inputField = [self.bridge.uiManager viewForReactTag:inputFieldTag];
-    if([inputField respondsToSelector:@selector(reactWillMakeFirstResponder)])
+    if([self reactCanBecomeFirstResponder:inputField])
     {
-        [inputField performSelector:@selector(reactWillMakeFirstResponder)];
+        [inputField becomeFirstResponder];
+        [self reactDidMakeFirstResponder:inputField];
     }
-    
-    if([inputField canBecomeFirstResponder] == NO)
-    {
-        return;
-    }
-	
-	[inputField becomeFirstResponder];
-	if([inputField respondsToSelector:@selector(reactDidMakeFirstResponder)])
-	{
-		[inputField performSelector:@selector(reactDidMakeFirstResponder)];
-	}
 }
 
 @end
