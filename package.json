@@ -1,17 +1,17 @@
 {
-  "name": "react-native-custom-input-controller",
+  "name": "react-native-keyboard-input",
   "description": "React Native Custom Input Controller",
-  "version": "1.1.0",
+  "version": "1.0.0",
   "main": "src/index.js",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
-  "homepage": "https://github.com/wix/react-native-custom-input-controller",
+  "homepage": "https://github.com/wix/react-native-keyboard-input",
   "author": "Leo Natan <lnatan@wix.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/wix/react-native-custom-input-controller.git"
+    "url": "https://github.com/wix/react-native-keyboard-input.git"
   },
   "nativePackage": true,
   "keywords": [
@@ -22,7 +22,7 @@
     "input"
   ],
   "bugs": {
-    "url": "https://github.com/wix/react-native-custom-input-controller/issues"
+    "url": "https://github.com/wix/react-native-keyboard-input/issues"
   },
   "scripts": {
     "start": "react-native start",
