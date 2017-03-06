@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {Text, ScrollView, StyleSheet} from 'react-native';
-import {KeyboardRegistry} from 'react-native-custom-input-controller';
+import {KeyboardRegistry} from 'react-native-keyboard-input';
 
 class KeyboardView extends Component {
   static propTypes = {

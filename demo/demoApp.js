@@ -17,7 +17,7 @@ import {
 } from 'react-native';
 import {AutoGrowingTextInput} from 'react-native-autogrow-textinput';
 import {BlurView} from 'react-native-blur';
-import {KeyboardToolbar} from 'react-native-custom-input-controller';
+import {KeyboardToolbar} from 'react-native-keyboard-input';
 
 import './demoKeyboards';
 
