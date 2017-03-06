@@ -1,3 +1,6 @@
 rootProject.name = 'AwesomeProject'
 
 include ':app'
+
+include ':reactnativekeyboardinput'
+project(':reactnativekeyboardinput').projectDir = new File(rootProject.projectDir, '../lib/android')
