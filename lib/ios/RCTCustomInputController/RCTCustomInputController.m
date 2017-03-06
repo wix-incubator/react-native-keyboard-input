@@ -69,18 +69,34 @@ RCT_EXPORT_METHOD(presentCustomInputComponent:(nonnull NSNumber*)inputFieldTag p
 	{
         [self reactDidMakeFirstResponder:inputField];
         
-        RCTBridge* bridge = [(RCTRootView*)[UIApplication sharedApplication].delegate.window.rootViewController.view bridge];
-        RCTRootView* rv = [[RCTRootView alloc] initWithBridge:bridge moduleName:params[@"component"] initialProperties:params[@"initialProps"]];
-        RCTCustomKeyboardViewController* customKeyboardController = [[RCTCustomKeyboardViewController alloc] initWithRootView:rv];
+        RCTBridge* bridge = nil;
         
-        _WXInputHelperView* helperView = [[_WXInputHelperView alloc] initWithFrame:CGRectZero];
-        helperView.backgroundColor = [UIColor clearColor];
-        [inputField.superview addSubview:helperView];
-        [inputField.superview sendSubviewToBack:helperView];
+        UIWindow *window = [UIApplication sharedApplication].delegate.window;
+        UIViewController *rootVC = [UIApplication sharedApplication].delegate.window.rootViewController;
+        if([rootVC isKindOfClass:[UINavigationController class]])
+        {
+            bridge = [(RCTRootView*)((UINavigationController*)rootVC).viewControllers[0].view bridge];
+        }
+        else
+        {
+            bridge = [(RCTRootView*)rootVC.view bridge];
+        }
         
-        helperView.inputViewController = customKeyboardController;
-        [helperView reloadInputViews];
-        [helperView becomeFirstResponder];
+        
+        if(bridge != nil)
+        {
+            RCTRootView* rv = [[RCTRootView alloc] initWithBridge:bridge moduleName:params[@"component"] initialProperties:params[@"initialProps"]];
+            RCTCustomKeyboardViewController* customKeyboardController = [[RCTCustomKeyboardViewController alloc] initWithRootView:rv];
+            
+            _WXInputHelperView* helperView = [[_WXInputHelperView alloc] initWithFrame:CGRectZero];
+            helperView.backgroundColor = [UIColor clearColor];
+            [inputField.superview addSubview:helperView];
+            [inputField.superview sendSubviewToBack:helperView];
+            
+            helperView.inputViewController = customKeyboardController;
+            [helperView reloadInputViews];
+            [helperView becomeFirstResponder];
+        }
 	}
 }
 
