@@ -53,7 +53,9 @@ export default class CustomKeyboardView extends Component {
   }
 
   componentWillUnmount() {
-    this.keyboardEventListeners.forEach(eventListener => eventListener.remove());
+    if (this.keyboardEventListeners) {
+      this.keyboardEventListeners.forEach(eventListener => eventListener.remove());
+    }
   }
 
   androidKeyboardDidShow(event) {
