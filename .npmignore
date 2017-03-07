@@ -5,3 +5,4 @@ Supplementals/
 index.android.js
 index.ios.js
 .eslintrc
+*.spec.js
