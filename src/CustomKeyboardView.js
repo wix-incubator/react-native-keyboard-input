@@ -11,6 +11,7 @@ export default class CustomKeyboardView extends Component {
     inputRef: PropTypes.object,
     initialProps: PropTypes.object,
     component: PropTypes.string,
+    onItemSelected: PropTypes.func,
   };
 
   constructor(props) {

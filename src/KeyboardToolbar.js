@@ -27,6 +27,7 @@ KeyboardToolbar.propTypes = {
   kbInputRef: React.PropTypes.object,
   kbComponent: React.PropTypes.string,
   kbInitialProps: React.PropTypes.object,
+  onItemSelected: React.PropTypes.func,
 };
 
 KeyboardToolbar.defaultProps = {
