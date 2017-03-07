@@ -42,9 +42,9 @@
     "react-native": "^0.38.0",
     "react-native-blur": "~1.0.0",
     "react-native-autogrow-textinput": "^3.0.0",
-    "babel-jest": "19.0.0",
     "babel-preset-react-native": "1.9.1",
-    "jest": "19.0.1",
+    "jest": "^18.1.0",
+    "babel-jest": "^18.0.0",
     "eslint": "^3.0.0",
     "eslint-config-airbnb": "^14.0.0",
     "eslint-plugin-import": "^2.2.0",
@@ -53,9 +53,23 @@
     "eslint-plugin-react-native": "^2.0.0"
   },
   "jest": {
-    "preset": "react-native"
+    "preset": "react-native",
+    "testPathIgnorePatterns": [
+      "/e2e/",
+      "/ios/",
+      "/android/",
+      "/node_modules/"
+    ],
+    "testRegex": "(/__tests__/.*|(\\.|/)(spec|test))\\.js?$"
   },
   "babel": {
-    "presets": ["react-native"]
+    "env": {
+      "test": {
+        "presets": [
+          "react-native"
+        ],
+        "retainLines": true
+      }
+    }
   }
 }
