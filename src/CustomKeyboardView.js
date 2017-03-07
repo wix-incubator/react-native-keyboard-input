@@ -22,7 +22,7 @@ export default class CustomKeyboardView extends Component {
     const {inputRef, component, initialProps, onItemSelected} = props;
     if(component) {
       if (onItemSelected) {
-        KeyboardRegistry.addListener(component, onItemSelected);
+        KeyboardRegistry.addListener(`${component}.onItemSelected`, onItemSelected);
       }
 
       if (TextInputKeyboardMangerIOS && inputRef) {
@@ -65,7 +65,7 @@ export default class CustomKeyboardView extends Component {
       this.keyboardEventListeners.forEach(eventListener => eventListener.remove());
     }
     if (this.props.component) {
-      KeyboardRegistry.removeListeners(this.props.component);
+      KeyboardRegistry.removeListeners(`${this.props.component}.onItemSelected`);
     }
   }
 
@@ -79,10 +79,10 @@ export default class CustomKeyboardView extends Component {
   registerListener(props, nextProps) {
     const {component, onItemSelected} = nextProps;
     if (props.component && props.component !== component) {
-      KeyboardRegistry.removeListeners(props.component);
+      KeyboardRegistry.removeListeners(`${props.component}.onItemSelected`);
     }
     if(component && onItemSelected) {
-      KeyboardRegistry.addListener(component, onItemSelected);
+      KeyboardRegistry.addListener(`${component}.onItemSelected`, onItemSelected);
     }
   }
 
