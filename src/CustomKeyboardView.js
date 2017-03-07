@@ -18,9 +18,15 @@ export default class CustomKeyboardView extends Component {
 
     this.state = {androidKeyboardHeight: 0, canShowAndroidKeyboardComponent: false};
 
-    const {inputRef, component, initialProps} = props;
-    if (TextInputKeyboardMangerIOS && inputRef && component) {
-      TextInputKeyboardMangerIOS.setInputComponent(inputRef, {component, initialProps});
+    const {inputRef, component, initialProps, onItemSelected} = props;
+    if(component) {
+      if (onItemSelected) {
+        KeyboardRegistry.addListener(component, onItemSelected);
+      }
+
+      if (TextInputKeyboardMangerIOS && inputRef) {
+        TextInputKeyboardMangerIOS.setInputComponent(inputRef, {component, initialProps});
+      }
     }
   }
 
@@ -50,6 +56,7 @@ export default class CustomKeyboardView extends Component {
         TextInputKeyboardMangerIOS.removeInputComponent(inputRef);
       }
     }
+    this.registerListener(this.props, nextProps);
   }
 
   componentWillUnmount() {
@@ -62,6 +69,16 @@ export default class CustomKeyboardView extends Component {
     const keyboardHeight = event.endCoordinates.height;
     if (this.state.androidKeyboardHeight !== keyboardHeight) {
       this.setState({androidKeyboardHeight: keyboardHeight});
+    }
+  }
+
+  registerListener(props, nextProps) {
+    const {component, onItemSelected} = nextProps;
+    if (props.component && props.component !== component) {
+      KeyboardRegistry.removeListeners(props.component);
+    }
+    if(component && onItemSelected) {
+      KeyboardRegistry.addListener(component, onItemSelected);
     }
   }
 

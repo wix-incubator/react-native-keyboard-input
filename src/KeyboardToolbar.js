@@ -6,7 +6,7 @@ import CustomKeyboardView from './CustomKeyboardView';
 const IsIOS = Platform.OS === 'ios';
 const ScreenSize = Dimensions.get('window');
 
-const KeyboardToolbar = ({renderContent, trackInteractive, onHeightChanged, kbInputRef, kbComponent, kbInitialProps}) => {
+const KeyboardToolbar = ({renderContent, trackInteractive, onHeightChanged, kbInputRef, kbComponent, kbInitialProps, onItemSelected}) => {
   const ContainerComponent = (IsIOS && KeyboardTrackingView) ? KeyboardTrackingView : View;
   return (
     <ContainerComponent
@@ -15,7 +15,7 @@ const KeyboardToolbar = ({renderContent, trackInteractive, onHeightChanged, kbIn
       trackInteractive={trackInteractive}
     >
       {renderContent && renderContent()}
-      <CustomKeyboardView inputRef={kbInputRef} component={kbComponent} initialProps={kbInitialProps}/>
+      <CustomKeyboardView inputRef={kbInputRef} component={kbComponent} initialProps={kbInitialProps} onItemSelected={onItemSelected}/>
     </ContainerComponent>
   );
 };
