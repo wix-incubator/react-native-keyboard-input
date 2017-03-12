@@ -6,17 +6,24 @@ import CustomKeyboardView from './CustomKeyboardView';
 const IsIOS = Platform.OS === 'ios';
 const ScreenSize = Dimensions.get('window');
 
-const KeyboardToolbar = ({renderContent, trackInteractive, onHeightChanged, kbInputRef, kbComponent, kbInitialProps}) => {
+const KeyboardToolbar = ({renderContent, trackInteractive, onHeightChanged, kbInputRef, kbComponent, kbInitialProps, children}) => {
   const ContainerComponent = (IsIOS && KeyboardTrackingView) ? KeyboardTrackingView : View;
   return (
-    <ContainerComponent
-      style={styles.trackingToolbarContainer}
-      onLayout={event => onHeightChanged && onHeightChanged(event.nativeEvent.layout.height)}
-      trackInteractive={trackInteractive}
-    >
-      {renderContent && renderContent()}
-      <CustomKeyboardView inputRef={kbInputRef} component={kbComponent} initialProps={kbInitialProps}/>
-    </ContainerComponent>
+    <View style={{flex: 1}}>
+
+      <View style={{flex: 1}}>
+        {children}
+      </View>
+
+      <ContainerComponent
+        style={styles.trackingToolbarContainer}
+        onLayout={event => onHeightChanged && onHeightChanged(event.nativeEvent.layout.height)}
+        trackInteractive={trackInteractive}
+      >
+        {renderContent && renderContent()}
+        <CustomKeyboardView inputRef={kbInputRef} component={kbComponent} initialProps={kbInitialProps}/>
+      </ContainerComponent>
+    </View>
   );
 };
 
@@ -36,9 +43,13 @@ KeyboardToolbar.defaultProps = {
 const styles = StyleSheet.create({
   trackingToolbarContainer: {
     width: ScreenSize.width,
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
+    ...Platform.select({
+      ios: {
+        position: 'absolute',
+        bottom: 0,
+        left: 0
+      }
+    })
   },
 });
 

@@ -97,7 +97,7 @@ class AwesomeProject extends Component {
   keyboardToolbarContent() {
     const InnerContainerComponent = (IsIOS && BlurView) ? BlurView : View;
     return (
-      <InnerContainerComponent blurType="xlight" style={styles.blurContainer}>
+      <InnerContainerComponent blurType="xlight">
         <View style={{borderTopWidth: StyleSheet.hairlineWidth, borderColor: '#bbb'}}/>
         <View style={styles.inputContainer}>
           <AutoGrowingTextInput
@@ -122,13 +122,20 @@ class AwesomeProject extends Component {
               </TouchableOpacity>)
           }
         </View>
-      </InnerContainerComponent>
+    </InnerContainerComponent>
     );
   }
 
   render() {
     return (
-      <View style={styles.container}>
+      <KeyboardToolbar
+        renderContent={this.keyboardToolbarContent}
+        onHeightChanged={height => /*this.setState({keyboardToolbarHeight: height})*/{}}
+        trackInteractive={TrackInteractive}
+        kbInputRef={this.textInputRef}
+        kbComponent={this.state.customKeyboard.component}
+        kbInitialProp={this.state.customKeyboard.initialProps}
+      >
         <ScrollView
           contentContainerStyle={styles.scrollContainer}
           contentInset={IsIOS && {bottom: (this.state.keyboardHeight + this.state.keyboardToolbarHeight)}}
@@ -136,24 +143,12 @@ class AwesomeProject extends Component {
         >
           <Text style={styles.welcome}>Keyboards example</Text>
         </ScrollView>
-        <KeyboardToolbar
-          renderContent={this.keyboardToolbarContent}
-          onHeightChanged={height => this.setState({keyboardToolbarHeight: height})}
-          trackInteractive={TrackInteractive}
-          kbInputRef={this.textInputRef}
-          kbComponent={this.state.customKeyboard.component}
-          kbInitialProp={this.state.customKeyboard.initialProps}
-        />
-      </View>
+      </KeyboardToolbar>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F5FCFF',
-  },
   scrollContainer: {
     justifyContent: 'center',
     padding: 15,
@@ -167,13 +162,9 @@ const styles = StyleSheet.create({
     paddingBottom: 50,
   },
   inputContainer: {
-    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-  },
-  blurContainer: {
-    flex: 1,
   },
   textInput: {
     flex: 1,
