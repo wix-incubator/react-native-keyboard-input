@@ -2,7 +2,7 @@ import ReactNative, {NativeModules} from 'react-native';
 
 const CustomInputController = NativeModules.CustomInputController;
 
-export default class TextInputKeyboardMangerIOS {
+export default class TextInputKeyboardManagerIOS {
 
   static setInputComponent = (textInputRef, {component, initialProps}) => {
     if (!textInputRef || !CustomInputController) {

@@ -12,9 +12,11 @@ import java.util.List;
 
 public class RNKeyboardInputPackage implements ReactPackage {
 
+    private RNKeyboardInputModule mModule;
+
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
-        return Arrays.<NativeModule>asList(new RNKeyboardInputModule(reactContext));
+        return Arrays.<NativeModule>asList(getModule(reactContext));
     }
 
     @Override
@@ -24,6 +26,13 @@ public class RNKeyboardInputPackage implements ReactPackage {
 
     @Override
     public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
-        return Collections.emptyList();
+        return Arrays.<ViewManager>asList(new RNKeyboardViewManager(getModule(reactContext)));
+    }
+
+    private RNKeyboardInputModule getModule(ReactApplicationContext reactContext) {
+        if (mModule == null) {
+            mModule = new RNKeyboardInputModule(reactContext);
+        }
+        return mModule;
     }
 }
