@@ -1,5 +1,5 @@
 const EventEmitterManager = require('./EventEmitterManager').default;
-const EventEmitter = new EventEmitterManager();
+let EventEmitter;
 
 describe('EventEmitterManager tests', () => {
   let mockCallback;
@@ -8,6 +8,7 @@ describe('EventEmitterManager tests', () => {
   beforeEach(() => {
     mockCallback = jest.fn();
     otherMockCallback = jest.fn();
+    EventEmitter = new EventEmitterManager();
   });
 
   it('should have a EventEmitterManager default instance', () => {
@@ -111,5 +112,11 @@ describe('EventEmitterManager tests', () => {
     EventEmitter.emitEvent('MyEvent', {param1: 'param1', param2: 'param2'});
 
     expect(mockCallback).toHaveBeenCalled();
+  });
+
+  it('should not register the same callback for the same event', () => {
+    EventEmitter.listenOn('MyEvent', mockCallback);
+    EventEmitter.listenOn('MyEvent', mockCallback);
+    expect(EventEmitter.handlerCallbacks['MyEvent'].length).toBe(1);
   });
 });

@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 export default class EventEmitterManager {
   constructor() {
     this.handlerCallbacks = {};
@@ -7,7 +9,9 @@ export default class EventEmitterManager {
     if (!this.handlerCallbacks[eventName]) {
       this.handlerCallbacks[eventName] = [];
     }
-    this.handlerCallbacks[eventName].push(handlerCallback);
+    if (_.indexOf(this.handlerCallbacks[eventName], handlerCallback) === -1) {
+      this.handlerCallbacks[eventName].push(handlerCallback);
+    }
   }
 
   emitEvent(eventName, params = {}) {
