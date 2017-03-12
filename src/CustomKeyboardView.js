@@ -78,11 +78,11 @@ export default class CustomKeyboardView extends Component {
 
   registerListener(props, nextProps) {
     const {component, onItemSelected} = nextProps;
-    if (props.component && props.component !== component) {
+    if (component && props.component !== component) {
       KeyboardRegistry.removeListeners(`${props.component}.onItemSelected`);
-    }
-    if(component && onItemSelected) {
-      KeyboardRegistry.addListener(`${component}.onItemSelected`, onItemSelected);
+      if (onItemSelected) {
+        KeyboardRegistry.addListener(`${component}.onItemSelected`, onItemSelected);
+      }
     }
   }
 
