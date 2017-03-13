@@ -10,8 +10,8 @@ const KeyboardToolbar = ({renderContent, kbComponent, children}) => {
         {children}
       </View>
 
-        {renderContent && renderContent()}
-        <CustomKeyboardView component={kbComponent}/>
+      {renderContent && renderContent()}
+      <CustomKeyboardView component={kbComponent}/>
     </View>
   );
 };

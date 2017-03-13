@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {View, Platform, Dimensions, Keyboard, DeviceEventEmitter, requireNativeComponent} from 'react-native';
+import {View, Text, Platform, Dimensions, DeviceEventEmitter, requireNativeComponent} from 'react-native';
 import TextInputKeyboardManagerIOS from './TextInputKeyboardMangerIOS';
 import TextInputKeyboardManagerAndroid from './TextInputKeyboardManagerAndroid';
 import KeyboardRegistry from './KeyboardsRegistry';
@@ -23,20 +23,15 @@ export default class CustomKeyboardView extends Component {
     if (TextInputKeyboardManagerIOS && inputRef && component) {
       TextInputKeyboardManagerIOS.setInputComponent(inputRef, {component, initialProps});
     }
-
-    this.state = {
-      availableHeightAndroid: 0
-    };
-
-    this.listener = DeviceEventEmitter.addListener("customKeyboardHeightUpdated", this.onKeyboardHeightUpdated.bind(this));
   }
 
   async componentWillReceiveProps(nextProps) {
+    console.log("ASDASD", "componentWillReceiveProps()");
     const {inputRef, component, initialProps} = nextProps;
 
     if (IsAndroid) {
-      if (component && !this.state.availableHeightAndroid) {
-        await TextInputKeyboardManagerAndroid.enterCustomKeyboardMode();
+      if (this.props.component !== component && !component) {
+        await TextInputKeyboardManagerAndroid.reset();
       }
     }
 
@@ -49,40 +44,17 @@ export default class CustomKeyboardView extends Component {
     }
   }
 
-  componentWillUnmount() {
-    this.listener.remove();
-  }
-
   render() {
+    console.log("ASDASD", "render()");
     if (IsAndroid) {
       const {component} = this.props;
       const KeyboardComponent = component && KeyboardRegistry.getComponent(component);
-      console.log("ASDASD", "render()", this.state.availableHeightAndroid);
       return (
         <CustomKeyboardViewNativeAndroid>
-          {
-            KeyboardComponent && this.state.availableHeightAndroid
-              ? (<View style={{height: this.state.availableHeightAndroid}}>
-                  <KeyboardComponent/>
-                </View>)
-              : null
-          }
+          {KeyboardComponent ? (<KeyboardComponent/>) : null}
         </CustomKeyboardViewNativeAndroid>
       );
-
-      // return (
-      //   <CustomKeyboardViewNativeAndroid>
-      //     {KeyboardComponent ? (<KeyboardComponent/>) : null}
-      //   </CustomKeyboardViewNativeAndroid>
-      // );
     }
     return null;
-  }
-
-  onKeyboardHeightUpdated(height) {
-    console.log("ASDASD", "onKeyboardHeightUpdated", height);
-    this.setState({
-      availableHeightAndroid: height
-    });
   }
 }

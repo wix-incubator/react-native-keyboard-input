@@ -97,7 +97,7 @@ class AwesomeProject extends Component {
   keyboardToolbarContent() {
     const InnerContainerComponent = (IsIOS && BlurView) ? BlurView : View;
     return (
-      <InnerContainerComponent blurType="xlight">
+      <InnerContainerComponent blurType="xlight" style={styles.blurContainer}>
         <View style={{borderTopWidth: StyleSheet.hairlineWidth, borderColor: '#bbb'}}/>
         <View style={styles.inputContainer}>
           <AutoGrowingTextInput
@@ -122,7 +122,7 @@ class AwesomeProject extends Component {
               </TouchableOpacity>)
           }
         </View>
-    </InnerContainerComponent>
+      </InnerContainerComponent>
     );
   }
 
