@@ -6,14 +6,14 @@ Supports both iOS and Android.
 
 <img src="Supplementals/example2.gif" />
 
-##Installation
+## Installation
 Install the package from npm:
 
 `yarn add react-native-keyboard-input` or `npm i --save react-native-keyboard-input`
 
 Link the native library:
 
-####Android
+#### Android
 
 Add to the `android\app\build.gradle` dependencies:
 
@@ -43,15 +43,15 @@ protected List<ReactPackage> getPackages() {
 };
 ```
 
-####iOS
+#### iOS
 In Xcode, drag both `RCTCustomInputController.xcodeproj` and `KeyboardTrackingView.xcodeproj` from your `node_modules` to the Libraries folder in the Project Navigator, then add `licRCTCustomInputController.a` and `libKeyboardTrackingView.a` to your app target "Linked Frameworks and Libraries".
 
 
-##Usage
+## Usage
 
 There are 2 main parts to the necessary implementation:
 
-###1. A keyboard component
+### 1. A keyboard component
 Create a component that you wish to use as a keyboard input. For example:
 
 ```
@@ -84,7 +84,7 @@ When you need to notify about selecting an item in the keyboard, use:
 KeyboardRegistry.notifyListeners(`MyKeyboardView.onItemSelected`, params);
 ```
 
-###2. Using the keyboard component as an input view
+### 2. Using the keyboard component as an input view
 While this package provides several component and classes for low-level control over custom keyboard inputs, the easiets way would be to use `KeyboardToolbar`. It's the only thing you'll need to show your Keyboard component as a custom input. For example:
 
 ```
@@ -106,6 +106,6 @@ While this package provides several component and classes for low-level control 
 
 This component takes care of making your toolbar (which is rendered via `renderContent `) "float" above the keyboard (necessary for iOS), and for setting your component as the keyboard input when the `kbComponent` changes.
 
-##Demo
+## Demo
 
 See [demoApp.js](https://github.com/wix/react-native-keyboard-input/blob/master/demo/demoApp.js) for a full working example.
