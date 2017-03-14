@@ -10,11 +10,13 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class RNKeyboardInputPackage implements ReactPackage {
+public class KeyboardInputPackage implements ReactPackage {
+
+    private CustomKeyboardScreen mScreen;
 
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
-        return Arrays.<NativeModule>asList(new RNKeyboardInputModule(reactContext));
+        return Arrays.<NativeModule>asList(new KeyboardInputModule(reactContext, getScreen(reactContext)));
     }
 
     @Override
@@ -24,6 +26,13 @@ public class RNKeyboardInputPackage implements ReactPackage {
 
     @Override
     public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
-        return Collections.emptyList();
+        return Arrays.<ViewManager>asList(new CustomKeyboardRootViewManager(getScreen(reactContext)));
+    }
+
+    public CustomKeyboardScreen getScreen(ReactApplicationContext reactContext) {
+        if (mScreen == null) {
+            mScreen = new CustomKeyboardScreen(reactContext);
+        }
+        return mScreen;
     }
 }
