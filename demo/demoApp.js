@@ -129,6 +129,7 @@ class AwesomeProject extends Component {
   render() {
     return (
       <View style={styles.container}>
+
         <ScrollView
           contentContainerStyle={styles.scrollContainer}
           contentInset={IsIOS && {bottom: (this.state.keyboardHeight + this.state.keyboardToolbarHeight)}}
@@ -136,6 +137,7 @@ class AwesomeProject extends Component {
         >
           <Text style={styles.welcome}>Keyboards example</Text>
         </ScrollView>
+
         <KeyboardToolbar
           renderContent={this.keyboardToolbarContent}
           onHeightChanged={height => this.setState({keyboardToolbarHeight: height})}
@@ -157,7 +159,7 @@ const styles = StyleSheet.create({
   scrollContainer: {
     justifyContent: 'center',
     padding: 15,
-    flex: 1,
+    flex: 1
   },
   welcome: {
     fontSize: 20,
@@ -167,13 +169,17 @@ const styles = StyleSheet.create({
     paddingBottom: 50,
   },
   inputContainer: {
-    flex: 1,
+    //flex: 1, // TODO is this needed on iOS?
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
   blurContainer: {
-    flex: 1,
+    ...Platform.select({
+      ios: {
+        flex: 1
+      }
+    })
   },
   textInput: {
     flex: 1,

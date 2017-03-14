@@ -36,10 +36,14 @@ KeyboardToolbar.defaultProps = {
 
 const styles = StyleSheet.create({
   trackingToolbarContainer: {
-    width: ScreenSize.width,
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
+    ...Platform.select({
+      ios: {
+        width: ScreenSize.width,
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+      }
+    })
   },
 });
 
