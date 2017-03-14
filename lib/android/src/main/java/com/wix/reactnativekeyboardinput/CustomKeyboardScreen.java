@@ -45,7 +45,7 @@ public class CustomKeyboardScreen {
                 if (!mSoftKeyboardUp) {
                     clearKeyboardOverlayMode();
                 }
-                setCustomContentGone();
+                hideCustomKeyboardContent();
                 refreshKeyboardHeight();
                 mSoftKeyboardUp = true;
             } else {
@@ -98,7 +98,7 @@ public class CustomKeyboardScreen {
         runOnUIThread(new Runnable() {
             @Override
             public void run() {
-                setCustomContentVisible();
+                showCustomKeyboardContent();
                 setKeyboardOverlayMode();
                 hideSoftKeyboardIfNeeded();
             }
@@ -112,7 +112,7 @@ public class CustomKeyboardScreen {
                 if (getCurrentActivity().getCurrentFocus() != null) {
                     showSoftKeyboard();
                 } else {
-                    setCustomContentGone();
+                    hideCustomKeyboardContent();
                     clearKeyboardOverlayMode();
                 }
                 promise.resolve(null);
@@ -120,16 +120,16 @@ public class CustomKeyboardScreen {
         });
     }
 
-    private void initLocallyVisibleHeight() {
-        mLocallyVisibleHeight = getLocallyVisibleHeight();
-    }
-
     private void initGloballyVisibleHeight() {
         mMaxVisibleHeight = getGloballyVisibleHeight();
         mLastVisibleHeight = mMaxVisibleHeight;
     }
 
-    private void setCustomContentVisible() {
+    private void initLocallyVisibleHeight() {
+        mLocallyVisibleHeight = getLocallyVisibleHeight();
+    }
+
+    private void showCustomKeyboardContent() {
         runOnUIThread(new Runnable() {
             @Override
             public void run() {
@@ -141,7 +141,7 @@ public class CustomKeyboardScreen {
         });
     }
 
-    private void setCustomContentGone() {
+    private void hideCustomKeyboardContent() {
         final CustomKeyboardRootViewShadow shadowNode = mShadowNode.get();
         if (shadowNode != null) {
             shadowNode.setHeight(0);

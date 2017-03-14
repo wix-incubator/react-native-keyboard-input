@@ -2,14 +2,9 @@ import React, {PropTypes} from 'react';
 import {requireNativeComponent, View} from 'react-native';
 import CustomKeyboardView from './CustomKeyboardView';
 
-const KeyboardToolbar = ({renderContent, kbComponent, children}) => {
+const KeyboardToolbar = ({renderContent, kbComponent}) => {
   return (
-    <View style={{flex: 1}}>
-
-      <View style={{flex: 1}}>
-        {children}
-      </View>
-
+    <View>
       {renderContent && renderContent()}
       <CustomKeyboardView component={kbComponent}/>
     </View>
