@@ -1,10 +1,13 @@
 import React, {Component, PropTypes} from 'react';
-import {View, Platform, Dimensions, Keyboard} from 'react-native';
-import TextInputKeyboardMangerIOS from './TextInputKeyboardMangerIOS';
+import {View, Text, Platform, Dimensions, DeviceEventEmitter, requireNativeComponent} from 'react-native';
+import TextInputKeyboardManagerIOS from './TextInputKeyboardMangerIOS';
+import TextInputKeyboardManagerAndroid from './TextInputKeyboardManagerAndroid';
 import KeyboardRegistry from './KeyboardsRegistry';
 
 const IsAndroid = Platform.OS === 'android';
-const ScreenSize = Dimensions.get('window');
+const IsIOS = Platform.OS === 'ios';
+
+const CustomKeyboardViewNativeAndroid = requireNativeComponent('CustomKeyboardViewNative');
 
 export default class CustomKeyboardView extends Component {
   static propTypes = {
@@ -16,62 +19,40 @@ export default class CustomKeyboardView extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {androidKeyboardHeight: 0, canShowAndroidKeyboardComponent: false};
-
     const {inputRef, component, initialProps} = props;
-    if (TextInputKeyboardMangerIOS && inputRef && component) {
-      TextInputKeyboardMangerIOS.setInputComponent(inputRef, {component, initialProps});
+    if (TextInputKeyboardManagerIOS && inputRef && component) {
+      TextInputKeyboardManagerIOS.setInputComponent(inputRef, {component, initialProps});
     }
   }
 
-  componentWillMount() {
-    if (IsAndroid) {
-      this.keyboardEventListeners = [
-        Keyboard.addListener('keyboardDidShow', this.androidKeyboardDidShow.bind(this)),
-      ];
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
+  async componentWillReceiveProps(nextProps) {
+    console.log("ASDASD", "componentWillReceiveProps()");
     const {inputRef, component, initialProps} = nextProps;
+
     if (IsAndroid) {
-      if (component) {
-        Keyboard.dismiss();
-        setTimeout(() => {
-          this.setState({canShowAndroidKeyboardComponent: true});
-        }, 55);
-      } else {
-        this.setState({canShowAndroidKeyboardComponent: false});
-      }
-    } else if (TextInputKeyboardMangerIOS && inputRef && component !== this.props.component) {
-      if (component) {
-        TextInputKeyboardMangerIOS.setInputComponent(inputRef, {component, initialProps});
-      } else {
-        TextInputKeyboardMangerIOS.removeInputComponent(inputRef);
+      if (this.props.component !== component && !component) {
+        await TextInputKeyboardManagerAndroid.reset();
       }
     }
-  }
 
-  componentWillUnmount() {
-    if (this.keyboardEventListeners) {
-      this.keyboardEventListeners.forEach(eventListener => eventListener.remove());
-    }
-  }
-
-  androidKeyboardDidShow(event) {
-    const keyboardHeight = event.endCoordinates.height;
-    if (this.state.androidKeyboardHeight !== keyboardHeight) {
-      this.setState({androidKeyboardHeight: keyboardHeight});
+    if (IsIOS && TextInputKeyboardManagerIOS && inputRef && component !== this.props.component) {
+      if (component) {
+        TextInputKeyboardManagerIOS.setInputComponent(inputRef, {component, initialProps});
+      } else {
+        TextInputKeyboardManagerIOS.removeInputComponent(inputRef);
+      }
     }
   }
 
   render() {
-    if (IsAndroid && this.props.component && this.state.canShowAndroidKeyboardComponent) {
-      const KeyboardComponent = KeyboardRegistry.getComponent(this.props.component);
+    console.log("ASDASD", "render()");
+    if (IsAndroid) {
+      const {component} = this.props;
+      const KeyboardComponent = component && KeyboardRegistry.getComponent(component);
       return (
-        <View style={{width: ScreenSize.width, height: this.state.androidKeyboardHeight}}>
-          <KeyboardComponent {...this.props.initialProps}/>
-        </View>
+        <CustomKeyboardViewNativeAndroid>
+          {KeyboardComponent ? (<KeyboardComponent/>) : null}
+        </CustomKeyboardViewNativeAndroid>
       );
     }
     return null;
