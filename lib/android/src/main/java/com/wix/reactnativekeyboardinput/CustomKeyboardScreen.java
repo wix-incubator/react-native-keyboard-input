@@ -1,89 +1,49 @@
 package com.wix.reactnativekeyboardinput;
 
-import android.app.Activity;
 import android.content.Context;
-import android.graphics.Rect;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
-import com.facebook.react.ReactRootView;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.uimanager.PixelUtil;
 
 import java.lang.ref.WeakReference;
 
-public class CustomKeyboardScreen {
+import static com.wix.reactnativekeyboardinput.RuntimeUtils.runOnUIThread;
+import static com.wix.reactnativekeyboardinput.ViewUtils.getCurrentActivity;
+import static com.wix.reactnativekeyboardinput.ViewUtils.getWindow;
 
-    private final ViewTreeObserver.OnGlobalLayoutListener mInitialLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
-        @Override
-        public void onGlobalLayout() {
-            initGloballyVisibleHeight();
-            initLocallyVisibleHeight();
-
-            registerRuntimeLayoutListener();
-        }
-    };
-
-    private final ViewTreeObserver.OnGlobalLayoutListener mRuntimeLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
-        @Override
-        public void onGlobalLayout() {
-            int visibleHeight = getGloballyVisibleHeight();
-            if (mLastVisibleHeight == visibleHeight) {
-                return;
-            }
-            mLastVisibleHeight = visibleHeight;
-
-            if (visibleHeight < mMaxVisibleHeight) {
-                if (!mSoftKeyboardUp) {
-                    clearKeyboardOverlayMode();
-                }
-                hideCustomKeyboardContent();
-                refreshKeyboardHeight();
-                mSoftKeyboardUp = true;
-            } else {
-                mSoftKeyboardUp = false;
-            }
-
-        }
-    };
+public class CustomKeyboardScreen implements ReactSoftKeyboardMonitor.Listener {
 
     private static final int DEFAULT_KEYBOARD_HEIGHT_DP = 100;
     private final int DEFAULT_KEYBOARD_HEIGHT_PX;
 
-    private final ReactContext mReactContext;
     private final InputMethodManager mInputMethodManager;
-
-    private int mLocallyVisibleHeight;
-    private Integer mMaxVisibleHeight;
-    private Integer mLastVisibleHeight;
-    private boolean mSoftKeyboardUp;
-    private Integer mKeyboardHeight;
-    private boolean hasLayoutListeners;
+    private final ReactSoftKeyboardMonitor mKeyboardMonitor;
 
     private WeakReference<CustomKeyboardRootViewShadow> mShadowNode;
 
-    public CustomKeyboardScreen(ReactContext reactContext) {
-        mReactContext = reactContext;
+    public CustomKeyboardScreen(ReactContext reactContext, ReactSoftKeyboardMonitor keyboardMonitor) {
+        mKeyboardMonitor = keyboardMonitor;
         mInputMethodManager = (InputMethodManager) reactContext.getSystemService(Context.INPUT_METHOD_SERVICE);
 
         DEFAULT_KEYBOARD_HEIGHT_PX = (int) PixelUtil.toPixelFromDIP(DEFAULT_KEYBOARD_HEIGHT_DP);
+
+        mKeyboardMonitor.setListener(this);
     }
 
-    public void onScreenContentCreated() {
-        if (!hasLayoutListeners) {
-            hasLayoutListeners = true;
-            registerInitialLayoutListener();
+    @Override
+    public void onSoftKeyboardVisible(boolean distinct) {
+        if (distinct) {
+            clearKeyboardOverlayMode();
         }
+        hideCustomKeyboardContent();
     }
 
-    public void onScreenContentDestroyed() {
-        removeAllLayoutListeners();
-        hasLayoutListeners = false;
+    @Override
+    public void onSoftKeyboardGone() {
     }
 
     public void setShadowNode(CustomKeyboardRootViewShadow node) {
@@ -114,15 +74,6 @@ public class CustomKeyboardScreen {
                 promise.resolve(null);
             }
         });
-    }
-
-    private void initGloballyVisibleHeight() {
-        mMaxVisibleHeight = getGloballyVisibleHeight();
-        mLastVisibleHeight = mMaxVisibleHeight;
-    }
-
-    private void initLocallyVisibleHeight() {
-        mLocallyVisibleHeight = getLocallyVisibleHeight();
     }
 
     private void showCustomKeyboardContent() {
@@ -156,33 +107,8 @@ public class CustomKeyboardScreen {
     }
 
     private int getHeightForCustomContent() {
-        return mKeyboardHeight == null ? DEFAULT_KEYBOARD_HEIGHT_PX : mKeyboardHeight;
-    }
-
-    private int getLocallyVisibleHeight() {
-        return getReactRootView().getHeight();
-    }
-
-    private int getGloballyVisibleHeight() {
-        final Rect visibleArea = new Rect();
-        getWindow().getDecorView().getWindowVisibleDisplayFrame(visibleArea);
-        return visibleArea.height();
-    }
-
-    private void refreshKeyboardHeight() {
-        if (mKeyboardHeight != null) {
-            return;
-        }
-
-        runOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                final int locallyVisibleHeight = getLocallyVisibleHeight();
-                if (mLocallyVisibleHeight != locallyVisibleHeight) {
-                    mKeyboardHeight = mLocallyVisibleHeight - getLocallyVisibleHeight();
-                }
-            }
-        });
+        final Integer height = mKeyboardMonitor.getLastKnownKeyboardHeight();
+        return height == null ? DEFAULT_KEYBOARD_HEIGHT_PX : height;
     }
 
     private void setKeyboardOverlayMode() {
@@ -193,36 +119,4 @@ public class CustomKeyboardScreen {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     }
 
-    private void registerInitialLayoutListener() {
-        final ViewTreeObserver viewTreeObserver = getReactRootView().getViewTreeObserver();
-        viewTreeObserver.addOnGlobalLayoutListener(mInitialLayoutListener);
-    }
-
-    private void registerRuntimeLayoutListener() {
-        final ViewTreeObserver viewTreeObserver = getReactRootView().getViewTreeObserver();
-        viewTreeObserver.removeOnGlobalLayoutListener(mInitialLayoutListener);
-        viewTreeObserver.addOnGlobalLayoutListener(mRuntimeLayoutListener);
-    }
-
-    private void removeAllLayoutListeners() {
-        final ViewTreeObserver viewTreeObserver = getReactRootView().getViewTreeObserver();
-        viewTreeObserver.removeOnGlobalLayoutListener(mInitialLayoutListener);
-        viewTreeObserver.removeOnGlobalLayoutListener(mRuntimeLayoutListener);
-    }
-
-    private Window getWindow() {
-        return getCurrentActivity().getWindow();
-    }
-
-    private View getReactRootView() {
-        return ViewUtils.findChildByClass((ViewGroup) getCurrentActivity().getWindow().getDecorView(), ReactRootView.class);
-    }
-
-    private Activity getCurrentActivity() {
-        return mReactContext.getCurrentActivity();
-    }
-
-    private void runOnUIThread(Runnable runnable) {
-        mReactContext.runOnUiQueueThread(runnable);
-    }
 }

@@ -16,7 +16,14 @@ public class KeyboardInputPackage implements ReactPackage {
 
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
-        return Arrays.<NativeModule>asList(new KeyboardInputModule(reactContext, getScreen(reactContext)));
+        init(reactContext);
+        return Arrays.<NativeModule>asList(new KeyboardInputModule(reactContext, mScreen));
+    }
+
+    @Override
+    public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
+        init(reactContext);
+        return Arrays.<ViewManager>asList(new CustomKeyboardRootViewManager(mScreen));
     }
 
     @Override
@@ -24,15 +31,11 @@ public class KeyboardInputPackage implements ReactPackage {
         return Collections.emptyList();
     }
 
-    @Override
-    public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
-        return Arrays.<ViewManager>asList(new CustomKeyboardRootViewManager(getScreen(reactContext)));
-    }
+    private void init(ReactApplicationContext reactContext) {
+        if (AppContextHolder.getContext() == null) {
+            AppContextHolder.setContext(reactContext);
 
-    public CustomKeyboardScreen getScreen(ReactApplicationContext reactContext) {
-        if (mScreen == null) {
-            mScreen = new CustomKeyboardScreen(reactContext);
+            mScreen = new CustomKeyboardScreen(reactContext, new ReactSoftKeyboardMonitor(reactContext));
         }
-        return mScreen;
     }
 }

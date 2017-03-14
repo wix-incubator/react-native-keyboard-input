@@ -1,12 +1,11 @@
 package com.wix.reactnativekeyboardinput;
 
-import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 
-public class KeyboardInputModule extends ReactContextBaseJavaModule implements LifecycleEventListener {
+public class KeyboardInputModule extends ReactContextBaseJavaModule {
 
     private static final String REACT_CLASS = "CustomKeyboardInput";
 
@@ -15,8 +14,6 @@ public class KeyboardInputModule extends ReactContextBaseJavaModule implements L
     public KeyboardInputModule(ReactApplicationContext reactContext, CustomKeyboardScreen screen) {
         super(reactContext);
         mScreen = screen;
-
-        reactContext.addLifecycleEventListener(this);
     }
 
     @Override
@@ -27,19 +24,5 @@ public class KeyboardInputModule extends ReactContextBaseJavaModule implements L
     @ReactMethod
     public void reset(Promise promise) {
         mScreen.forceReset(promise);
-    }
-
-    @Override
-    public void onHostResume() {
-        mScreen.onScreenContentCreated();
-    }
-
-    @Override
-    public void onHostPause() {
-    }
-
-    @Override
-    public void onHostDestroy() {
-        mScreen.onScreenContentDestroyed();
     }
 }
