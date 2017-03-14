@@ -100,3 +100,4 @@ buck-out/
 \.buckd/
 android/app/libs
 *.keystore
+yarn.lock
