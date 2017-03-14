@@ -33,7 +33,6 @@ export default class CustomKeyboardView extends Component {
   }
 
   async componentWillReceiveProps(nextProps) {
-    console.log("ASDASD", "componentWillReceiveProps()");
     const {inputRef, component, initialProps} = nextProps;
 
     if (IsAndroid) {
@@ -72,7 +71,6 @@ export default class CustomKeyboardView extends Component {
   }
 
   render() {
-    console.log("ASDASD", "render()");
     if (IsAndroid) {
       const {component} = this.props;
       const KeyboardComponent = component && KeyboardRegistry.getComponent(component);
