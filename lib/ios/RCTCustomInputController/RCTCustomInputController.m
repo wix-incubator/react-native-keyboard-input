@@ -65,39 +65,39 @@ RCT_EXPORT_MODULE(CustomInputController)
 RCT_EXPORT_METHOD(presentCustomInputComponent:(nonnull NSNumber*)inputFieldTag params:(nonnull NSDictionary*)params)
 {
 	UIView* inputField = [self.bridge.uiManager viewForReactTag:inputFieldTag];
-    if([self reactCanBecomeFirstResponder:inputField])
+    BOOL canBecomeFirstResponder = [self reactCanBecomeFirstResponder:inputField];
+    if(canBecomeFirstResponder)
 	{
         [self reactDidMakeFirstResponder:inputField];
+    }
+    
+    RCTBridge* bridge = nil;
+    
+    UIWindow *window = [UIApplication sharedApplication].delegate.window;
+    UIViewController *rootVC = [UIApplication sharedApplication].delegate.window.rootViewController;
+    if([rootVC isKindOfClass:[UINavigationController class]])
+    {
+        bridge = [(RCTRootView*)((UINavigationController*)rootVC).viewControllers[0].view bridge];
+    }
+    else
+    {
+        bridge = [(RCTRootView*)rootVC.view bridge];
+    }
+    
+    if(bridge != nil)
+    {
+        RCTRootView* rv = [[RCTRootView alloc] initWithBridge:bridge moduleName:params[@"component"] initialProperties:params[@"initialProps"]];
+        RCTCustomKeyboardViewController* customKeyboardController = [[RCTCustomKeyboardViewController alloc] initWithRootView:rv];
         
-        RCTBridge* bridge = nil;
+        _WXInputHelperView* helperView = [[_WXInputHelperView alloc] initWithFrame:CGRectZero];
+        helperView.backgroundColor = [UIColor clearColor];
+        [inputField.superview addSubview:helperView];
+        [inputField.superview sendSubviewToBack:helperView];
         
-        UIWindow *window = [UIApplication sharedApplication].delegate.window;
-        UIViewController *rootVC = [UIApplication sharedApplication].delegate.window.rootViewController;
-        if([rootVC isKindOfClass:[UINavigationController class]])
-        {
-            bridge = [(RCTRootView*)((UINavigationController*)rootVC).viewControllers[0].view bridge];
-        }
-        else
-        {
-            bridge = [(RCTRootView*)rootVC.view bridge];
-        }
-        
-        
-        if(bridge != nil)
-        {
-            RCTRootView* rv = [[RCTRootView alloc] initWithBridge:bridge moduleName:params[@"component"] initialProperties:params[@"initialProps"]];
-            RCTCustomKeyboardViewController* customKeyboardController = [[RCTCustomKeyboardViewController alloc] initWithRootView:rv];
-            
-            _WXInputHelperView* helperView = [[_WXInputHelperView alloc] initWithFrame:CGRectZero];
-            helperView.backgroundColor = [UIColor clearColor];
-            [inputField.superview addSubview:helperView];
-            [inputField.superview sendSubviewToBack:helperView];
-            
-            helperView.inputViewController = customKeyboardController;
-            [helperView reloadInputViews];
-            [helperView becomeFirstResponder];
-        }
-	}
+        helperView.inputViewController = customKeyboardController;
+        [helperView reloadInputViews];
+        [helperView becomeFirstResponder];
+    }
 }
 
 RCT_EXPORT_METHOD(resetInput:(nonnull NSNumber*)inputFieldTag)
