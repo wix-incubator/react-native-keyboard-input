@@ -9,11 +9,11 @@ public class KeyboardInputModule extends ReactContextBaseJavaModule {
 
     private static final String REACT_CLASS = "CustomKeyboardInput";
 
-    private final CustomKeyboardScreen mScreen;
+    private final CustomKeyboardLayout mLayout;
 
-    public KeyboardInputModule(ReactApplicationContext reactContext, CustomKeyboardScreen screen) {
+    public KeyboardInputModule(ReactApplicationContext reactContext, CustomKeyboardLayout layout) {
         super(reactContext);
-        mScreen = screen;
+        mLayout = layout;
     }
 
     @Override
@@ -23,6 +23,6 @@ public class KeyboardInputModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void reset(Promise promise) {
-        mScreen.forceReset(promise);
+        mLayout.forceReset(promise);
     }
 }

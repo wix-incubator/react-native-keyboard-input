@@ -4,10 +4,10 @@ import com.facebook.react.uimanager.LayoutShadowNode;
 
 public class CustomKeyboardRootViewShadow extends LayoutShadowNode {
 
-    CustomKeyboardRootViewShadow(CustomKeyboardScreen screen) {
+    CustomKeyboardRootViewShadow(CustomKeyboardLayout layout) {
         setStyleHeight(0);
 
-        screen.setShadowNode(this);
+        layout.setShadowNode(this);
     }
 
     public void setHeight(int heightPx) {

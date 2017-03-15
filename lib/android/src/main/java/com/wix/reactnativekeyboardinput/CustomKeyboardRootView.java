@@ -7,11 +7,11 @@ import android.widget.FrameLayout;
 
 public class CustomKeyboardRootView extends FrameLayout {
 
-    private final CustomKeyboardScreen mScreen;
+    private final CustomKeyboardLayout mLayout;
 
-    public CustomKeyboardRootView(@NonNull Context context, CustomKeyboardScreen screen) {
+    public CustomKeyboardRootView(@NonNull Context context, CustomKeyboardLayout layout) {
         super(context);
-        mScreen = screen;
+        mLayout = layout;
 
         setWillNotDraw(false);
     }
@@ -19,7 +19,7 @@ public class CustomKeyboardRootView extends FrameLayout {
     @Override
     public void onViewAdded(View child) {
         if (getChildCount() == 1) {
-            mScreen.onKeyboardHasCustomContent();
+            mLayout.onKeyboardHasCustomContent();
         }
         super.onViewAdded(child);
     }

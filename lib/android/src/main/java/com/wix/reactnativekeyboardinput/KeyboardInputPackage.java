@@ -12,18 +12,18 @@ import java.util.List;
 
 public class KeyboardInputPackage implements ReactPackage {
 
-    private CustomKeyboardScreen mScreen;
+    private CustomKeyboardLayout mLayout;
 
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
         init(reactContext);
-        return Arrays.<NativeModule>asList(new KeyboardInputModule(reactContext, mScreen));
+        return Arrays.<NativeModule>asList(new KeyboardInputModule(reactContext, mLayout));
     }
 
     @Override
     public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
         init(reactContext);
-        return Arrays.<ViewManager>asList(new CustomKeyboardRootViewManager(mScreen));
+        return Arrays.<ViewManager>asList(new CustomKeyboardRootViewManager(mLayout));
     }
 
     @Override
@@ -35,7 +35,7 @@ public class KeyboardInputPackage implements ReactPackage {
         if (AppContextHolder.getContext() == null) {
             AppContextHolder.setContext(reactContext);
 
-            mScreen = new CustomKeyboardScreen(reactContext, new ReactSoftKeyboardMonitor(reactContext));
+            mLayout = new CustomKeyboardLayout(reactContext, new ReactSoftKeyboardMonitor(reactContext));
         }
     }
 }

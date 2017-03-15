@@ -15,7 +15,7 @@ import static com.wix.reactnativekeyboardinput.RuntimeUtils.runOnUIThread;
 import static com.wix.reactnativekeyboardinput.ViewUtils.getCurrentActivity;
 import static com.wix.reactnativekeyboardinput.ViewUtils.getWindow;
 
-public class CustomKeyboardScreen implements ReactSoftKeyboardMonitor.Listener {
+public class CustomKeyboardLayout implements ReactSoftKeyboardMonitor.Listener {
 
     private static final int DEFAULT_KEYBOARD_HEIGHT_DP = 100;
     private final int DEFAULT_KEYBOARD_HEIGHT_PX;
@@ -25,7 +25,7 @@ public class CustomKeyboardScreen implements ReactSoftKeyboardMonitor.Listener {
 
     private WeakReference<CustomKeyboardRootViewShadow> mShadowNode;
 
-    public CustomKeyboardScreen(ReactContext reactContext, ReactSoftKeyboardMonitor keyboardMonitor) {
+    public CustomKeyboardLayout(ReactContext reactContext, ReactSoftKeyboardMonitor keyboardMonitor) {
         mKeyboardMonitor = keyboardMonitor;
         mInputMethodManager = (InputMethodManager) reactContext.getSystemService(Context.INPUT_METHOD_SERVICE);
 
@@ -42,9 +42,6 @@ public class CustomKeyboardScreen implements ReactSoftKeyboardMonitor.Listener {
         hideCustomKeyboardContent();
     }
 
-    @Override
-    public void onSoftKeyboardGone() {
-    }
 
     public void setShadowNode(CustomKeyboardRootViewShadow node) {
         mShadowNode = new WeakReference<>(node);

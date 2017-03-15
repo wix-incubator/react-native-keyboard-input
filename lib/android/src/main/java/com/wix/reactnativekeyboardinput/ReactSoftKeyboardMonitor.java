@@ -14,7 +14,6 @@ public class ReactSoftKeyboardMonitor implements LifecycleEventListener {
 
     public interface Listener {
         void onSoftKeyboardVisible(boolean distinct);
-        void onSoftKeyboardGone();
     }
 
     private final ViewTreeObserver.OnGlobalLayoutListener mInitialLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -41,7 +40,6 @@ public class ReactSoftKeyboardMonitor implements LifecycleEventListener {
                 refreshKeyboardHeight();
                 mSoftKeyboardUp = true;
             } else {
-                mExternalListener.onSoftKeyboardGone();
                 mSoftKeyboardUp = false;
             }
         }
