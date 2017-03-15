@@ -17,20 +17,23 @@ Link the native library:
 
 Add to the `android\app\build.gradle` dependencies:
 
-```
-compile project(":reactnativekeyboardinput")
+```gradle
+dependencies {
+  // Add this dependency
+  compile project(":reactnativekeyboardinput")
+}
 ```
 
 Add to `android\settings.gradle`:
 
-```
+```gradle
 include ':reactnativekeyboardinput'
-project(':reactnativekeyboardinput').projectDir = new File(rootProject.projectDir, '../lib/android')
+project(':reactnativekeyboardinput').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-keyboard-input/lib/android')
 ```
 
 In your `MainApplication.java`, add to the `getPackages()` list:
 
-```
+```java
 import com.wix.reactnativekeyboardinput.KeyboardInputPackage;
 
 @Override
@@ -38,9 +41,8 @@ protected List<ReactPackage> getPackages() {
   return Arrays.<ReactPackage>asList(
       //add this pacakge:
       new KeyboardInputPackage()
-  );
+    );
 }
-};
 ```
 
 #### iOS
@@ -54,7 +56,7 @@ There are 2 main parts to the necessary implementation:
 ### 1. A keyboard component
 Create a component that you wish to use as a keyboard input. For example:
 
-```
+```js
 class KeyboardView extends Component {
   static propTypes = {
     title: PropTypes.string,
@@ -72,7 +74,7 @@ class KeyboardView extends Component {
 
 Now register with the keyboard registry so it can be used later as a keyboard:
 
-```
+```js
 import {KeyboardRegistry} from 'react-native-keyboard-input';
 
 KeyboardRegistry.registerComponent('MyKeyboardView', () => KeyboardView);
@@ -80,14 +82,14 @@ KeyboardRegistry.registerComponent('MyKeyboardView', () => KeyboardView);
 
 When you need to notify about selecting an item in the keyboard, use:
 
-```
+```js
 KeyboardRegistry.notifyListeners(`MyKeyboardView.onItemSelected`, params);
 ```
 
 ### 2. Using the keyboard component as an input view
 While this package provides several component and classes for low-level control over custom keyboard inputs, the easiets way would be to use `KeyboardToolbar`. It's the only thing you'll need to show your Keyboard component as a custom input. For example:
 
-```
+```js
 <KeyboardToolbar
   renderContent={this.keyboardToolbarContent}
   kbInputRef={this.textInputRef}
@@ -96,8 +98,8 @@ While this package provides several component and classes for low-level control 
 />
 ```
 
-| prop | type | description |
-| ---- | ---- | ----| ---- |
+| Prop | Type | Description |
+| ---- | ---- | ----------- |
 | renderContent | Function | a fucntion for rendering the content of the keyboard toolbar |
 | kbInputRef | Object | A ref to the input component which triggers the showing of the keyboard |
 | kbComponent | String | The registered component name |
