@@ -20,7 +20,6 @@ public class ReactSoftKeyboardMonitor implements LifecycleEventListener {
         @Override
         public void onGlobalLayout() {
             initGloballyVisibleHeight();
-            initLocallyVisibleHeight();
 
             registerRuntimeLayoutListener();
         }
@@ -49,7 +48,6 @@ public class ReactSoftKeyboardMonitor implements LifecycleEventListener {
 
     private Listener mExternalListener;
 
-    private int mLocallyVisibleHeight;
     private int mMaxVisibleHeight;
     private int mLastVisibleHeight;
     private boolean mSoftKeyboardUp;
@@ -111,10 +109,6 @@ public class ReactSoftKeyboardMonitor implements LifecycleEventListener {
         mLastVisibleHeight = mMaxVisibleHeight;
     }
 
-    private void initLocallyVisibleHeight() {
-        mLocallyVisibleHeight = getLocallyVisibleHeight();
-    }
-
     private void refreshKeyboardHeight() {
         if (mKeyboardHeight != null) {
             return;
@@ -124,8 +118,8 @@ public class ReactSoftKeyboardMonitor implements LifecycleEventListener {
             @Override
             public void run() {
                 final int locallyVisibleHeight = getLocallyVisibleHeight();
-                if (mLocallyVisibleHeight != locallyVisibleHeight) {
-                    mKeyboardHeight = mLocallyVisibleHeight - getLocallyVisibleHeight();
+                if (locallyVisibleHeight < mMaxVisibleHeight) {
+                    mKeyboardHeight = mMaxVisibleHeight - getLocallyVisibleHeight();
                 }
             }
         });
