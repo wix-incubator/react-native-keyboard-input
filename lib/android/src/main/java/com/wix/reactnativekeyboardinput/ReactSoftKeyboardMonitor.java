@@ -7,6 +7,7 @@ import android.view.ViewTreeObserver;
 import com.facebook.react.ReactRootView;
 import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.ReactContext;
+import com.facebook.react.uimanager.PixelUtil;
 
 import static com.wix.reactnativekeyboardinput.ViewUtils.getReactRootView;
 import static com.wix.reactnativekeyboardinput.ViewUtils.getWindow;
@@ -105,8 +106,12 @@ public class ReactSoftKeyboardMonitor implements LifecycleEventListener {
     }
 
     @Nullable
-    public Integer getLastKnownKeyboardHeight() {
-        return mKeyboardHeight;
+    public Integer getKeyboardHeight() {
+        if (mKeyboardHeight != null) {
+            return mKeyboardHeight;
+        }
+
+        return (int) (.5f * mLocallyVisibleHeight);
     }
 
     private void registerWindowLayoutListener() {
@@ -116,6 +121,8 @@ public class ReactSoftKeyboardMonitor implements LifecycleEventListener {
     private void registerInnerLayoutListener() {
         final ViewTreeObserver viewTreeObserver = mLastReactRootView.getViewTreeObserver();
         viewTreeObserver.addOnGlobalLayoutListener(mInnerLayoutListener);
+
+
     }
 
     private void removeInnerLayoutListener() {

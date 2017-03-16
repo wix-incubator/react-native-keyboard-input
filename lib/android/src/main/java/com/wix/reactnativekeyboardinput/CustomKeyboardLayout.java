@@ -7,7 +7,6 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactContext;
-import com.facebook.react.uimanager.PixelUtil;
 
 import java.lang.ref.WeakReference;
 
@@ -17,9 +16,6 @@ import static com.wix.reactnativekeyboardinput.ViewUtils.getWindow;
 
 public class CustomKeyboardLayout implements ReactSoftKeyboardMonitor.Listener {
 
-    private static final int DEFAULT_KEYBOARD_HEIGHT_DP = 100;
-    private final int DEFAULT_KEYBOARD_HEIGHT_PX;
-
     private final InputMethodManager mInputMethodManager;
     private final ReactSoftKeyboardMonitor mKeyboardMonitor;
 
@@ -28,8 +24,6 @@ public class CustomKeyboardLayout implements ReactSoftKeyboardMonitor.Listener {
     public CustomKeyboardLayout(ReactContext reactContext, ReactSoftKeyboardMonitor keyboardMonitor) {
         mKeyboardMonitor = keyboardMonitor;
         mInputMethodManager = (InputMethodManager) reactContext.getSystemService(Context.INPUT_METHOD_SERVICE);
-
-        DEFAULT_KEYBOARD_HEIGHT_PX = (int) PixelUtil.toPixelFromDIP(DEFAULT_KEYBOARD_HEIGHT_DP);
 
         mKeyboardMonitor.setListener(this);
     }
@@ -104,8 +98,7 @@ public class CustomKeyboardLayout implements ReactSoftKeyboardMonitor.Listener {
     }
 
     private int getHeightForCustomContent() {
-        final Integer height = mKeyboardMonitor.getLastKnownKeyboardHeight();
-        return height == null ? DEFAULT_KEYBOARD_HEIGHT_PX : height;
+        return mKeyboardMonitor.getKeyboardHeight();
     }
 
     private void setKeyboardOverlayMode() {
