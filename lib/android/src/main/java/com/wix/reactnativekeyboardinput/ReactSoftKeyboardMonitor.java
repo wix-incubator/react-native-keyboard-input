@@ -4,6 +4,7 @@ import android.graphics.Rect;
 import android.support.annotation.Nullable;
 import android.view.ViewTreeObserver;
 
+import com.facebook.react.ReactRootView;
 import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.ReactContext;
 
@@ -16,12 +17,23 @@ public class ReactSoftKeyboardMonitor implements LifecycleEventListener {
         void onSoftKeyboardVisible(boolean distinct);
     }
 
-    private final ViewTreeObserver.OnGlobalLayoutListener mInitialLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
+    private final ViewTreeObserver.OnGlobalLayoutListener mWindowLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
         @Override
         public void onGlobalLayout() {
             initGloballyVisibleHeight();
+            ReactRootView reactRootView = getReactRootView();
+            if (mLastReactRootView == reactRootView) {
+                return;
+            }
 
-            registerRuntimeLayoutListener();
+            removeInnerLayoutListener();
+            mLastReactRootView = reactRootView;
+            if (mLastReactRootView != null) { // This is applicable when running a react reload in dev mode
+                registerInnerLayoutListener();
+
+                initGloballyVisibleHeight(); // TODO: running this each time might be redundant
+                initLocallyVisibleHeight();
+            }
         }
     };
 
@@ -44,10 +56,10 @@ public class ReactSoftKeyboardMonitor implements LifecycleEventListener {
         }
     };
 
-    private final ReactContext mReactContext;
-
     private Listener mExternalListener;
 
+    private ReactRootView mLastReactRootView;
+    private int mLocallyVisibleHeight;
     private int mMaxVisibleHeight;
     private int mLastVisibleHeight;
     private boolean mSoftKeyboardUp;
@@ -55,27 +67,25 @@ public class ReactSoftKeyboardMonitor implements LifecycleEventListener {
     private boolean hasLayoutListeners;
 
     public ReactSoftKeyboardMonitor(ReactContext reactContext) {
-        mReactContext = reactContext;
-
-        mReactContext.addLifecycleEventListener(this);
+        reactContext.addLifecycleEventListener(this);
     }
 
     @Override
     public void onHostResume() {
         if (!hasLayoutListeners) {
             hasLayoutListeners = true;
-            registerInitialLayoutListener();
+            registerWindowLayoutListener();
         }
-    }
-
-    @Override
-    public void onHostPause() {
     }
 
     @Override
     public void onHostDestroy() {
         removeAllLayoutListeners();
         hasLayoutListeners = false;
+    }
+
+    @Override
+    public void onHostPause() {
     }
 
     public void setListener(Listener listener) {
@@ -87,26 +97,37 @@ public class ReactSoftKeyboardMonitor implements LifecycleEventListener {
         return mKeyboardHeight;
     }
 
-    private void registerInitialLayoutListener() {
-        final ViewTreeObserver viewTreeObserver = getReactRootView().getViewTreeObserver();
-        viewTreeObserver.addOnGlobalLayoutListener(mInitialLayoutListener);
+    private void registerWindowLayoutListener() {
+        getWindow().getDecorView().getViewTreeObserver().addOnGlobalLayoutListener(mWindowLayoutListener);
     }
 
-    private void registerRuntimeLayoutListener() {
-        final ViewTreeObserver viewTreeObserver = getReactRootView().getViewTreeObserver();
-        viewTreeObserver.removeOnGlobalLayoutListener(mInitialLayoutListener);
+    private void registerInnerLayoutListener() {
+        final ViewTreeObserver viewTreeObserver = mLastReactRootView.getViewTreeObserver();
         viewTreeObserver.addOnGlobalLayoutListener(mRuntimeLayoutListener);
     }
 
+    private void removeInnerLayoutListener() {
+        if (mLastReactRootView != null) {
+            final ViewTreeObserver viewTreeObserver = mLastReactRootView.getViewTreeObserver();
+            viewTreeObserver.removeOnGlobalLayoutListener(mRuntimeLayoutListener);
+        }
+    }
+
     private void removeAllLayoutListeners() {
+        getWindow().getDecorView().getViewTreeObserver().removeOnGlobalLayoutListener(mWindowLayoutListener);
+
         final ViewTreeObserver viewTreeObserver = getReactRootView().getViewTreeObserver();
-        viewTreeObserver.removeOnGlobalLayoutListener(mInitialLayoutListener);
         viewTreeObserver.removeOnGlobalLayoutListener(mRuntimeLayoutListener);
     }
 
     private void initGloballyVisibleHeight() {
         mMaxVisibleHeight = getGloballyVisibleHeight();
         mLastVisibleHeight = mMaxVisibleHeight;
+    }
+
+    private void initLocallyVisibleHeight() {
+        mLocallyVisibleHeight = getLocallyVisibleHeight();
+        mKeyboardHeight = null; // Reset so the keyboard would be measure on the next opportunity.
     }
 
     private void refreshKeyboardHeight() {
@@ -118,20 +139,20 @@ public class ReactSoftKeyboardMonitor implements LifecycleEventListener {
             @Override
             public void run() {
                 final int locallyVisibleHeight = getLocallyVisibleHeight();
-                if (locallyVisibleHeight < mMaxVisibleHeight) {
-                    mKeyboardHeight = mMaxVisibleHeight - getLocallyVisibleHeight();
+                if (mLocallyVisibleHeight > locallyVisibleHeight) {
+                    mKeyboardHeight = mLocallyVisibleHeight - locallyVisibleHeight;
                 }
             }
         });
-    }
-
-    private int getLocallyVisibleHeight() {
-        return getReactRootView().getHeight();
     }
 
     private int getGloballyVisibleHeight() {
         final Rect visibleArea = new Rect();
         getWindow().getDecorView().getWindowVisibleDisplayFrame(visibleArea);
         return visibleArea.height();
+    }
+
+    private int getLocallyVisibleHeight() {
+        return mLastReactRootView.getHeight();
     }
 }

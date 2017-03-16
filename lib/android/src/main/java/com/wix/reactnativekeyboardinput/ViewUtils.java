@@ -19,7 +19,8 @@ public class ViewUtils {
     }
 
     public static ReactRootView getReactRootView() {
-        return findChildByClass((ViewGroup) getWindow().getDecorView(), ReactRootView.class);
+        ReactRootView view = findChildByClass((ViewGroup) getWindow().getDecorView(), ReactRootView.class);
+        return view;
     }
 
     /**
@@ -34,7 +35,7 @@ public class ViewUtils {
 
             if (view instanceof ViewGroup) {
                 view = findChildByClass((ViewGroup) view, clazz);
-                if (view != null && clazz.isAssignableFrom(view.getClass())) {
+                if (view != null) {
                     return (T) view;
                 }
             }
