@@ -51,6 +51,14 @@ export default class CustomKeyboardView extends Component {
     this.registerListener(this.props, nextProps);
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    if (nextProps.component === this.props.component) {
+      return false;
+    }
+    return true;
+  }
+
+
   componentWillUnmount() {
     if (this.keyboardEventListeners) {
       this.keyboardEventListeners.forEach(eventListener => eventListener.remove());

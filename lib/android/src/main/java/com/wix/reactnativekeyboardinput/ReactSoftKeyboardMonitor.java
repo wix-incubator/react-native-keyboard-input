@@ -3,11 +3,11 @@ package com.wix.reactnativekeyboardinput;
 import android.graphics.Rect;
 import android.support.annotation.Nullable;
 import android.view.ViewTreeObserver;
+import android.view.WindowManager;
 
 import com.facebook.react.ReactRootView;
 import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.ReactContext;
-import com.facebook.react.uimanager.PixelUtil;
 
 import static com.wix.reactnativekeyboardinput.ViewUtils.getReactRootView;
 import static com.wix.reactnativekeyboardinput.ViewUtils.getWindow;
@@ -25,6 +25,7 @@ public class ReactSoftKeyboardMonitor implements LifecycleEventListener {
             if (mLastReactRootView == reactRootView) {
                 return;
             }
+            initKeyboardConfig(); // TODO: Fix this using a dedicated "screen monitor" class, reporting to both this monitor and the layout manager
 
             removeInnerLayoutListener();
             mLastReactRootView = reactRootView;
@@ -137,6 +138,10 @@ public class ReactSoftKeyboardMonitor implements LifecycleEventListener {
 
         final ViewTreeObserver viewTreeObserver = getReactRootView().getViewTreeObserver();
         viewTreeObserver.removeOnGlobalLayoutListener(mInnerLayoutListener);
+    }
+
+    private void initKeyboardConfig() {
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     }
 
     private void initViewportVisibleHeight() {
