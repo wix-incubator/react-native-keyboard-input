@@ -10,8 +10,8 @@ import com.facebook.react.bridge.ReactContext;
 
 import java.lang.ref.WeakReference;
 
+import static com.wix.reactnativekeyboardinput.AppContextHolder.getCurrentActivity;
 import static com.wix.reactnativekeyboardinput.RuntimeUtils.runOnUIThread;
-import static com.wix.reactnativekeyboardinput.ViewUtils.getCurrentActivity;
 import static com.wix.reactnativekeyboardinput.ViewUtils.getWindow;
 
 public class CustomKeyboardLayout implements ReactSoftKeyboardMonitor.Listener {

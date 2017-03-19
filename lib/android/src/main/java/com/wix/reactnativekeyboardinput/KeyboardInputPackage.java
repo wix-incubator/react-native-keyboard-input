@@ -1,5 +1,7 @@
 package com.wix.reactnativekeyboardinput;
 
+import android.app.Application;
+
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.JavaScriptModule;
 import com.facebook.react.bridge.NativeModule;
@@ -13,6 +15,10 @@ import java.util.List;
 public class KeyboardInputPackage implements ReactPackage {
 
     private CustomKeyboardLayout mLayout;
+
+    public KeyboardInputPackage(Application application) {
+        AppContextHolder.setApplication(application);
+    }
 
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
@@ -32,8 +38,8 @@ public class KeyboardInputPackage implements ReactPackage {
     }
 
     private void init(ReactApplicationContext reactContext) {
-        if (AppContextHolder.getContext() == null) {
-            AppContextHolder.setContext(reactContext);
+        if (ReactContextHolder.getContext() == null) {
+            ReactContextHolder.setContext(reactContext);
 
             mLayout = new CustomKeyboardLayout(reactContext, new ReactSoftKeyboardMonitor(reactContext));
         }

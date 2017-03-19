@@ -28,13 +28,11 @@ public class ReactSoftKeyboardMonitor implements LifecycleEventListener {
 
             removeInnerLayoutListener();
             mLastReactRootView = reactRootView;
-            if (mLastReactRootView != null) { // This is applicable when activity is going down (e.g. bundle reload in RN dev mode)
-                registerInnerLayoutListener();
+            registerInnerLayoutListener();
 
-                initKeyboardConfig(); // TODO: Fix this using a dedicated "screen monitor" class, reporting to both this monitor and the layout manager
-                initViewportVisibleHeight(); // TODO: running this each time might be redundant
-                initLocallyVisibleHeight();
-            }
+            initKeyboardConfig(); // TODO: Fix this using a dedicated "screen monitor" class, reporting to both this monitor and the layout manager
+            initViewportVisibleHeight(); // TODO: running this each time might be redundant
+            initLocallyVisibleHeight();
         }
     };
 

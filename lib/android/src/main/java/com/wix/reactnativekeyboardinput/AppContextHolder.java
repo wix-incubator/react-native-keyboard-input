@@ -1,16 +1,53 @@
 package com.wix.reactnativekeyboardinput;
 
-import com.facebook.react.bridge.ReactApplicationContext;
+import android.app.Activity;
+import android.app.Application;
+import android.os.Bundle;
+import android.util.Log;
 
 public class AppContextHolder {
 
-    private static ReactApplicationContext sContext;
+    private static Activity sCurrentActivity;
 
-    public static void setContext(ReactApplicationContext context) {
-        sContext = context;
+    public static void setApplication(Application application) {
+        application.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
+            @Override
+            public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+                sCurrentActivity = activity;
+            }
+
+            @Override
+            public void onActivityStarted(Activity activity) {
+                sCurrentActivity = activity;
+            }
+
+            @Override
+            public void onActivityResumed(Activity activity) {
+                sCurrentActivity = activity;
+            }
+
+            @Override
+            public void onActivityPaused(Activity activity) {
+            }
+
+            @Override
+            public void onActivityStopped(Activity activity) {
+            }
+
+            @Override
+            public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+            }
+
+            @Override
+            public void onActivityDestroyed(Activity activity) {
+                if (sCurrentActivity == activity) {
+                    sCurrentActivity = null;
+                }
+            }
+        });
     }
 
-    public static ReactApplicationContext getContext() {
-        return sContext;
+    public static Activity getCurrentActivity() {
+        return sCurrentActivity;
     }
 }

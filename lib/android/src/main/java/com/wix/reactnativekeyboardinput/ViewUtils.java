@@ -1,6 +1,5 @@
 package com.wix.reactnativekeyboardinput;
 
-import android.app.Activity;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,18 +7,16 @@ import android.view.Window;
 
 import com.facebook.react.ReactRootView;
 
-public class ViewUtils {
+import static com.wix.reactnativekeyboardinput.AppContextHolder.getCurrentActivity;
 
-    public static Activity getCurrentActivity() {
-        return AppContextHolder.getContext().getCurrentActivity();
-    }
+public class ViewUtils {
 
     public static Window getWindow() {
         return getCurrentActivity().getWindow();
     }
 
     public static ReactRootView getReactRootView() {
-        ReactRootView view = findChildByClass((ViewGroup) getWindow().getDecorView(), ReactRootView.class);
+        final ReactRootView view = findChildByClass((ViewGroup) getWindow().getDecorView(), ReactRootView.class);
         return view;
     }
 
