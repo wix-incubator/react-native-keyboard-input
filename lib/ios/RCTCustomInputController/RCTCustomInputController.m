@@ -19,16 +19,16 @@
 
 - (BOOL)canBecomeFirstResponder
 {
-	return YES;
+    return YES;
 }
 
 - (BOOL)resignFirstResponder
 {
-	BOOL rv = [super resignFirstResponder];
-	
-	[self removeFromSuperview];
-	
-	return rv;
+    BOOL rv = [super resignFirstResponder];
+    
+    [self removeFromSuperview];
+    
+    return rv;
 }
 
 @end
@@ -40,7 +40,7 @@
 
 - (dispatch_queue_t)methodQueue
 {
-	return dispatch_get_main_queue();
+    return dispatch_get_main_queue();
 }
 
 RCT_EXPORT_MODULE(CustomInputController)
@@ -64,26 +64,14 @@ RCT_EXPORT_MODULE(CustomInputController)
 
 RCT_EXPORT_METHOD(presentCustomInputComponent:(nonnull NSNumber*)inputFieldTag params:(nonnull NSDictionary*)params)
 {
-	UIView* inputField = [self.bridge.uiManager viewForReactTag:inputFieldTag];
+    UIView* inputField = [self.bridge.uiManager viewForReactTag:inputFieldTag];
     BOOL canBecomeFirstResponder = [self reactCanBecomeFirstResponder:inputField];
     if(canBecomeFirstResponder)
-	{
+    {
         [self reactDidMakeFirstResponder:inputField];
     }
     
-    RCTBridge* bridge = nil;
-    
-    UIWindow *window = [UIApplication sharedApplication].delegate.window;
-    UIViewController *rootVC = [UIApplication sharedApplication].delegate.window.rootViewController;
-    if([rootVC isKindOfClass:[UINavigationController class]])
-    {
-        bridge = [(RCTRootView*)((UINavigationController*)rootVC).viewControllers[0].view bridge];
-    }
-    else
-    {
-        bridge = [(RCTRootView*)rootVC.view bridge];
-    }
-    
+    RCTBridge* bridge = [_bridge valueForKey:@"parentBridge"];
     if(bridge != nil)
     {
         RCTRootView* rv = [[RCTRootView alloc] initWithBridge:bridge moduleName:params[@"component"] initialProperties:params[@"initialProps"]];
@@ -102,7 +90,7 @@ RCT_EXPORT_METHOD(presentCustomInputComponent:(nonnull NSNumber*)inputFieldTag p
 
 RCT_EXPORT_METHOD(resetInput:(nonnull NSNumber*)inputFieldTag)
 {
-	UIView* inputField = [self.bridge.uiManager viewForReactTag:inputFieldTag];
+    UIView* inputField = [self.bridge.uiManager viewForReactTag:inputFieldTag];
     if([self reactCanBecomeFirstResponder:inputField])
     {
         [inputField becomeFirstResponder];
