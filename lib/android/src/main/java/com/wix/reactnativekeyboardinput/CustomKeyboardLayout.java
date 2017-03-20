@@ -19,7 +19,7 @@ public class CustomKeyboardLayout implements ReactSoftKeyboardMonitor.Listener {
     private final InputMethodManager mInputMethodManager;
     private final ReactSoftKeyboardMonitor mKeyboardMonitor;
 
-    private WeakReference<CustomKeyboardRootViewShadow> mShadowNode;
+    private WeakReference<CustomKeyboardRootViewShadow> mShadowNode = new WeakReference<>(null);
 
     public CustomKeyboardLayout(ReactContext reactContext, ReactSoftKeyboardMonitor keyboardMonitor) {
         mKeyboardMonitor = keyboardMonitor;
