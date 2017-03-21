@@ -24,8 +24,8 @@ export default class CustomKeyboardView extends Component {
     if (component) {
       this.addOnItemSelectListener(onItemSelected, component);
 
-      if (TextInputKeyboardManagerAndroid && inputRef) {
-        TextInputKeyboardManagerAndroid.setInputComponent(inputRef, {component, initialProps});
+      if (TextInputKeyboardManagerIOS && inputRef) {
+        TextInputKeyboardManagerIOS.setInputComponent(inputRef, {component, initialProps});
       }
     }
   }
