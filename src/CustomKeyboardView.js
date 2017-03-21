@@ -26,8 +26,8 @@ export default class CustomKeyboardView extends Component {
         KeyboardRegistry.addListener(`${component}.onItemSelected`, onItemSelected);
       }
 
-      if (TextInputKeyboardManagerAndroid && inputRef) {
-        TextInputKeyboardManagerAndroid.setInputComponent(inputRef, {component, initialProps});
+      if (TextInputKeyboardManagerIOS && inputRef) {
+        TextInputKeyboardManagerIOS.setInputComponent(inputRef, {component, initialProps});
       }
     }
   }
