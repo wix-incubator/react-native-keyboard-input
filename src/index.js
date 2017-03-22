@@ -1,6 +1,6 @@
 import TextInputKeyboardMangerIOS from './TextInputKeyboardMangerIOS';
 import CustomKeyboardView from './CustomKeyboardView';
-import KeyboardToolbar from './KeyboardToolbar';
+import KeyboardAccessoryView from './KeyboardAccessoryView';
 import KeyboardRegistry from './KeyboardsRegistry';
 
-export {TextInputKeyboardMangerIOS, CustomKeyboardView, KeyboardRegistry, KeyboardToolbar};
+export {TextInputKeyboardMangerIOS, CustomKeyboardView, KeyboardRegistry, KeyboardAccessoryView};

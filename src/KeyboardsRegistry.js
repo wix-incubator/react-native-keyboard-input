@@ -4,31 +4,36 @@ import EventEmitterManager from './utils/EventEmitterManager';
 
 /*
 * Tech debt: how to deal with multiple registries in the app?
- */
+*/
 export default class KeyboardRegistry {
   static registeredKeyboards = {};
   static eventEmitter = new EventEmitterManager();
 
-  static registerComponent = (componentID, generator, params = {}) => {
+  static registerKeyboard = (componentID, generator, params = {}) => {
     if (!_.isFunction(generator)) {
-      console.error(`KeyboardRegistry.registerComponent: ${componentID} you must register a generator function`);//eslint-disable-line
+      console.error(`KeyboardRegistry.registerKeyboard: ${componentID} you must register a generator function`);//eslint-disable-line
       return;
     }
     KeyboardRegistry.registeredKeyboards[componentID] = {generator, params, componentID};
     AppRegistry.registerComponent(componentID, generator);
   };
 
-  static getComponent = (componentID) => {
+  static getKeyboard = (componentID) => {
     const res = KeyboardRegistry.registeredKeyboards[componentID];
     if (!res || !res.generator) {
-      console.error(`KeyboardRegistry.getComponent: ${componentID} used but not yet registered`);//eslint-disable-line
+      console.error(`KeyboardRegistry.getKeyboard: ${componentID} used but not yet registered`);//eslint-disable-line
       return undefined;
     }
     return res.generator();
   };
 
   static getAllKeyboards = () => {
-    return _.values(_.mapValues(KeyboardRegistry.registeredKeyboards, 'params'));
+    return Object.keys(KeyboardRegistry.registeredKeyboards).map(keyboardId => {
+      return {
+        id: keyboardId,
+        ...KeyboardRegistry.registeredKeyboards[keyboardId].params
+      };
+    });
   };
 
   static addListener = (globalID, callback) => {
@@ -41,5 +46,9 @@ export default class KeyboardRegistry {
 
   static removeListeners = (globalID) => {
     KeyboardRegistry.eventEmitter.removeListeners(globalID);
+  };
+
+  static onItemSelected = (globalID, args) => {
+    KeyboardRegistry.notifyListeners(`${globalID}.onItemSelected`, args);
   };
 }

@@ -1,8 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
 import React, { Component } from 'react';
 import {
   AppRegistry,
@@ -13,11 +8,12 @@ import {
   TouchableOpacity,
   Keyboard,
   PixelRatio,
-  Platform
+  Platform,
+  Alert
 } from 'react-native';
 import {AutoGrowingTextInput} from 'react-native-autogrow-textinput';
 import {BlurView} from 'react-native-blur';
-import {KeyboardToolbar} from 'react-native-keyboard-input';
+import {KeyboardAccessoryView} from 'react-native-keyboard-input';
 
 import './demoKeyboards';
 
@@ -27,16 +23,18 @@ const TrackInteractive = true;
 class AwesomeProject extends Component {
   constructor(props) {
     super(props);
-    this.keyboardToolbarContent = this.keyboardToolbarContent.bind(this);
+    this.keyboardAccessoryViewContent = this.keyboardAccessoryViewContent.bind(this);
+    this.onKeyboardItemSelected = this.onKeyboardItemSelected.bind(this);
     this.keyboardWillShow = this.keyboardWillShow.bind(this);
     this.keyboardWillHide = this.keyboardWillHide.bind(this);
     this.state = {
       keyboardHeight: 0,
-      keyboardToolbarHeight: 0,
+      keyboardAccessoryViewHeight: 0,
       customKeyboard: {
         component: undefined,
         initialProps: undefined,
       },
+      receivedKeyboardData: undefined
     };
   }
 
@@ -57,11 +55,11 @@ class AwesomeProject extends Component {
     return [
       {
         text: 'show1',
-        onPress: () => this.showKeyboardView('KeyboardView', 'FIRST - 1'),
+        onPress: () => this.showKeyboardView('KeyboardView', 'FIRST - 1 (passed prop)'),
       },
       {
         text: 'show2',
-        onPress: () => this.showKeyboardView('AnotherKeyboardView', 'SECOND - 2'),
+        onPress: () => this.showKeyboardView('AnotherKeyboardView', 'SECOND - 2 (passed prop)'),
       },
       {
         text: 'reset',
@@ -94,7 +92,7 @@ class AwesomeProject extends Component {
     this.setState({keyboardHeight: 0});
   }
 
-  keyboardToolbarContent() {
+  keyboardAccessoryViewContent() {
     const InnerContainerComponent = (IsIOS && BlurView) ? BlurView : View;
     return (
       <InnerContainerComponent blurType="xlight" style={styles.blurContainer}>
@@ -126,25 +124,32 @@ class AwesomeProject extends Component {
     );
   }
 
+  onKeyboardItemSelected(keyboardId, params) {
+    const receivedKeyboardData = `onItemSelected from \"${keyboardId}\"\nreceived params: ${JSON.stringify(params)}`;
+    this.setState({receivedKeyboardData});
+  }
+
   render() {
     return (
       <View style={styles.container}>
 
         <ScrollView
           contentContainerStyle={styles.scrollContainer}
-          contentInset={IsIOS && {bottom: (this.state.keyboardHeight + this.state.keyboardToolbarHeight)}}
+          contentInset={IsIOS && {bottom: (this.state.keyboardHeight + this.state.keyboardAccessoryViewHeight)}}
           keyboardDismissMode={TrackInteractive ? 'interactive' : 'none'}
         >
           <Text style={styles.welcome}>Keyboards example</Text>
+          <Text>{this.state.receivedKeyboardData}</Text>
         </ScrollView>
 
-        <KeyboardToolbar
-          renderContent={this.keyboardToolbarContent}
-          onHeightChanged={height => this.setState({keyboardToolbarHeight: height})}
+        <KeyboardAccessoryView
+          renderContent={this.keyboardAccessoryViewContent}
+          onHeightChanged={height => this.setState({keyboardAccessoryViewHeight: height})}
           trackInteractive={TrackInteractive}
           kbInputRef={this.textInputRef}
           kbComponent={this.state.customKeyboard.component}
-          kbInitialProp={this.state.customKeyboard.initialProps}
+          kbInitialProps={this.state.customKeyboard.initialProps}
+          onItemSelected={this.onKeyboardItemSelected}
         />
       </View>
     );
