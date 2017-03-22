@@ -135,8 +135,10 @@ public class ReactSoftKeyboardMonitor implements LifecycleEventListener {
     private void removeAllLayoutListeners() {
         getWindow().getDecorView().getViewTreeObserver().removeOnGlobalLayoutListener(mWindowLayoutListener);
 
-        final ViewTreeObserver viewTreeObserver = getReactRootView().getViewTreeObserver();
-        viewTreeObserver.removeOnGlobalLayoutListener(mInnerLayoutListener);
+        final ReactRootView reactRootView = getReactRootView();
+        if (reactRootView != null) {
+            reactRootView.getViewTreeObserver().removeOnGlobalLayoutListener(mInnerLayoutListener);
+        }
     }
 
     private void initKeyboardConfig() {
