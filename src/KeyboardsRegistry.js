@@ -26,7 +26,7 @@ export default class KeyboardRegistry {
     }
     return res.generator();
   };
-s
+
   static getAllKeyboards = () => {
     return Object.keys(KeyboardRegistry.registeredKeyboards).map(keyboardId => {
       return {
