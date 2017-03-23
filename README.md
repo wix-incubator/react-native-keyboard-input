@@ -51,7 +51,7 @@ In Xcode, drag both `RCTCustomInputController.xcodeproj` and `KeyboardTrackingVi
 
 ## Usage
 
-There are 2 main parts to the necessary implementation:
+There are 2 main parts necessary for the implementation:
 
 ### 1. A keyboard component
 Create a component that you wish to use as a keyboard input. For example:
@@ -77,20 +77,20 @@ Now register with the keyboard registry so it can be used later as a keyboard:
 ```js
 import {KeyboardRegistry} from 'react-native-keyboard-input';
 
-KeyboardRegistry.registerComponent('MyKeyboardView', () => KeyboardView);
+KeyboardRegistry.registerKeyboard('MyKeyboardView', () => KeyboardView);
 ```
 
 When you need to notify about selecting an item in the keyboard, use:
 
 ```js
-KeyboardRegistry.notifyListeners(`MyKeyboardView.onItemSelected`, params);
+KeyboardRegistry.onItemSelected(`MyKeyboardView`, params);
 ```
 
 ### 2. Using the keyboard component as an input view
 While this package provides several component and classes for low-level control over custom keyboard inputs, the easiets way would be to use `KeyboardToolbar`. It's the only thing you'll need to show your Keyboard component as a custom input. For example:
 
 ```js
-<KeyboardToolbar
+<KeyboardAccessoryView
   renderContent={this.keyboardToolbarContent}
   kbInputRef={this.textInputRef}
   kbComponent={this.state.customKeyboard.component}
