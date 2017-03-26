@@ -5,8 +5,8 @@
 //  Copyright © 2016 Leo Natan. All rights reserved.
 //
 
-#import "RCTBridgeModule.h"
+#import "RCTEventEmitter.h"
 
-@interface RCTCustomInputController : NSObject <RCTBridgeModule>
+@interface RCTCustomInputController : RCTEventEmitter
 
 @end
