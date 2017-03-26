@@ -51,4 +51,8 @@ export default class KeyboardRegistry {
   static onItemSelected = (globalID, args) => {
     KeyboardRegistry.notifyListeners(`${globalID}.onItemSelected`, args);
   };
+
+  static requestShowKeyboard = (globalID) => {
+    KeyboardRegistry.notifyListeners('onRequestShowKeyboard', {keyboardId: globalID});
+  };
 }

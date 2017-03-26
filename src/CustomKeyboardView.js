@@ -20,14 +20,20 @@ export default class CustomKeyboardView extends Component {
   constructor(props) {
     super(props);
 
-    const {inputRef, component, initialProps, onItemSelected} = props;
+    const {inputRef, component, initialProps, onItemSelected, onRequestShowKeyboard} = props;
     if (component) {
       this.addOnItemSelectListener(onItemSelected, component);
 
       if (TextInputKeyboardManagerIOS && inputRef) {
         TextInputKeyboardManagerIOS.setInputComponent(inputRef, {component, initialProps});
       }
+
+      this.registeredRequestShowKeyboard = false;
     }
+  }
+
+  componentWillUnmount() {
+    KeyboardRegistry.removeListeners('onRequestShowKeyboard');
   }
 
   addOnItemSelectListener(onItemSelected, component) {
@@ -39,7 +45,7 @@ export default class CustomKeyboardView extends Component {
   }
 
   async componentWillReceiveProps(nextProps) {
-    const {inputRef, component, initialProps} = nextProps;
+    const {inputRef, component, initialProps, onRequestShowKeyboard} = nextProps;
 
     if (IsAndroid) {
       if (this.props.component !== component && !component) {
@@ -53,6 +59,13 @@ export default class CustomKeyboardView extends Component {
       } else {
         TextInputKeyboardManagerIOS.removeInputComponent(inputRef);
       }
+    }
+
+    if (onRequestShowKeyboard && !this.registeredRequestShowKeyboard) {
+      this.registeredRequestShowKeyboard = true;
+      KeyboardRegistry.addListener('onRequestShowKeyboard', (args) => {
+        onRequestShowKeyboard(args.keyboardId);
+      });
     }
     this.registerListener(this.props, nextProps);
   }

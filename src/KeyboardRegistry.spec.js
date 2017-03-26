@@ -90,4 +90,11 @@ describe('KeyboardRegistry - listeners', () => {
     expect(KeyboardRegistry.eventEmitter.emitEvent.mock.calls[0][0]).toEqual(`${mockId}.onItemSelected`);
     expect(KeyboardRegistry.eventEmitter.emitEvent.mock.calls[0][1]).toEqual(mockArgs);
   });
+
+  it('should notify when calling requestShowKeyboard with the keyboard id', () => {
+    KeyboardRegistry.requestShowKeyboard(mockId, mockArgs);
+    expect(KeyboardRegistry.eventEmitter.emitEvent).toHaveBeenCalledTimes(1);
+    expect(KeyboardRegistry.eventEmitter.emitEvent.mock.calls[0][0]).toEqual('onRequestShowKeyboard');
+    expect(KeyboardRegistry.eventEmitter.emitEvent.mock.calls[0][1]).toEqual({keyboardId: mockId});
+  });
 });

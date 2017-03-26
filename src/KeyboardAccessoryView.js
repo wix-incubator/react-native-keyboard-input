@@ -15,6 +15,7 @@ export default class KeyboardAccessoryView extends Component {
     kbComponent: React.PropTypes.string,
     kbInitialProps: React.PropTypes.object,
     onItemSelected: React.PropTypes.func,
+    onRequestShowKeyboard: React.PropTypes.func,
     onIOSKeyboardResigned: React.PropTypes.func,
   };
   static defaultProps = {
@@ -43,7 +44,13 @@ export default class KeyboardAccessoryView extends Component {
         trackInteractive={this.props.trackInteractive}
       >
         {this.props.renderContent && this.props.renderContent()}
-        <CustomKeyboardView inputRef={this.props.kbInputRef} component={this.props.kbComponent} initialProps={this.props.kbInitialProps} onItemSelected={this.props.onItemSelected}/>
+        <CustomKeyboardView
+          inputRef={this.props.kbInputRef}
+          component={this.props.kbComponent}
+          initialProps={this.props.kbInitialProps}
+          onItemSelected={this.props.onItemSelected}
+          onRequestShowKeyboard={this.props.onRequestShowKeyboard}
+        />
       </ContainerComponent>
     );
   }
