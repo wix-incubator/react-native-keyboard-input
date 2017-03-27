@@ -25,6 +25,8 @@ export default class KeyboardAccessoryView extends Component {
   constructor(props) {
     super(props);
 
+    this.onContainerComponentHeightChanged = this.onContainerComponentHeightChanged.bind(this);
+
     if(IsIOS && NativeModules.CustomInputController) {
       const CustomInputControllerEvents = new NativeEventEmitter(NativeModules.CustomInputController);
       this.customInputControllerEventsSubscriber = CustomInputControllerEvents.addListener('keyboardResigned', (params) => {
@@ -41,12 +43,18 @@ export default class KeyboardAccessoryView extends Component {
     }
   }
 
+  onContainerComponentHeightChanged(event) {
+    if (this.props.onHeightChanged) {
+       this.props.onHeightChanged(event.nativeEvent.layout.height)
+    }
+  }
+
   render() {
     const ContainerComponent = (IsIOS && KeyboardTrackingView) ? KeyboardTrackingView : View;
     return (
       <ContainerComponent
         style={styles.trackingToolbarContainer}
-        onLayout={event => this.props.onHeightChanged && this.props.onHeightChanged(event.nativeEvent.layout.height)}
+        onLayout={this.onContainerComponentHeightChanged}
         trackInteractive={this.props.trackInteractive}
       >
         {this.props.renderContent && this.props.renderContent()}
