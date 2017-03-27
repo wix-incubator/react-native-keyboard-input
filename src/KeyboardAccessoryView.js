@@ -27,11 +27,17 @@ export default class KeyboardAccessoryView extends Component {
 
     if(IsIOS && NativeModules.CustomInputController) {
       const CustomInputControllerEvents = new NativeEventEmitter(NativeModules.CustomInputController);
-      CustomInputControllerEvents.addListener('keyboardResigned', (params) => {
+      this.customInputControllerEventsSubscriber = CustomInputControllerEvents.addListener('keyboardResigned', (params) => {
         if(this.props.onIOSKeyboardResigned) {
           this.props.onIOSKeyboardResigned();
         }
       });
+    }
+  }
+
+  componentWillUnmount() {
+    if(this.customInputControllerEventsSubscriber) {
+      this.customInputControllerEventsSubscriber.remove();
     }
   }
 
