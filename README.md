@@ -40,7 +40,7 @@ import com.wix.reactnativekeyboardinput.KeyboardInputPackage;
 protected List<ReactPackage> getPackages() {
   return Arrays.<ReactPackage>asList(
       //add this pacakge:
-      new KeyboardInputPackage()
+      new KeyboardInputPackage(MainApplication.this)
     );
 }
 ```
