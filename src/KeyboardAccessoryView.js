@@ -9,7 +9,6 @@ const ScreenSize = Dimensions.get('window');
 export default class KeyboardAccessoryView extends Component {
   static propTypes = {
     renderContent: PropTypes.func,
-    trackInteractive: PropTypes.bool,
     onHeightChanged: React.PropTypes.func,
     kbInputRef: React.PropTypes.object,
     kbComponent: React.PropTypes.string,
@@ -17,10 +16,11 @@ export default class KeyboardAccessoryView extends Component {
     onItemSelected: React.PropTypes.func,
     onRequestShowKeyboard: React.PropTypes.func,
     onIOSKeyboardResigned: React.PropTypes.func,
+    iOSScrollBehavior: React.PropTypes.string
   };
   static defaultProps = {
-    trackInteractive: false,
-  }
+    iOSScrollBehavior: null
+  };
 
   constructor(props) {
     super(props);
@@ -49,13 +49,21 @@ export default class KeyboardAccessoryView extends Component {
     }
   }
 
+  getIOSTrackingScrollBehavior() {
+    let scrollBehavior = this.props.iOSScrollBehavior;
+    if(IsIOS && NativeModules.KeyboardTrackingViewManager && scrollBehavior === null) {
+      scrollBehavior = NativeModules.KeyboardTrackingViewManager.KeyboardTrackingScrollBehaviorFixedOffset;
+    }
+    return scrollBehavior;
+  }
+
   render() {
     const ContainerComponent = (IsIOS && KeyboardTrackingView) ? KeyboardTrackingView : View;
     return (
       <ContainerComponent
         style={styles.trackingToolbarContainer}
         onLayout={this.onContainerComponentHeightChanged}
-        trackInteractive={this.props.trackInteractive}
+        scrollBehavior={this.getIOSTrackingScrollBehavior()}
       >
         {this.props.renderContent && this.props.renderContent()}
         <CustomKeyboardView

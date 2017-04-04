@@ -8,6 +8,8 @@
 #import "RCTCustomInputController.h"
 #import "RCTUIManager.h"
 #import "RCTCustomKeyboardViewController.h"
+#import "RCTTextView.h"
+#import "RCTTextField.h"
 
 NSString *const RCTCustomInputControllerKeyboardResigendEvent = @"keyboardResigned";
 
@@ -19,6 +21,8 @@ NSString *const RCTCustomInputControllerKeyboardResigendEvent = @"keyboardResign
 
 @property (nullable, nonatomic, readwrite, strong) UIInputViewController *inputViewController;
 @property (nonatomic, weak) id<_WXInputHelperViewDelegate> delegate;
+
+@property (nullable, readwrite, strong) UIView *inputAccessoryView;
 
 @end
 
@@ -93,6 +97,24 @@ RCT_EXPORT_MODULE(CustomInputController)
     }
 }
 
+-(UIView*)getFirstResponder:(UIView*)view
+{
+    if (view == nil || [view isFirstResponder])
+    {
+        return view;
+    }
+    
+    for (UIView *subview in view.subviews)
+    {
+        UIView *firstResponder = [self getFirstResponder:subview];
+        if(firstResponder != nil)
+        {
+            return firstResponder;
+        }
+    }
+    return nil;
+}
+
 RCT_EXPORT_METHOD(presentCustomInputComponent:(nonnull NSNumber*)inputFieldTag params:(nonnull NSDictionary*)params)
 {
     UIView* inputField = [self.bridge.uiManager viewForReactTag:inputFieldTag];
@@ -110,6 +132,23 @@ RCT_EXPORT_METHOD(presentCustomInputComponent:(nonnull NSNumber*)inputFieldTag p
         
         _WXInputHelperView* helperView = [[_WXInputHelperView alloc] initWithFrame:CGRectZero];
         helperView.delegate = self;
+        
+        if ([inputField isKindOfClass:[RCTTextView class]])
+        {
+            UITextView *textView = [inputField valueForKey:@"_textView"];
+            if (textView != nil)
+            {
+                helperView.inputAccessoryView = textView.inputAccessoryView;
+            }
+        }
+        else
+        {
+            UIView *firstResponder = [self getFirstResponder:inputField];
+            helperView.inputAccessoryView = firstResponder.inputAccessoryView;
+        }
+        
+        [helperView reloadInputViews];
+        
         helperView.backgroundColor = [UIColor clearColor];
         [inputField.superview addSubview:helperView];
         [inputField.superview sendSubviewToBack:helperView];

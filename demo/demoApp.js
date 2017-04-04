@@ -25,30 +25,14 @@ class AwesomeProject extends Component {
     super(props);
     this.keyboardAccessoryViewContent = this.keyboardAccessoryViewContent.bind(this);
     this.onKeyboardItemSelected = this.onKeyboardItemSelected.bind(this);
-    this.keyboardWillShow = this.keyboardWillShow.bind(this);
-    this.keyboardWillHide = this.keyboardWillHide.bind(this);
+    this.resetKeyboardView = this.resetKeyboardView.bind(this);
     this.state = {
-      keyboardHeight: 0,
-      keyboardAccessoryViewHeight: 0,
       customKeyboard: {
         component: undefined,
         initialProps: undefined,
       },
       receivedKeyboardData: undefined
     };
-  }
-
-  componentWillMount() {
-    const showEvent = IsIOS ? 'keyboardWillShow' : 'keyboardDidShow';
-    const hideEvent = IsIOS ? 'keyboardWillHide' : 'keyboardDidHide';
-    this.keyboardEventListeners = [
-      Keyboard.addListener(showEvent, this.keyboardWillShow),
-      Keyboard.addListener(hideEvent, this.keyboardWillHide),
-    ];
-  }
-
-  componentWillUnmount() {
-    this.keyboardEventListeners.forEach((eventListener) => eventListener.remove());
   }
 
   getToolbarButtons() {
@@ -79,17 +63,6 @@ class AwesomeProject extends Component {
         initialProps: {title},
       },
     });
-  }
-
-  keyboardWillShow(event) {
-    const keyboardHeight = event.endCoordinates.height;
-    if (this.state.keyboardHeight !== keyboardHeight) {
-      this.setState({keyboardHeight});
-    }
-  }
-
-  keyboardWillHide() {
-    this.setState({keyboardHeight: 0});
   }
 
   keyboardAccessoryViewContent() {
@@ -135,7 +108,6 @@ class AwesomeProject extends Component {
 
         <ScrollView
           contentContainerStyle={styles.scrollContainer}
-          contentInset={IsIOS && {bottom: (this.state.keyboardHeight + this.state.keyboardAccessoryViewHeight)}}
           keyboardDismissMode={TrackInteractive ? 'interactive' : 'none'}
         >
           <Text style={styles.welcome}>Keyboards example</Text>

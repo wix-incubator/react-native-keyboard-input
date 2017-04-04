@@ -30,27 +30,27 @@
     "lint": "eslint src -c .eslintrc"
   },
   "dependencies": {
-    "react-native-keyboard-tracking-view": "^2.0.0",
-    "lodash": "^4.17.4"
+    "lodash": "^4.17.4",
+    "react-native-keyboard-tracking-view": "^3.0.0"
   },
   "peerDependencies": {
     "react": "15.4.2",
     "react-native": "^0.38.0"
   },
   "devDependencies": {
-    "react": "15.4.2",
-    "react-native": "^0.38.0",
-    "react-native-blur": "~1.0.0",
-    "react-native-autogrow-textinput": "^3.0.0",
-    "babel-preset-react-native": "1.9.1",
-    "jest": "^18.1.0",
     "babel-jest": "^18.0.0",
+    "babel-preset-react-native": "1.9.1",
     "eslint": "^3.0.0",
     "eslint-config-airbnb": "^14.0.0",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "4.0.0",
     "eslint-plugin-react": "^6.9.0",
-    "eslint-plugin-react-native": "^2.0.0"
+    "eslint-plugin-react-native": "^2.0.0",
+    "jest": "^18.1.0",
+    "react": "15.4.2",
+    "react-native": "^0.38.0",
+    "react-native-autogrow-textinput": "^3.0.0",
+    "react-native-blur": "~1.0.0"
   },
   "jest": {
     "preset": "react-native",
