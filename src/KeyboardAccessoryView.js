@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {StyleSheet, View, Platform, Dimensions, NativeModules, NativeEventEmitter} from 'react-native';
+import {StyleSheet, View, Platform, Dimensions, NativeModules, NativeEventEmitter, processColor} from 'react-native';
 import {KeyboardTrackingView} from 'react-native-keyboard-tracking-view';
 import CustomKeyboardView from './CustomKeyboardView';
 
@@ -26,6 +26,7 @@ export default class KeyboardAccessoryView extends Component {
     super(props);
 
     this.onContainerComponentHeightChanged = this.onContainerComponentHeightChanged.bind(this);
+    this.processInitialProps = this.processInitialProps.bind(this);
 
     if(IsIOS && NativeModules.CustomInputController) {
       const CustomInputControllerEvents = new NativeEventEmitter(NativeModules.CustomInputController);
@@ -57,6 +58,14 @@ export default class KeyboardAccessoryView extends Component {
     return scrollBehavior;
   }
 
+  processInitialProps() {
+    const processedProps = this.props.kbInitialProps;
+    if(IsIOS && processedProps && processedProps.backgroundColor) {
+      processedProps.backgroundColor = processColor(processedProps.backgroundColor);
+    }
+    return processedProps;
+  }
+
   render() {
     return (
       <KeyboardTrackingView
@@ -68,7 +77,7 @@ export default class KeyboardAccessoryView extends Component {
         <CustomKeyboardView
           inputRef={this.props.kbInputRef}
           component={this.props.kbComponent}
-          initialProps={this.props.kbInitialProps}
+          initialProps={this.processInitialProps()}
           onItemSelected={this.props.onItemSelected}
           onRequestShowKeyboard={this.props.onRequestShowKeyboard}
         />

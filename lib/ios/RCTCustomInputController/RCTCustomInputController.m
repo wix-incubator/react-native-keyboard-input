@@ -127,7 +127,17 @@ RCT_EXPORT_METHOD(presentCustomInputComponent:(nonnull NSNumber*)inputFieldTag p
     RCTBridge* bridge = [self.bridge valueForKey:@"parentBridge"];
     if(bridge != nil)
     {
-        RCTRootView* rv = [[RCTRootView alloc] initWithBridge:bridge moduleName:params[@"component"] initialProperties:params[@"initialProps"]];
+        NSDictionary *initialProps = params[@"initialProps"];
+        RCTRootView* rv = [[RCTRootView alloc] initWithBridge:bridge moduleName:params[@"component"] initialProperties:initialProps];
+        if(initialProps != nil && initialProps[@"backgroundColor"] != nil)
+        {
+            UIColor *backgroundColor = [RCTConvert UIColor:initialProps[@"backgroundColor"]];
+            if(backgroundColor != nil)
+            {
+                rv.backgroundColor = backgroundColor;
+            }
+        }
+        
         RCTCustomKeyboardViewController* customKeyboardController = [[RCTCustomKeyboardViewController alloc] initWithRootView:rv];
         
         _WXInputHelperView* helperView = [[_WXInputHelperView alloc] initWithFrame:CGRectZero];
