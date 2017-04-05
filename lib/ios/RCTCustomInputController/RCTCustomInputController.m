@@ -11,6 +11,8 @@
 #import "RCTTextView.h"
 #import "RCTTextField.h"
 
+#define kHlperViewTag 0x1f1f1f
+
 NSString *const RCTCustomInputControllerKeyboardResigendEvent = @"keyboardResigned";
 
 @protocol _WXInputHelperViewDelegate <NSObject>
@@ -141,6 +143,7 @@ RCT_EXPORT_METHOD(presentCustomInputComponent:(nonnull NSNumber*)inputFieldTag p
         RCTCustomKeyboardViewController* customKeyboardController = [[RCTCustomKeyboardViewController alloc] initWithRootView:rv];
         
         _WXInputHelperView* helperView = [[_WXInputHelperView alloc] initWithFrame:CGRectZero];
+        helperView.tag = kHlperViewTag;
         helperView.delegate = self;
         
         if ([inputField isKindOfClass:[RCTTextView class]])
@@ -176,9 +179,14 @@ RCT_EXPORT_METHOD(resetInput:(nonnull NSNumber*)inputFieldTag)
     self.customInputComponentPresented = NO;
     
     UIView* inputField = [self.bridge.uiManager viewForReactTag:inputFieldTag];
-    if([self reactCanBecomeFirstResponder:inputField])
+    if(inputField != nil && [self reactCanBecomeFirstResponder:inputField])
     {
-        [inputField becomeFirstResponder];
+        BOOL restoreFirstResponder = NO;
+        _WXInputHelperView* helperView = [inputField.superview viewWithTag:kHlperViewTag];
+        if(helperView != nil && [helperView isFirstResponder])
+        {//restore the first responder only if it was already the first responder to prevent the keyboard from opening again if not necessary
+            [inputField becomeFirstResponder];
+        }
         [self reactDidMakeFirstResponder:inputField];
     }
 }

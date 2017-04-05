@@ -122,6 +122,7 @@ class AwesomeProject extends Component {
           kbComponent={this.state.customKeyboard.component}
           kbInitialProps={this.state.customKeyboard.initialProps}
           onItemSelected={this.onKeyboardItemSelected}
+          onIOSKeyboardResigned={this.resetKeyboardView}
         />
       </View>
     );
