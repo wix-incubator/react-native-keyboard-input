@@ -58,9 +58,8 @@ export default class KeyboardAccessoryView extends Component {
   }
 
   render() {
-    const ContainerComponent = (IsIOS && KeyboardTrackingView) ? KeyboardTrackingView : View;
     return (
-      <ContainerComponent
+      <KeyboardTrackingView
         style={styles.trackingToolbarContainer}
         onLayout={this.onContainerComponentHeightChanged}
         scrollBehavior={this.getIOSTrackingScrollBehavior()}
@@ -73,7 +72,7 @@ export default class KeyboardAccessoryView extends Component {
           onItemSelected={this.props.onItemSelected}
           onRequestShowKeyboard={this.props.onRequestShowKeyboard}
         />
-      </ContainerComponent>
+      </KeyboardTrackingView>
     );
   }
 }
