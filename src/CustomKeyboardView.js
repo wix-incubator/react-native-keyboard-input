@@ -97,11 +97,11 @@ export default class CustomKeyboardView extends Component {
 
   render() {
     if (IsAndroid) {
-      const {component} = this.props;
+      const {component, initialProps} = this.props;
       const KeyboardComponent = component && KeyboardRegistry.getKeyboard(component);
       return (
         <CustomKeyboardViewNativeAndroid>
-          {KeyboardComponent ? (<KeyboardComponent/>) : null}
+          {KeyboardComponent ? (<KeyboardComponent {...initialProps}/>) : null}
         </CustomKeyboardViewNativeAndroid>
       );
     }
