@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {StyleSheet, View, Platform, Dimensions, NativeModules, NativeEventEmitter, processColor} from 'react-native';
+import {StyleSheet, View, Platform, Dimensions, NativeModules, NativeEventEmitter, DeviceEventEmitter, processColor} from 'react-native';
 import {KeyboardTrackingView} from 'react-native-keyboard-tracking-view';
 import CustomKeyboardView from './CustomKeyboardView';
 
@@ -15,7 +15,7 @@ export default class KeyboardAccessoryView extends Component {
     kbInitialProps: React.PropTypes.object,
     onItemSelected: React.PropTypes.func,
     onRequestShowKeyboard: React.PropTypes.func,
-    onIOSKeyboardResigned: React.PropTypes.func,
+    onKeyboardResigned: React.PropTypes.func,
     iOSScrollBehavior: React.PropTypes.string
   };
   static defaultProps = {
@@ -27,12 +27,25 @@ export default class KeyboardAccessoryView extends Component {
 
     this.onContainerComponentHeightChanged = this.onContainerComponentHeightChanged.bind(this);
     this.processInitialProps = this.processInitialProps.bind(this);
+    this.registerForKeyboardResignedEvent = this.registerForKeyboardResignedEvent.bind(this);
 
-    if(IsIOS && NativeModules.CustomInputController) {
-      const CustomInputControllerEvents = new NativeEventEmitter(NativeModules.CustomInputController);
-      this.customInputControllerEventsSubscriber = CustomInputControllerEvents.addListener('keyboardResigned', (params) => {
-        if(this.props.onIOSKeyboardResigned) {
-          this.props.onIOSKeyboardResigned();
+    this.registerForKeyboardResignedEvent();
+  }
+
+  registerForKeyboardResignedEvent() {
+    let eventEmitter = null;
+    if(IsIOS) {
+      if(NativeModules.CustomInputController) {
+        eventEmitter = new NativeEventEmitter(NativeModules.CustomInputController);
+      }
+    } else {
+      eventEmitter = DeviceEventEmitter;
+    }
+
+    if(eventEmitter !== null) {
+      this.customInputControllerEventsSubscriber = eventEmitter.addListener('kbdResigned', (params) => {
+        if(this.props.onKeyboardResigned) {
+          this.props.onKeyboardResigned();
         }
       });
     }

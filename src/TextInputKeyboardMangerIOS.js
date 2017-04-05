@@ -23,4 +23,8 @@ export default class TextInputKeyboardManagerIOS {
       CustomInputController.resetInput(reactTag);
     }
   };
+
+  static dismissKeyboard = () => {
+    CustomInputController.dismissKeyboard();
+  };
 }

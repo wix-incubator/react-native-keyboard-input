@@ -1,6 +1,7 @@
 package com.wix.reactnativekeyboardinput;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -18,12 +19,14 @@ public class CustomKeyboardLayout implements ReactSoftKeyboardMonitor.Listener {
 
     private final InputMethodManager mInputMethodManager;
     private final ReactSoftKeyboardMonitor mKeyboardMonitor;
+    private CustomKeyboardLayout.OnKeyboardResignedHandler mKeyboardResignedHandler;
 
     private WeakReference<CustomKeyboardRootViewShadow> mShadowNode = new WeakReference<>(null);
 
     public CustomKeyboardLayout(ReactContext reactContext, ReactSoftKeyboardMonitor keyboardMonitor) {
         mKeyboardMonitor = keyboardMonitor;
         mInputMethodManager = (InputMethodManager) reactContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+        mKeyboardResignedHandler = null;
 
         mKeyboardMonitor.setListener(this);
     }
@@ -61,10 +64,38 @@ public class CustomKeyboardLayout implements ReactSoftKeyboardMonitor.Listener {
                 } else {
                     hideCustomKeyboardContent();
                     clearKeyboardOverlayMode();
+                    sendOnKeyboardResignedEvent();
                 }
                 promise.resolve(null);
             }
         });
+    }
+
+    public void clearFocusedView() {
+        final View focusedView = getCurrentActivity().getCurrentFocus();
+        if (focusedView != null) {
+            runOnUIThread(new Runnable() {
+                @Override
+                public void run() {
+                    focusedView.clearFocus();
+                    sendOnKeyboardResignedEvent();
+                }
+            });
+        }
+    }
+
+    public interface OnKeyboardResignedHandler {
+        void onKeyboardResignedHandler();
+    }
+
+    public void setOnKeyboardResignedHandler(CustomKeyboardLayout.OnKeyboardResignedHandler l) {
+        mKeyboardResignedHandler = l;
+    }
+
+    private void sendOnKeyboardResignedEvent() {
+        if(mKeyboardResignedHandler != null) {
+            mKeyboardResignedHandler.onKeyboardResignedHandler();
+        }
     }
 
     private void showCustomKeyboardContent() {
@@ -84,6 +115,7 @@ public class CustomKeyboardLayout implements ReactSoftKeyboardMonitor.Listener {
         if (shadowNode != null) {
             shadowNode.setHeight(0);
         }
+        sendOnKeyboardResignedEvent();
     }
 
     private void showSoftKeyboard() {

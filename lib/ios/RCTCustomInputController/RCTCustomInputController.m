@@ -13,7 +13,7 @@
 
 #define kHlperViewTag 0x1f1f1f
 
-NSString *const RCTCustomInputControllerKeyboardResigendEvent = @"keyboardResigned";
+NSString *const RCTCustomInputControllerKeyboardResigendEvent = @"kbdResigned";
 
 @protocol _WXInputHelperViewDelegate <NSObject>
 -(void)_WXInputHelperViewResignFirstResponder:(UIView*)wxInputHelperView;
@@ -140,6 +140,8 @@ RCT_EXPORT_METHOD(presentCustomInputComponent:(nonnull NSNumber*)inputFieldTag p
             }
         }
         
+        self.customInputComponentPresented = NO;
+        
         RCTCustomKeyboardViewController* customKeyboardController = [[RCTCustomKeyboardViewController alloc] initWithRootView:rv];
         
         _WXInputHelperView* helperView = [[_WXInputHelperView alloc] initWithFrame:CGRectZero];
@@ -188,6 +190,15 @@ RCT_EXPORT_METHOD(resetInput:(nonnull NSNumber*)inputFieldTag)
             [inputField becomeFirstResponder];
         }
         [self reactDidMakeFirstResponder:inputField];
+    }
+}
+
+RCT_EXPORT_METHOD(dismissKeyboard)
+{
+    UIView *firstResponder = [self getFirstResponder:[UIApplication sharedApplication].delegate.window];
+    if(firstResponder != nil)
+    {
+        [firstResponder resignFirstResponder];
     }
 }
 

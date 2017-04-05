@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import {AutoGrowingTextInput} from 'react-native-autogrow-textinput';
 import {BlurView} from 'react-native-blur';
-import {KeyboardAccessoryView} from 'react-native-keyboard-input';
+import {KeyboardAccessoryView, KeyboardUtils} from 'react-native-keyboard-input';
 
 import './demoKeyboards';
 
@@ -81,7 +81,7 @@ class AwesomeProject extends Component {
             underlineColorAndroid="transparent"
             onFocus={() => this.resetKeyboardView()}
           />
-          <TouchableOpacity style={styles.sendButton} onPress={() => Keyboard.dismiss()}>
+          <TouchableOpacity style={styles.sendButton} onPress={() => KeyboardUtils.dismiss()}>
             <Text>Action</Text>
           </TouchableOpacity>
         </View>
@@ -122,7 +122,7 @@ class AwesomeProject extends Component {
           kbComponent={this.state.customKeyboard.component}
           kbInitialProps={this.state.customKeyboard.initialProps}
           onItemSelected={this.onKeyboardItemSelected}
-          onIOSKeyboardResigned={this.resetKeyboardView}
+          onKeyboardResigned={this.resetKeyboardView}
         />
       </View>
     );
