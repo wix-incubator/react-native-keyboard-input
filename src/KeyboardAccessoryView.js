@@ -16,10 +16,12 @@ export default class KeyboardAccessoryView extends Component {
     onItemSelected: React.PropTypes.func,
     onRequestShowKeyboard: React.PropTypes.func,
     onKeyboardResigned: React.PropTypes.func,
-    iOSScrollBehavior: React.PropTypes.string
+    iOSScrollBehavior: React.PropTypes.string,
+    revealKeyboardInteractive: React.PropTypes.bool
   };
   static defaultProps = {
-    iOSScrollBehavior: null
+    iOSScrollBehavior: null,
+    revealKeyboardInteractive: false
   };
 
   constructor(props) {
@@ -85,6 +87,7 @@ export default class KeyboardAccessoryView extends Component {
         style={styles.trackingToolbarContainer}
         onLayout={this.onContainerComponentHeightChanged}
         scrollBehavior={this.getIOSTrackingScrollBehavior()}
+        revealKeyboardInteractive={this.props.revealKeyboardInteractive}
       >
         {this.props.renderContent && this.props.renderContent()}
         <CustomKeyboardView
