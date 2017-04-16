@@ -28,10 +28,10 @@ export default class KeyboardRegistry {
   };
 
   static getAllKeyboards = () => {
-    return Object.keys(KeyboardRegistry.registeredKeyboards).map(keyboardId => {
+    return Object.keys(KeyboardRegistry.registeredKeyboards).map((keyboardId) => {
       return {
         id: keyboardId,
-        ...KeyboardRegistry.registeredKeyboards[keyboardId].params
+        ...KeyboardRegistry.registeredKeyboards[keyboardId].params,
       };
     });
   };

@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {View, Text, Platform, Dimensions, DeviceEventEmitter, requireNativeComponent} from 'react-native';
+import {Platform, requireNativeComponent} from 'react-native';
 import TextInputKeyboardManagerIOS from './TextInputKeyboardMangerIOS';
 import TextInputKeyboardManagerAndroid from './TextInputKeyboardManagerAndroid';
 import KeyboardRegistry from './KeyboardsRegistry';
@@ -20,7 +20,7 @@ export default class CustomKeyboardView extends Component {
   constructor(props) {
     super(props);
 
-    const {inputRef, component, initialProps, onItemSelected, onRequestShowKeyboard} = props;
+    const {inputRef, component, initialProps, onItemSelected} = props;
     if (component) {
       this.addOnItemSelectListener(onItemSelected, component);
 
@@ -29,18 +29,6 @@ export default class CustomKeyboardView extends Component {
       }
 
       this.registeredRequestShowKeyboard = false;
-    }
-  }
-
-  componentWillUnmount() {
-    KeyboardRegistry.removeListeners('onRequestShowKeyboard');
-  }
-
-  addOnItemSelectListener(onItemSelected, component) {
-    if (onItemSelected) {
-      KeyboardRegistry.addListener(`${component}.onItemSelected`, (args) => {
-        onItemSelected(component, args);
-      });
     }
   }
 
@@ -70,20 +58,26 @@ export default class CustomKeyboardView extends Component {
     this.registerListener(this.props, nextProps);
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    if (nextProps.component === this.props.component) {
-      return false;
-    }
-    return true;
+  shouldComponentUpdate(nextProps) {
+    return (nextProps.component !== this.props.component);
   }
 
-
   componentWillUnmount() {
+    KeyboardRegistry.removeListeners('onRequestShowKeyboard');
+
     if (this.keyboardEventListeners) {
       this.keyboardEventListeners.forEach(eventListener => eventListener.remove());
     }
     if (this.props.component) {
       KeyboardRegistry.removeListeners(`${this.props.component}.onItemSelected`);
+    }
+  }
+
+  addOnItemSelectListener(onItemSelected, component) {
+    if (onItemSelected) {
+      KeyboardRegistry.addListener(`${component}.onItemSelected`, (args) => {
+        onItemSelected(component, args);
+      });
     }
   }
 

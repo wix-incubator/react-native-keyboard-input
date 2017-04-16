@@ -31,13 +31,14 @@
   },
   "dependencies": {
     "lodash": "^4.17.4",
-    "react-native-keyboard-tracking-view": "^3.0.3"
+    "react-native-keyboard-tracking-view": "^3.0.4"
   },
   "peerDependencies": {
     "react": "15.4.2",
     "react-native": "^0.38.0"
   },
   "devDependencies": {
+    "babel-eslint": "^7.2.1",
     "babel-jest": "^18.0.0",
     "babel-preset-react-native": "1.9.1",
     "eslint": "^3.0.0",

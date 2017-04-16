@@ -183,7 +183,6 @@ RCT_EXPORT_METHOD(resetInput:(nonnull NSNumber*)inputFieldTag)
     UIView* inputField = [self.bridge.uiManager viewForReactTag:inputFieldTag];
     if(inputField != nil && [self reactCanBecomeFirstResponder:inputField])
     {
-        BOOL restoreFirstResponder = NO;
         _WXInputHelperView* helperView = [inputField.superview viewWithTag:kHlperViewTag];
         if(helperView != nil && [helperView isFirstResponder])
         {//restore the first responder only if it was already the first responder to prevent the keyboard from opening again if not necessary

@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {StyleSheet, View, Platform, Dimensions, NativeModules, NativeEventEmitter, DeviceEventEmitter, processColor} from 'react-native';
+import {StyleSheet, Platform, Dimensions, NativeModules, NativeEventEmitter, DeviceEventEmitter, processColor} from 'react-native';
 import {KeyboardTrackingView} from 'react-native-keyboard-tracking-view';
 import CustomKeyboardView from './CustomKeyboardView';
 
@@ -34,48 +34,48 @@ export default class KeyboardAccessoryView extends Component {
     this.registerForKeyboardResignedEvent();
   }
 
-  registerForKeyboardResignedEvent() {
-    let eventEmitter = null;
-    if(IsIOS) {
-      if(NativeModules.CustomInputController) {
-        eventEmitter = new NativeEventEmitter(NativeModules.CustomInputController);
-      }
-    } else {
-      eventEmitter = DeviceEventEmitter;
-    }
-
-    if(eventEmitter !== null) {
-      this.customInputControllerEventsSubscriber = eventEmitter.addListener('kbdResigned', (params) => {
-        if(this.props.onKeyboardResigned) {
-          this.props.onKeyboardResigned();
-        }
-      });
-    }
-  }
-
   componentWillUnmount() {
-    if(this.customInputControllerEventsSubscriber) {
+    if (this.customInputControllerEventsSubscriber) {
       this.customInputControllerEventsSubscriber.remove();
     }
   }
 
   onContainerComponentHeightChanged(event) {
     if (this.props.onHeightChanged) {
-       this.props.onHeightChanged(event.nativeEvent.layout.height)
+      this.props.onHeightChanged(event.nativeEvent.layout.height)
     }
   }
 
   getIOSTrackingScrollBehavior() {
     let scrollBehavior = this.props.iOSScrollBehavior;
-    if(IsIOS && NativeModules.KeyboardTrackingViewManager && scrollBehavior === null) {
+    if (IsIOS && NativeModules.KeyboardTrackingViewManager && scrollBehavior === null) {
       scrollBehavior = NativeModules.KeyboardTrackingViewManager.KeyboardTrackingScrollBehaviorFixedOffset;
     }
     return scrollBehavior;
   }
 
+  registerForKeyboardResignedEvent() {
+    let eventEmitter = null;
+    if (IsIOS) {
+      if (NativeModules.CustomInputController) {
+        eventEmitter = new NativeEventEmitter(NativeModules.CustomInputController);
+      }
+    } else {
+      eventEmitter = DeviceEventEmitter;
+    }
+
+    if (eventEmitter !== null) {
+      this.customInputControllerEventsSubscriber = eventEmitter.addListener('kbdResigned', (params) => {
+        if (this.props.onKeyboardResigned) {
+          this.props.onKeyboardResigned();
+        }
+      });
+    }
+  }
+
   processInitialProps() {
     const processedProps = this.props.kbInitialProps;
-    if(IsIOS && processedProps && processedProps.backgroundColor) {
+    if (IsIOS && processedProps && processedProps.backgroundColor) {
       processedProps.backgroundColor = processColor(processedProps.backgroundColor);
     }
     return processedProps;
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 0,
         left: 0,
-      }
-    })
+      },
+    }),
   },
 });

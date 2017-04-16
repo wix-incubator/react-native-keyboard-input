@@ -13,7 +13,7 @@
     "react/forbid-prop-types": "off",
     "react/jsx-space-before-closing": "off",
     "react/jsx-tag-spacing": "off",
-    "max-len": [2, 125, 4, {"ignoreUrls": true}],
+    "max-len": [2, 135, 4, {"ignoreUrls": true}],
     "class-methods-use-this": "off",
     "arrow-body-style": "off",
     "no-plusplus": "off",

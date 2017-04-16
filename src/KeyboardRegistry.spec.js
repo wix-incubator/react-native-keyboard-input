@@ -1,7 +1,6 @@
 import {AppRegistry, View} from 'react-native';
 import React from 'react';
 import KeyboardRegistry from './KeyboardsRegistry';
-import EventEmitterManager from './utils/EventEmitterManager';
 
 describe('KeyboardRegistry - components', () => {
   const mockComponent = 'test_component';
@@ -10,7 +9,7 @@ describe('KeyboardRegistry - components', () => {
 
   beforeEach(() => {
     AppRegistry.registerComponent = jest.fn(AppRegistry.registerComponent);
-    console.error = jest.fn()
+    console.error = jest.fn();
   });
 
   it('should register the component in the keyboard registry', () => {
@@ -62,7 +61,7 @@ describe('KeyboardRegistry - listeners', () => {
       listenOn: jest.fn(),
       emitEvent: jest.fn(),
       removeListeners: jest.fn(),
-    }
+    };
   });
 
   it('should listen', () => {

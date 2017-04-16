@@ -1,4 +1,5 @@
 const EventEmitterManager = require('./EventEmitterManager').default;
+
 let EventEmitter;
 
 describe('EventEmitterManager tests', () => {

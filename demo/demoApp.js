@@ -6,10 +6,8 @@ import {
   View,
   ScrollView,
   TouchableOpacity,
-  Keyboard,
   PixelRatio,
   Platform,
-  Alert
 } from 'react-native';
 import {AutoGrowingTextInput} from 'react-native-autogrow-textinput';
 import {BlurView} from 'react-native-blur';
@@ -31,8 +29,13 @@ class AwesomeProject extends Component {
         component: undefined,
         initialProps: undefined,
       },
-      receivedKeyboardData: undefined
+      receivedKeyboardData: undefined,
     };
+  }
+
+  onKeyboardItemSelected(keyboardId, params) {
+    const receivedKeyboardData = `onItemSelected from "${keyboardId}"\nreceived params: ${JSON.stringify(params)}`;
+    this.setState({receivedKeyboardData});
   }
 
   getToolbarButtons() {
@@ -97,11 +100,6 @@ class AwesomeProject extends Component {
     );
   }
 
-  onKeyboardItemSelected(keyboardId, params) {
-    const receivedKeyboardData = `onItemSelected from \"${keyboardId}\"\nreceived params: ${JSON.stringify(params)}`;
-    this.setState({receivedKeyboardData});
-  }
-
   render() {
     return (
       <View style={styles.container}>
@@ -138,7 +136,7 @@ const styles = StyleSheet.create({
   scrollContainer: {
     justifyContent: 'center',
     padding: 15,
-    flex: 1
+    flex: 1,
   },
   welcome: {
     fontSize: 20,
@@ -148,7 +146,6 @@ const styles = StyleSheet.create({
     paddingBottom: 50,
   },
   inputContainer: {
-    //flex: 1, // TODO is this needed on iOS?
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -156,9 +153,9 @@ const styles = StyleSheet.create({
   blurContainer: {
     ...Platform.select({
       ios: {
-        flex: 1
-      }
-    })
+        flex: 1,
+      },
+    }),
   },
   textInput: {
     flex: 1,

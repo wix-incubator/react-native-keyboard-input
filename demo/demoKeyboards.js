@@ -9,7 +9,7 @@ class KeyboardView extends Component {
 
   onButtonPress() {
     KeyboardRegistry.onItemSelected('KeyboardView', {
-      message: 'item selected from KeyboardView'
+      message: 'item selected from KeyboardView',
     });
   }
 
@@ -39,7 +39,7 @@ class AnotherKeyboardView extends Component {
   onButtonPress() {
     KeyboardRegistry.onItemSelected('AnotherKeyboardView', {
       param1: 'some data',
-      param2: 10
+      param2: 10,
     });
   }
 
