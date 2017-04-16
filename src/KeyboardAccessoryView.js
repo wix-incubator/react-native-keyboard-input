@@ -16,12 +16,12 @@ export default class KeyboardAccessoryView extends Component {
     onItemSelected: React.PropTypes.func,
     onRequestShowKeyboard: React.PropTypes.func,
     onKeyboardResigned: React.PropTypes.func,
-    iOSScrollBehavior: React.PropTypes.string,
-    revealKeyboardInteractive: React.PropTypes.bool
+    iOSScrollBehavior: React.PropTypes.number,
+    revealKeyboardInteractive: React.PropTypes.bool,
   };
   static defaultProps = {
-    iOSScrollBehavior: null,
-    revealKeyboardInteractive: false
+    iOSScrollBehavior: -1,
+    revealKeyboardInteractive: false,
   };
 
   constructor(props) {
@@ -48,7 +48,7 @@ export default class KeyboardAccessoryView extends Component {
 
   getIOSTrackingScrollBehavior() {
     let scrollBehavior = this.props.iOSScrollBehavior;
-    if (IsIOS && NativeModules.KeyboardTrackingViewManager && scrollBehavior === null) {
+    if (IsIOS && NativeModules.KeyboardTrackingViewManager && scrollBehavior === -1) {
       scrollBehavior = NativeModules.KeyboardTrackingViewManager.KeyboardTrackingScrollBehaviorFixedOffset;
     }
     return scrollBehavior;
