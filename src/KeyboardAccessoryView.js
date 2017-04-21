@@ -42,7 +42,7 @@ export default class KeyboardAccessoryView extends Component {
 
   onContainerComponentHeightChanged(event) {
     if (this.props.onHeightChanged) {
-      this.props.onHeightChanged(event.nativeEvent.layout.height)
+      this.props.onHeightChanged(event.nativeEvent.layout.height);
     }
   }
 
@@ -65,7 +65,7 @@ export default class KeyboardAccessoryView extends Component {
     }
 
     if (eventEmitter !== null) {
-      this.customInputControllerEventsSubscriber = eventEmitter.addListener('kbdResigned', (params) => {
+      this.customInputControllerEventsSubscriber = eventEmitter.addListener('kbdResigned', () => {
         if (this.props.onKeyboardResigned) {
           this.props.onKeyboardResigned();
         }
@@ -74,11 +74,12 @@ export default class KeyboardAccessoryView extends Component {
   }
 
   processInitialProps() {
-    const processedProps = this.props.kbInitialProps;
-    if (IsIOS && processedProps && processedProps.backgroundColor) {
+    if (IsIOS && this.props.kbInitialProps && this.props.kbInitialProps.backgroundColor) {
+      const processedProps = Object.assign({}, this.props.kbInitialProps);
       processedProps.backgroundColor = processColor(processedProps.backgroundColor);
+      return processedProps;
     }
-    return processedProps;
+    return this.props.kbInitialProps;
   }
 
   render() {
