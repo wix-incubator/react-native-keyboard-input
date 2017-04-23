@@ -7,6 +7,11 @@
 
 #import "RCTCustomKeyboardViewController.h"
 
+#if __has_include(<KeyboardTrackingView/ObservingInputAccessoryView.h>)
+#import <KeyboardTrackingView/ObservingInputAccessoryView.h>
+#endif
+
+
 @implementation RCTCustomKeyboardViewController
 
 - (instancetype)initWithRootView:(RCTRootView*)rootView
@@ -16,10 +21,14 @@
 	if(self)
 	{
 		self.inputView = [[UIInputView alloc] initWithFrame:CGRectZero inputViewStyle:UIInputViewStyleKeyboard];
-        //example for changing keyboard size
-        //self.inputView.allowsSelfSizing = YES;
-        //[self.inputView.heightAnchor constraintEqualToConstant:600].active = YES;
-        
+
+#if __has_include(<KeyboardTrackingView/ObservingInputAccessoryView.h>)
+        CGFloat keyboardHeight = [ObservingInputAccessoryView sharedInstance].keyboardHeight;
+        if (keyboardHeight > 0) {
+            self.inputView.allowsSelfSizing = YES;
+            [self.inputView.heightAnchor constraintEqualToConstant:keyboardHeight].active = YES;
+        }
+#endif
 		rootView.translatesAutoresizingMaskIntoConstraints = NO;
 		[self.inputView addSubview:rootView];
 		

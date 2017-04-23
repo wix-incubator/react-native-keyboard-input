@@ -376,9 +376,9 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				D898F4AE1E6302D200DED0C5 /* KeyboardTrackingView.xcodeproj */,
 				D898F53C1E66EF8D00DED0C5 /* RCTCustomInputController.xcodeproj */,
 				D898F4C71E6302D800DED0C5 /* RNBlur.xcodeproj */,
-				D898F4AE1E6302D200DED0C5 /* KeyboardTrackingView.xcodeproj */,
 				395D97DD1E01367D00466F9A /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,

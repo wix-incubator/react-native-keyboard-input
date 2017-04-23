@@ -3,9 +3,23 @@
    LastUpgradeVersion = "0810"
    version = "1.3">
    <BuildAction
-      parallelizeBuildables = "YES"
+      parallelizeBuildables = "NO"
       buildImplicitDependencies = "YES">
       <BuildActionEntries>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "D834CED71CC64F2400FA5668"
+               BuildableName = "libKeyboardTrackingView.a"
+               BlueprintName = "KeyboardTrackingView"
+               ReferencedContainer = "container:../node_modules/react-native-keyboard-tracking-view/lib/KeyboardTrackingView.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
          <BuildActionEntry
             buildForTesting = "YES"
             buildForRunning = "YES"
