@@ -37,7 +37,7 @@ public class KeyboardInputPackage implements ReactPackage {
         return Collections.emptyList();
     }
 
-    private void init(ReactApplicationContext reactContext) {
+    private synchronized void init(ReactApplicationContext reactContext) {
         if (ReactContextHolder.getContext() == null) {
             ReactContextHolder.setContext(reactContext);
 
