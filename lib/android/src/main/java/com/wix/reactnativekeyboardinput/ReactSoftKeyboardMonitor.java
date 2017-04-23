@@ -72,7 +72,7 @@ public class ReactSoftKeyboardMonitor implements LifecycleEventListener {
     private Integer mLastViewportVisibleHeight;
 
     /**
-     * Soft-keyboard *height* (when visible) is calculated deduced by the effect on the root react-view height. This is ineffective in trying to
+     * Soft-keyboard *height* (when visible) is deduced by the effect on the root react-view height. This is ineffective in trying to
      * monitor keyboard appearance -- only for height measuring.
      */
     private int mLocallyVisibleHeight;
@@ -152,7 +152,7 @@ public class ReactSoftKeyboardMonitor implements LifecycleEventListener {
 
     private void initLocallyVisibleHeight() {
         mLocallyVisibleHeight = getLocallyVisibleHeight();
-        mKeyboardHeight = null; // Reset so the keyboard would be measure on the next opportunity.
+        mKeyboardHeight = null; // Reset so the keyboard would be measured in the next opportunity.
     }
 
     private void refreshKeyboardHeight() {
@@ -163,7 +163,12 @@ public class ReactSoftKeyboardMonitor implements LifecycleEventListener {
         RuntimeUtils.runOnUIThread(new Runnable() {
             @Override
             public void run() {
-                final int locallyVisibleHeight = getLocallyVisibleHeight();
+                final Integer locallyVisibleHeight = getLocallyVisibleHeight();
+                if (locallyVisibleHeight == null) {
+                    // Too late to join the party - react-view seems to be gone...
+                    return;
+                }
+
                 if (mLocallyVisibleHeight > locallyVisibleHeight) {
                     mKeyboardHeight = mLocallyVisibleHeight - locallyVisibleHeight;
                 }
@@ -177,7 +182,10 @@ public class ReactSoftKeyboardMonitor implements LifecycleEventListener {
         return visibleArea.height();
     }
 
-    private int getLocallyVisibleHeight() {
-        return mLastReactRootView.getHeight();
+    private Integer getLocallyVisibleHeight() {
+        if (mLastReactRootView != null) {
+            return mLastReactRootView.getHeight();
+        }
+        return null;
     }
 }
