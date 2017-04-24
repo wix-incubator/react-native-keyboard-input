@@ -6,10 +6,25 @@
 //
 
 #import "RCTCustomInputController.h"
-#import "RCTUIManager.h"
 #import "RCTCustomKeyboardViewController.h"
+
+#if __has_include(<React/RCTUIManager.h>)
+#import <React/RCTUIManager.h>
+#else
+#import "RCTUIManager.h"
+#endif
+
+#if __has_include(<React/RCTTextView.h>)
+#import <React/RCTTextView.h>
+#else
 #import "RCTTextView.h"
+#endif
+
+#if __has_include(<React/RCTTextField.h>)
+#import <React/RCTTextField.h>
+#else
 #import "RCTTextField.h"
+#endif
 
 #define kHlperViewTag 0x1f1f1f
 
