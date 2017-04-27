@@ -5,6 +5,7 @@
 ## Build generated
 build/
 DerivedData/
+ModuleCache/
 
 ## Various settings
 *.pbxuser
@@ -16,6 +17,7 @@ DerivedData/
 *.perspectivev3
 !default.perspectivev3
 xcuserdata/
+ios/info.plist
 
 ## Other
 *.moved-aside

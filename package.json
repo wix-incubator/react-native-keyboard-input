@@ -27,7 +27,8 @@
   "scripts": {
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint src -c .eslintrc"
+    "lint": "eslint src -c .eslintrc",
+    "e2e": "detox test"
   },
   "dependencies": {
     "lodash": "^4.17.4",
@@ -41,6 +42,7 @@
     "babel-eslint": "^7.2.1",
     "babel-jest": "^18.0.0",
     "babel-preset-react-native": "1.9.1",
+    "detox": "^5.0.6",
     "eslint": "^3.0.0",
     "eslint-config-airbnb": "^14.0.0",
     "eslint-plugin-import": "^2.2.0",
@@ -48,6 +50,7 @@
     "eslint-plugin-react": "^6.9.0",
     "eslint-plugin-react-native": "^2.0.0",
     "jest": "^18.1.0",
+    "mocha": "^3.3.0",
     "react": "15.4.2",
     "react-native": "^0.38.0",
     "react-native-autogrow-textinput": "^3.0.0",
@@ -62,6 +65,16 @@
       "/node_modules/"
     ],
     "testRegex": "(/__tests__/.*|(\\.|/)(spec|test))\\.js?$"
+  },
+  "detox": {
+    "configurations": {
+      "ios.sim.debug": {
+        "binaryPath": "ios/DerivedData/AwesomeProject/Build/Products/Debug-iphonesimulator/AwesomeProject.app",
+        "build": "xcodebuild -project ios/AwesomeProject.xcodeproj -scheme AwesomeProject -configuration Debug -sdk iphonesimulator -derivedDataPath ios",
+        "type": "ios.simulator",
+        "name": "iPhone 7"
+      }
+    }
   },
   "babel": {
     "env": {

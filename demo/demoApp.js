@@ -83,6 +83,7 @@ class AwesomeProject extends Component {
             placeholder={'Message'}
             underlineColorAndroid="transparent"
             onFocus={() => this.resetKeyboardView()}
+            testID={'input'}
           />
           <TouchableOpacity style={styles.sendButton} onPress={() => KeyboardUtils.dismiss()}>
             <Text>Action</Text>
