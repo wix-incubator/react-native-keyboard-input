@@ -42,7 +42,7 @@
     "babel-eslint": "^7.2.1",
     "babel-jest": "^18.0.0",
     "babel-preset-react-native": "1.9.1",
-    "detox": "^5.0.6",
+    "detox": "latest",
     "eslint": "^3.0.0",
     "eslint-config-airbnb": "^14.0.0",
     "eslint-plugin-import": "^2.2.0",
