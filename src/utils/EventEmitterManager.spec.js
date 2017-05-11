@@ -118,6 +118,6 @@ describe('EventEmitterManager tests', () => {
   it('should not register the same callback for the same event', () => {
     EventEmitter.listenOn('MyEvent', mockCallback);
     EventEmitter.listenOn('MyEvent', mockCallback);
-    expect(EventEmitter.handlerCallbacks['MyEvent'].length).toBe(1);
+    expect(EventEmitter.handlerCallbacks.MyEvent.length).toBe(1);
   });
 });

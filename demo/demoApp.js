@@ -1,14 +1,5 @@
-import React, { Component } from 'react';
-import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-  TouchableOpacity,
-  PixelRatio,
-  Platform,
-} from 'react-native';
+import React, {Component} from 'react';
+import {AppRegistry, StyleSheet, Text, View, ScrollView, TouchableOpacity, PixelRatio, Platform} from 'react-native';
 import {AutoGrowingTextInput} from 'react-native-autogrow-textinput';
 import {BlurView} from 'react-native-blur';
 import {KeyboardAccessoryView, KeyboardUtils} from 'react-native-keyboard-input';
@@ -31,9 +22,15 @@ class AwesomeProject extends Component {
       },
       receivedKeyboardData: undefined,
     };
+    this.expandKeyboardToggle = false;
   }
 
   onKeyboardItemSelected(keyboardId, params) {
+    if (keyboardId === 'AnotherKeyboardView') {
+      this.expandKeyboardToggle = !this.expandKeyboardToggle;
+      KeyboardUtils.expandKeyboardForInput(this.textInputRef, this.expandKeyboardToggle);
+      return;
+    }
     const receivedKeyboardData = `onItemSelected from "${keyboardId}"\nreceived params: ${JSON.stringify(params)}`;
     this.setState({receivedKeyboardData});
   }
@@ -110,7 +107,7 @@ class AwesomeProject extends Component {
           keyboardDismissMode={TrackInteractive ? 'interactive' : 'none'}
         >
           <Text style={styles.welcome}>Keyboards example</Text>
-          <Text>{this.state.receivedKeyboardData}</Text>
+          <Text testID={'demo-message'}>{this.state.receivedKeyboardData}</Text>
         </ScrollView>
 
         <KeyboardAccessoryView

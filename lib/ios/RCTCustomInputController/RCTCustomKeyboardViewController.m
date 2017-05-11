@@ -14,7 +14,7 @@
 
 @implementation RCTCustomKeyboardViewController
 
-- (instancetype)initWithRootView:(RCTRootView*)rootView
+- (instancetype)init
 {
 	self = [super init];
 	
@@ -22,26 +22,46 @@
 	{
 		self.inputView = [[UIInputView alloc] initWithFrame:CGRectZero inputViewStyle:UIInputViewStyleKeyboard];
 
+        self.heightConstraint = [self.inputView.heightAnchor constraintEqualToConstant:0];
+        
 #if __has_include(<KeyboardTrackingView/ObservingInputAccessoryView.h>)
         CGFloat keyboardHeight = [ObservingInputAccessoryView sharedInstance].keyboardHeight;
         if (keyboardHeight > 0) {
-            self.inputView.allowsSelfSizing = YES;
-            [self.inputView.heightAnchor constraintEqualToConstant:keyboardHeight].active = YES;
+            self.heightConstraint.constant = keyboardHeight;
+            [self setAllowsSelfSizing:YES];
         }
 #endif
-		rootView.translatesAutoresizingMaskIntoConstraints = NO;
-		[self.inputView addSubview:rootView];
-		
-		[rootView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor].active = YES;
-		[rootView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor].active = YES;
-		[rootView.topAnchor constraintEqualToAnchor:self.view.topAnchor].active = YES;
-		[rootView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor].active = YES;
-		
 		//!!!
 		self.view.translatesAutoresizingMaskIntoConstraints = NO;
 	}
 	
 	return self;
+}
+
+- (void) setAllowsSelfSizing:(BOOL)allowsSelfSizing
+{
+    if(self.inputView.allowsSelfSizing != allowsSelfSizing)
+    {
+        self.inputView.allowsSelfSizing = allowsSelfSizing;
+        self.heightConstraint.active = allowsSelfSizing;
+    }
+}
+
+-(void)setRootView:(RCTRootView*)rootView
+{
+    if(_rootView != nil)
+    {
+        [_rootView removeFromSuperview];
+    }
+    
+    _rootView = rootView;
+    _rootView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.inputView addSubview:_rootView];
+    
+    [_rootView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor].active = YES;
+    [_rootView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor].active = YES;
+    [_rootView.topAnchor constraintEqualToAnchor:self.view.topAnchor].active = YES;
+    [_rootView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor].active = YES;
 }
 
 @end

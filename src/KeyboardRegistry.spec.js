@@ -9,7 +9,7 @@ describe('KeyboardRegistry - components', () => {
 
   beforeEach(() => {
     AppRegistry.registerComponent = jest.fn(AppRegistry.registerComponent);
-    console.error = jest.fn();
+    console.error = jest.fn(); //eslint-disable-line
   });
 
   it('should register the component in the keyboard registry', () => {
@@ -28,18 +28,18 @@ describe('KeyboardRegistry - components', () => {
   it('should fail if generator is not provided and produce an error', () => {
     KeyboardRegistry.registerKeyboard(mockComponent);
     expect(AppRegistry.registerComponent).not.toHaveBeenCalled();
-    expect(console.error).toHaveBeenCalledTimes(1);
+    expect(console.error).toHaveBeenCalledTimes(1); //eslint-disable-line
   });
 
   it('should only allow to register a generator function and produce an error', () => {
     KeyboardRegistry.registerKeyboard(mockComponent, MockElement);
     expect(AppRegistry.registerComponent).not.toHaveBeenCalled();
-    expect(console.error).toHaveBeenCalledTimes(1);
+    expect(console.error).toHaveBeenCalledTimes(1); //eslint-disable-line
   });
 
   it('should produce an error if component was not and return undefined', () => {
     const res = KeyboardRegistry.getKeyboard('not_existing_component');
-    expect(console.error).toHaveBeenCalledTimes(1);
+    expect(console.error).toHaveBeenCalledTimes(1); //eslint-disable-line
     expect(res).toBe(undefined);
   });
 

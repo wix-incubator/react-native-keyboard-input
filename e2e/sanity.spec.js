@@ -24,4 +24,14 @@ describe('Sanity', () => {
     await element(by.label('Click Me!')).tap();
     await expect(element(by.id('demo-message'))).toBeVisible();
   });
+
+  it('should expand the keyboard', async () => {
+    await element(by.id('input')).tap();
+    await expect(element(by.label('show2'))).toBeVisible();
+    await element(by.label('show2')).tap();
+    await element(by.label('Toggle Size!')).tap();
+    await expect(element(by.label('show2'))).toBeNotVisible();
+    await element(by.label('Toggle Size!')).tap();
+    await expect(element(by.label('show2'))).toBeVisible();
+  });
 });

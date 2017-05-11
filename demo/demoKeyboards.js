@@ -53,7 +53,7 @@ class AnotherKeyboardView extends Component {
           onPress={() => this.onButtonPress()}
         >
           <Text>
-            Click Me too!
+            Toggle Size!
           </Text>
         </TouchableOpacity>
       </ScrollView>

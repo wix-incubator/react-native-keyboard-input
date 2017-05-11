@@ -10,6 +10,10 @@
 		39DF4FEC1E00394E00F5B4B2 /* RCTCustomInputController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39DF4FEB1E00394E00F5B4B2 /* RCTCustomInputController.m */; };
 		39DF4FED1E00394E00F5B4B2 /* RCTCustomInputController.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 39DF4FEA1E00394E00F5B4B2 /* RCTCustomInputController.h */; };
 		39DF504C1E00426500F5B4B2 /* RCTCustomKeyboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39DF504B1E00426500F5B4B2 /* RCTCustomKeyboardViewController.m */; };
+		D85CAA451EC488B9002603D2 /* LNAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = D85CAA441EC488B9002603D2 /* LNAnimator.m */; };
+		D85CAA4D1EC48907002603D2 /* Color+Interpolation.m in Sources */ = {isa = PBXBuildFile; fileRef = D85CAA471EC48907002603D2 /* Color+Interpolation.m */; };
+		D85CAA4E1EC48907002603D2 /* LNInterpolable.m in Sources */ = {isa = PBXBuildFile; fileRef = D85CAA491EC48907002603D2 /* LNInterpolable.m */; };
+		D85CAA4F1EC48907002603D2 /* NSValue+Interpolation.mm in Sources */ = {isa = PBXBuildFile; fileRef = D85CAA4C1EC48907002603D2 /* NSValue+Interpolation.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -31,6 +35,15 @@
 		39DF4FEB1E00394E00F5B4B2 /* RCTCustomInputController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RCTCustomInputController.m; sourceTree = "<group>"; };
 		39DF504A1E00426500F5B4B2 /* RCTCustomKeyboardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTCustomKeyboardViewController.h; sourceTree = "<group>"; };
 		39DF504B1E00426500F5B4B2 /* RCTCustomKeyboardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTCustomKeyboardViewController.m; sourceTree = "<group>"; };
+		D85CAA431EC488B9002603D2 /* LNAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LNAnimator.h; sourceTree = "<group>"; };
+		D85CAA441EC488B9002603D2 /* LNAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LNAnimator.m; sourceTree = "<group>"; };
+		D85CAA461EC48907002603D2 /* Color+Interpolation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Color+Interpolation.h"; sourceTree = "<group>"; };
+		D85CAA471EC48907002603D2 /* Color+Interpolation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Color+Interpolation.m"; sourceTree = "<group>"; };
+		D85CAA481EC48907002603D2 /* LNInterpolable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LNInterpolable.h; sourceTree = "<group>"; };
+		D85CAA491EC48907002603D2 /* LNInterpolable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LNInterpolable.m; sourceTree = "<group>"; };
+		D85CAA4A1EC48907002603D2 /* LNInterpolation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LNInterpolation.h; sourceTree = "<group>"; };
+		D85CAA4B1EC48907002603D2 /* NSValue+Interpolation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSValue+Interpolation.h"; sourceTree = "<group>"; };
+		D85CAA4C1EC48907002603D2 /* NSValue+Interpolation.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "NSValue+Interpolation.mm"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +60,7 @@
 		39DF4FDE1E00394E00F5B4B2 = {
 			isa = PBXGroup;
 			children = (
+				D85CAA3F1EC487F9002603D2 /* LNInterpolation */,
 				39DF4FE91E00394E00F5B4B2 /* RCTCustomInputController */,
 				39DF4FE81E00394E00F5B4B2 /* Products */,
 			);
@@ -69,6 +83,22 @@
 				39DF4FEB1E00394E00F5B4B2 /* RCTCustomInputController.m */,
 			);
 			path = RCTCustomInputController;
+			sourceTree = "<group>";
+		};
+		D85CAA3F1EC487F9002603D2 /* LNInterpolation */ = {
+			isa = PBXGroup;
+			children = (
+				D85CAA461EC48907002603D2 /* Color+Interpolation.h */,
+				D85CAA471EC48907002603D2 /* Color+Interpolation.m */,
+				D85CAA481EC48907002603D2 /* LNInterpolable.h */,
+				D85CAA491EC48907002603D2 /* LNInterpolable.m */,
+				D85CAA4A1EC48907002603D2 /* LNInterpolation.h */,
+				D85CAA4B1EC48907002603D2 /* NSValue+Interpolation.h */,
+				D85CAA4C1EC48907002603D2 /* NSValue+Interpolation.mm */,
+				D85CAA431EC488B9002603D2 /* LNAnimator.h */,
+				D85CAA441EC488B9002603D2 /* LNAnimator.m */,
+			);
+			path = LNInterpolation;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -128,8 +158,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D85CAA451EC488B9002603D2 /* LNAnimator.m in Sources */,
 				39DF504C1E00426500F5B4B2 /* RCTCustomKeyboardViewController.m in Sources */,
+				D85CAA4D1EC48907002603D2 /* Color+Interpolation.m in Sources */,
 				39DF4FEC1E00394E00F5B4B2 /* RCTCustomInputController.m in Sources */,
+				D85CAA4E1EC48907002603D2 /* LNInterpolable.m in Sources */,
+				D85CAA4F1EC48907002603D2 /* NSValue+Interpolation.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
