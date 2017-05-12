@@ -75,6 +75,7 @@ NSString *const RCTCustomInputControllerKeyboardResigendEvent = @"kbdResigned";
 
 @interface RCTCustomInputController () <_WXInputHelperViewDelegate> {
     UIWindow *_fullScreenWindow;
+    BOOL _performingExpandTransition;
 }
 
 @property(nonatomic) BOOL customInputComponentPresented;
@@ -278,7 +279,7 @@ RCT_EXPORT_METHOD(dismissKeyboard)
 
 RCT_EXPORT_METHOD(expandFullScreenForInput:(nonnull NSNumber*)inputFieldTag)
 {
-    if (_fullScreenWindow != nil)
+    if (_fullScreenWindow != nil || _performingExpandTransition)
     {
         return;
     }
@@ -289,6 +290,8 @@ RCT_EXPORT_METHOD(expandFullScreenForInput:(nonnull NSNumber*)inputFieldTag)
         _WXInputHelperView* helperView = [inputField.superview viewWithTag:kHlperViewTag];
         if(helperView != nil)
         {
+            _performingExpandTransition = YES;
+            
             helperView.keepInSuperviewOnResign = YES;
             
             RCTCustomKeyboardViewController *customKeyboardViewController = (RCTCustomKeyboardViewController*)helperView.inputViewController;
@@ -324,6 +327,7 @@ RCT_EXPORT_METHOD(expandFullScreenForInput:(nonnull NSNumber*)inputFieldTag)
                     
                     rv.backgroundColor = originalBackgroundColor;
                 }];
+                _performingExpandTransition = NO;
             }] start];
         }
     }
@@ -331,7 +335,7 @@ RCT_EXPORT_METHOD(expandFullScreenForInput:(nonnull NSNumber*)inputFieldTag)
 
 RCT_EXPORT_METHOD(resetSizeForInput:(nonnull NSNumber*)inputFieldTag)
 {
-    if (_fullScreenWindow == nil)
+    if (_fullScreenWindow == nil || _performingExpandTransition)
     {
         return;
     }
@@ -342,6 +346,8 @@ RCT_EXPORT_METHOD(resetSizeForInput:(nonnull NSNumber*)inputFieldTag)
         _WXInputHelperView* helperView = [inputField.superview viewWithTag:kHlperViewTag];
         if(helperView != nil)
         {
+            _performingExpandTransition = YES;
+            
             __block CGRect keyboardTargetFrame;
             UIInputView *inputView = helperView.inputViewController.inputView;
             
@@ -375,6 +381,7 @@ RCT_EXPORT_METHOD(resetSizeForInput:(nonnull NSNumber*)inputFieldTag)
                 }];
                 
                 helperView.keepInSuperviewOnResign = NO;
+                _performingExpandTransition = NO;
             }] start];
         }
     }
