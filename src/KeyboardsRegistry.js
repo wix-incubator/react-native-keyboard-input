@@ -55,4 +55,8 @@ export default class KeyboardRegistry {
   static requestShowKeyboard = (globalID) => {
     KeyboardRegistry.notifyListeners('onRequestShowKeyboard', {keyboardId: globalID});
   };
+
+  static toggleExpandedKeyboard = (globalID) => {
+    KeyboardRegistry.notifyListeners('onToggleExpandedKeyboard', {keyboardId: globalID});
+  };
 }

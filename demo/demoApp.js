@@ -22,15 +22,9 @@ class AwesomeProject extends Component {
       },
       receivedKeyboardData: undefined,
     };
-    this.expandKeyboardToggle = false;
   }
 
   onKeyboardItemSelected(keyboardId, params) {
-    if (keyboardId === 'AnotherKeyboardView') {
-      this.expandKeyboardToggle = !this.expandKeyboardToggle;
-      KeyboardUtils.expandKeyboardForInput(this.textInputRef, this.expandKeyboardToggle);
-      return;
-    }
     const receivedKeyboardData = `onItemSelected from "${keyboardId}"\nreceived params: ${JSON.stringify(params)}`;
     this.setState({receivedKeyboardData});
   }

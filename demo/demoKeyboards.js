@@ -37,10 +37,7 @@ class AnotherKeyboardView extends Component {
   };
 
   onButtonPress() {
-    KeyboardRegistry.onItemSelected('AnotherKeyboardView', {
-      param1: 'some data',
-      param2: 10,
-    });
+    KeyboardRegistry.toggleExpandedKeyboard('AnotherKeyboardView');
   }
 
   render() {
@@ -53,7 +50,7 @@ class AnotherKeyboardView extends Component {
           onPress={() => this.onButtonPress()}
         >
           <Text>
-            Toggle Size!
+            Toggle Full-Screen!
           </Text>
         </TouchableOpacity>
       </ScrollView>

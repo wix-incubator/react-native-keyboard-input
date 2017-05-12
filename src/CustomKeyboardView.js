@@ -30,6 +30,19 @@ export default class CustomKeyboardView extends Component {
 
       this.registeredRequestShowKeyboard = false;
     }
+
+    this.keyboardExpandedToggle = {};
+    if (IsIOS && TextInputKeyboardManagerIOS) {
+      KeyboardRegistry.addListener('onToggleExpandedKeyboard', (args) => {
+        if (this.props.inputRef) {
+          if (this.keyboardExpandedToggle[args.keyboardId] === undefined) {
+            this.keyboardExpandedToggle[args.keyboardId] = false;
+          }
+          this.keyboardExpandedToggle[args.keyboardId] = !this.keyboardExpandedToggle[args.keyboardId];
+          TextInputKeyboardManagerIOS.toggleExpandKeyboard(this.props.inputRef, this.keyboardExpandedToggle[args.keyboardId]);
+        }
+      });
+    }
   }
 
   async componentWillReceiveProps(nextProps) {
@@ -64,6 +77,7 @@ export default class CustomKeyboardView extends Component {
 
   componentWillUnmount() {
     KeyboardRegistry.removeListeners('onRequestShowKeyboard');
+    KeyboardRegistry.removeListeners('onToggleExpandedKeyboard');
 
     if (this.keyboardEventListeners) {
       this.keyboardEventListeners.forEach(eventListener => eventListener.remove());
