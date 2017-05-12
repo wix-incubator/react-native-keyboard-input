@@ -28,10 +28,12 @@ export default class TextInputKeyboardManagerIOS {
     CustomInputController.dismissKeyboard();
   };
 
-  static toggleExpandKeyboard = (textInputRef, expand) => {
+  static toggleExpandKeyboard = (textInputRef, expand, performLayoutAnimation = false) => {
     if (textInputRef) {
+      if(performLayoutAnimation) {
+        LayoutAnimation.configureNext(springAnimation);
+      }
       const reactTag = ReactNative.findNodeHandle(textInputRef);
-      LayoutAnimation.configureNext(springAnimation);
       if (expand) {
         CustomInputController.expandFullScreenForInput(reactTag);
       } else {

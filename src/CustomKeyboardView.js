@@ -16,6 +16,9 @@ export default class CustomKeyboardView extends Component {
     component: PropTypes.string,
     onItemSelected: PropTypes.func,
   };
+  static defaultProps = {
+    initialProps: {}
+  }
 
   constructor(props) {
     super(props);
@@ -39,7 +42,7 @@ export default class CustomKeyboardView extends Component {
             this.keyboardExpandedToggle[args.keyboardId] = false;
           }
           this.keyboardExpandedToggle[args.keyboardId] = !this.keyboardExpandedToggle[args.keyboardId];
-          TextInputKeyboardManagerIOS.toggleExpandKeyboard(this.props.inputRef, this.keyboardExpandedToggle[args.keyboardId]);
+          TextInputKeyboardManagerIOS.toggleExpandKeyboard(this.props.inputRef, this.keyboardExpandedToggle[args.keyboardId], this.props.initialProps.expandWithLayoutAnimation);
         }
       });
     }
