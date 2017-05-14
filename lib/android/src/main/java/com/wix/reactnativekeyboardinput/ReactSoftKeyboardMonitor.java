@@ -2,26 +2,30 @@ package com.wix.reactnativekeyboardinput;
 
 import android.graphics.Rect;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.ViewTreeObserver;
-import android.view.WindowManager;
 
 import com.facebook.react.ReactRootView;
 import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.ReactContext;
+import com.wix.reactnativekeyboardinput.utils.RuntimeUtils;
+import com.wix.reactnativekeyboardinput.utils.ViewUtils;
 
-import static com.wix.reactnativekeyboardinput.ViewUtils.getReactRootView;
-import static com.wix.reactnativekeyboardinput.ViewUtils.getWindow;
+import static com.wix.reactnativekeyboardinput.GlobalDefs.TAG;
+import static com.wix.reactnativekeyboardinput.utils.ViewUtils.getReactRootView;
+import static com.wix.reactnativekeyboardinput.utils.ViewUtils.getWindow;
 
 public class ReactSoftKeyboardMonitor implements LifecycleEventListener {
 
     public interface Listener {
         void onSoftKeyboardVisible(boolean distinct);
+        void onNewScreen(); // TODO: Move this onto a dedicated "screen monitor" class, reporting to both this monitor and the layout manager
     }
 
     private final ViewTreeObserver.OnGlobalLayoutListener mWindowLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
         @Override
         public void onGlobalLayout() {
-            ReactRootView reactRootView = getReactRootView();
+            final ReactRootView reactRootView = ViewUtils.getReactRootView();
             if (mLastReactRootView == reactRootView) {
                 return;
             }
@@ -32,7 +36,7 @@ public class ReactSoftKeyboardMonitor implements LifecycleEventListener {
             if (mLastReactRootView != null) { // This is applicable when activity is going down (e.g. bundle reload in RN dev mode)
                 registerInnerLayoutListener();
 
-                initKeyboardConfig(); // TODO: Fix this using a dedicated "screen monitor" class, reporting to both this monitor and the layout manager
+                mExternalListener.onNewScreen();
                 initViewportVisibleHeight(); // TODO: running this each time might be redundant
                 initLocallyVisibleHeight();
             }
@@ -52,8 +56,10 @@ public class ReactSoftKeyboardMonitor implements LifecycleEventListener {
                 mExternalListener.onSoftKeyboardVisible(!mSoftKeyboardUp);
                 refreshKeyboardHeight();
                 mSoftKeyboardUp = true;
+                Log.d(TAG, "Keyboard SHOWING!");
             } else {
                 mSoftKeyboardUp = false;
+                Log.d(TAG, "Keyboard GONE!");
             }
         }
     };
@@ -141,17 +147,15 @@ public class ReactSoftKeyboardMonitor implements LifecycleEventListener {
         }
     }
 
-    private void initKeyboardConfig() {
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-    }
-
     private void initViewportVisibleHeight() {
         mMaxViewportVisibleHeight = getViewportVisibleHeight();
         mLastViewportVisibleHeight = null;
+        Log.d(TAG, "Measured new max view-port height: "+mMaxViewportVisibleHeight);
     }
 
     private void initLocallyVisibleHeight() {
         mLocallyVisibleHeight = getLocallyVisibleHeight();
+        Log.d(TAG, "Measured locally visible height: "+mLocallyVisibleHeight);
         mKeyboardHeight = null; // Reset so the keyboard would be measured in the next opportunity.
     }
 

@@ -1,32 +1,31 @@
 package com.wix.reactnativekeyboardinput;
 
 import android.content.Context;
-import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactContext;
+import com.facebook.react.modules.core.DeviceEventManagerModule;
 
 import java.lang.ref.WeakReference;
 
 import static com.wix.reactnativekeyboardinput.AppContextHolder.getCurrentActivity;
-import static com.wix.reactnativekeyboardinput.RuntimeUtils.runOnUIThread;
-import static com.wix.reactnativekeyboardinput.ViewUtils.getWindow;
+import static com.wix.reactnativekeyboardinput.GlobalDefs.TAG;
+import static com.wix.reactnativekeyboardinput.utils.RuntimeUtils.runOnUIThread;
+import static com.wix.reactnativekeyboardinput.utils.ViewUtils.getWindow;
 
 public class CustomKeyboardLayout implements ReactSoftKeyboardMonitor.Listener {
 
     private final InputMethodManager mInputMethodManager;
     private final ReactSoftKeyboardMonitor mKeyboardMonitor;
-    private CustomKeyboardLayout.OnKeyboardResignedHandler mKeyboardResignedHandler;
-
     private WeakReference<CustomKeyboardRootViewShadow> mShadowNode = new WeakReference<>(null);
 
     public CustomKeyboardLayout(ReactContext reactContext, ReactSoftKeyboardMonitor keyboardMonitor) {
         mKeyboardMonitor = keyboardMonitor;
         mInputMethodManager = (InputMethodManager) reactContext.getSystemService(Context.INPUT_METHOD_SERVICE);
-        mKeyboardResignedHandler = null;
 
         mKeyboardMonitor.setListener(this);
     }
@@ -39,8 +38,14 @@ public class CustomKeyboardLayout implements ReactSoftKeyboardMonitor.Listener {
         hideCustomKeyboardContent();
     }
 
+    @Override
+    public void onNewScreen() {
+        clearKeyboardOverlayMode();
+        sendCustomKeyboardResignedEvent();
+    }
 
     public void setShadowNode(CustomKeyboardRootViewShadow node) {
+        Log.v(TAG, "New shadow node: " + node);
         mShadowNode = new WeakReference<>(node);
     }
 
@@ -64,7 +69,6 @@ public class CustomKeyboardLayout implements ReactSoftKeyboardMonitor.Listener {
                 } else {
                     hideCustomKeyboardContent();
                     clearKeyboardOverlayMode();
-                    sendOnKeyboardResignedEvent();
                 }
                 promise.resolve(null);
             }
@@ -78,23 +82,9 @@ public class CustomKeyboardLayout implements ReactSoftKeyboardMonitor.Listener {
                 @Override
                 public void run() {
                     focusedView.clearFocus();
-                    sendOnKeyboardResignedEvent();
+                    sendCustomKeyboardResignedEvent();
                 }
             });
-        }
-    }
-
-    public interface OnKeyboardResignedHandler {
-        void onKeyboardResignedHandler();
-    }
-
-    public void setOnKeyboardResignedHandler(CustomKeyboardLayout.OnKeyboardResignedHandler l) {
-        mKeyboardResignedHandler = l;
-    }
-
-    private void sendOnKeyboardResignedEvent() {
-        if(mKeyboardResignedHandler != null) {
-            mKeyboardResignedHandler.onKeyboardResignedHandler();
         }
     }
 
@@ -115,7 +105,7 @@ public class CustomKeyboardLayout implements ReactSoftKeyboardMonitor.Listener {
         if (shadowNode != null) {
             shadowNode.setHeight(0);
         }
-        sendOnKeyboardResignedEvent();
+        sendCustomKeyboardResignedEvent();
     }
 
     private void showSoftKeyboard() {
@@ -141,4 +131,8 @@ public class CustomKeyboardLayout implements ReactSoftKeyboardMonitor.Listener {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     }
 
+    private void sendCustomKeyboardResignedEvent() {
+        Log.v(TAG, "Notifying the custom-keyboard-resigned event to JS");
+        ReactContextHolder.getContext().getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit("kbdResigned", null);
+    }
 }

@@ -18,11 +18,14 @@ const IsIOS = Platform.OS === 'ios';
 const TrackInteractive = true;
 
 export default class AwesomeProject extends Component {
+
   constructor(props) {
     super(props);
     this.keyboardAccessoryViewContent = this.keyboardAccessoryViewContent.bind(this);
     this.onKeyboardItemSelected = this.onKeyboardItemSelected.bind(this);
     this.resetKeyboardView = this.resetKeyboardView.bind(this);
+    this.onKeyboardResigned = this.onKeyboardResigned.bind(this);
+
     this.state = {
       customKeyboard: {
         component: undefined,
@@ -56,6 +59,10 @@ export default class AwesomeProject extends Component {
 
   resetKeyboardView() {
     this.setState({customKeyboard: {}});
+  }
+
+  onKeyboardResigned() {
+    this.resetKeyboardView();
   }
 
   showKeyboardView(component, title) {
@@ -120,7 +127,7 @@ export default class AwesomeProject extends Component {
           kbComponent={this.state.customKeyboard.component}
           kbInitialProps={this.state.customKeyboard.initialProps}
           onItemSelected={this.onKeyboardItemSelected}
-          onKeyboardResigned={this.resetKeyboardView}
+          onKeyboardResigned={this.onKeyboardResigned}
           revealKeyboardInteractive
         />
       </View>

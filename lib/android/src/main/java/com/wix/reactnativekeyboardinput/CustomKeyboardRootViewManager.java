@@ -26,9 +26,4 @@ public class CustomKeyboardRootViewManager extends ViewGroupManager<CustomKeyboa
     public LayoutShadowNode createShadowNodeInstance() {
         return new CustomKeyboardRootViewShadow(mLayout);
     }
-
-    @Override
-    public boolean needsCustomLayoutForChildren() {
-        return true;
-    }
 }

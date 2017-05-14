@@ -1,4 +1,6 @@
-package com.wix.reactnativekeyboardinput;
+package com.wix.reactnativekeyboardinput.utils;
+
+import com.wix.reactnativekeyboardinput.ReactContextHolder;
 
 public class RuntimeUtils {
 
