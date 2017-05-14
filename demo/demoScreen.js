@@ -1,5 +1,13 @@
-import React, {Component} from 'react';
-import {AppRegistry, StyleSheet, Text, View, ScrollView, TouchableOpacity, PixelRatio, Platform} from 'react-native';
+import React, { Component } from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  TouchableOpacity,
+  PixelRatio,
+  Platform,
+} from 'react-native';
 import {AutoGrowingTextInput} from 'react-native-autogrow-textinput';
 import {BlurView} from 'react-native-blur';
 import {KeyboardAccessoryView, KeyboardUtils} from 'react-native-keyboard-input';
@@ -9,7 +17,7 @@ import './demoKeyboards';
 const IsIOS = Platform.OS === 'ios';
 const TrackInteractive = true;
 
-class AwesomeProject extends Component {
+export default class AwesomeProject extends Component {
   constructor(props) {
     super(props);
     this.keyboardAccessoryViewContent = this.keyboardAccessoryViewContent.bind(this);
@@ -167,5 +175,3 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
   },
 });
-
-AppRegistry.registerComponent('AwesomeProject', () => AwesomeProject);
