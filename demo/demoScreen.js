@@ -44,14 +44,17 @@ export default class AwesomeProject extends Component {
     return [
       {
         text: 'show1',
+        testID: 'show1',
         onPress: () => this.showKeyboardView('KeyboardView', 'FIRST - 1 (passed prop)'),
       },
       {
         text: 'show2',
+        testID: 'show2',
         onPress: () => this.showKeyboardView('AnotherKeyboardView', 'SECOND - 2 (passed prop)'),
       },
       {
         text: 'reset',
+        testID: 'reset',
         onPress: () => this.resetKeyboardView(),
       },
     ];
@@ -98,7 +101,7 @@ export default class AwesomeProject extends Component {
         <View style={{flexDirection: 'row'}}>
           {
             this.getToolbarButtons().map((button, index) =>
-              <TouchableOpacity onPress={button.onPress} style={{paddingLeft: 15, paddingBottom: 10}} key={index}>
+              <TouchableOpacity onPress={button.onPress} style={{paddingLeft: 15, paddingBottom: 10}} key={index} testID={button.testID}>
                 <Text>{button.text}</Text>
               </TouchableOpacity>)
           }

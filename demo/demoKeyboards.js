@@ -19,6 +19,7 @@ class KeyboardView extends Component {
         <Text style={{color: 'white'}}>HELOOOO!!!</Text>
         <Text style={{color: 'white'}}>{this.props.title}</Text>
         <TouchableOpacity
+          testID={'click-me'}
           style={{padding: 20, marginTop: 30, backgroundColor: 'white'}}
           onPress={() => this.onButtonPress()}
         >
@@ -46,6 +47,7 @@ class AnotherKeyboardView extends Component {
         <Text>*** ANOTHER ONE ***</Text>
         <Text>{this.props.title}</Text>
         <TouchableOpacity
+          testID={'toggle-fs'}
           style={{padding: 20, marginTop: 30, backgroundColor: 'white'}}
           onPress={() => this.onButtonPress()}
         >
