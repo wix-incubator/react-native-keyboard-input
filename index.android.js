@@ -1,21 +1,25 @@
-import AwesomeProject from './demo/demoScreen';
+import KeyboardAppScreen from './demo/demoScreen';
+import DemoRootScreen from './demo/demoRoot';
 
 import {Navigation} from 'react-native-navigation';
 
-Navigation.registerComponent('screens.star', () => AwesomeProject);
-Navigation.registerComponent('screens.settings', () => AwesomeProject);
+Navigation.registerComponent('screens.star', () => KeyboardAppScreen);
+Navigation.registerComponent('screens.settings', () => DemoRootScreen);
+Navigation.registerComponent('screens.innerScreen', () => KeyboardAppScreen);
 
 Navigation.startTabBasedApp({
   tabs: [
     {
-      label: 'Key',
+      label: 'Main Tab',
       screen: 'screens.star',
-      icon: require('./demo/res/star.png')
+      icon: require('./demo/res/star.png'),
+      title: 'Main Tab'
     },
-    // {
-    //   label: 'Board',
-    //   screen: 'screens.settings',
-    //   icon: require('./demo/res/settings.png')
-    // }
+    {
+      label: 'Second Tab',
+      screen: 'screens.settings',
+      icon: require('./demo/res/settings.png'),
+      title: 'Secondary Tab'
+    }
   ]
 });
