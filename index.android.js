@@ -13,7 +13,10 @@ Navigation.startTabBasedApp({
       label: 'Main Tab',
       screen: 'screens.star',
       icon: require('./demo/res/star.png'),
-      title: 'Main Tab'
+      title: 'Main Tab',
+      passProps: {
+        message: 'On the main tab, the keyboard input is in the root screen!'
+      }
     },
     {
       label: 'Second Tab',

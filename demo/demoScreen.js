@@ -118,7 +118,7 @@ export default class AwesomeProject extends Component {
           contentContainerStyle={styles.scrollContainer}
           keyboardDismissMode={TrackInteractive ? 'interactive' : 'none'}
         >
-          <Text style={styles.welcome}>Keyboards example</Text>
+          <Text style={styles.welcome}>{this.props.message ? this.props.message : 'Keyboards example'}</Text>
           <Text testID={'demo-message'}>{this.state.receivedKeyboardData}</Text>
         </ScrollView>
 
