@@ -1,10 +1,17 @@
 package com.wix.reactnativekeyboardinput.utils;
 
-import com.facebook.react.bridge.GuardedRunnable;
 import com.facebook.react.uimanager.UIManagerModule;
 import com.wix.reactnativekeyboardinput.ReactContextHolder;
 
 public class RuntimeUtils {
+
+    // TODO Switch to GuardedRunnable when upgrading RN's minimal ver
+    private static final Runnable sUIUpdateClosure = new Runnable() {
+        @Override
+        public void run() {
+            ReactContextHolder.getContext().getNativeModule(UIManagerModule.class).onBatchComplete();
+        }
+    };
 
     public static void runOnUIThread(Runnable runnable) {
         ReactContextHolder.getContext().runOnUiQueueThread(runnable);
@@ -15,12 +22,7 @@ public class RuntimeUtils {
             @Override
             public void run() {
                 userRunnable.run();
-                ReactContextHolder.getContext().runOnNativeModulesQueueThread(new GuardedRunnable(ReactContextHolder.getContext()) {
-                    @Override
-                    public void runGuarded() {
-                        ReactContextHolder.getContext().getNativeModule(UIManagerModule.class).onBatchComplete();
-                    }
-                });
+                ReactContextHolder.getContext().runOnNativeModulesQueueThread(sUIUpdateClosure);
             }
         });
     }
