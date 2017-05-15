@@ -1,7 +1,6 @@
 package com.wix.reactnativekeyboardinput;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -9,6 +8,7 @@ import android.view.inputmethod.InputMethodManager;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
+import com.wix.reactnativekeyboardinput.utils.Logger;
 
 import java.lang.ref.WeakReference;
 
@@ -46,7 +46,7 @@ public class CustomKeyboardLayout implements ReactSoftKeyboardMonitor.Listener {
     }
 
     public void setShadowNode(CustomKeyboardRootViewShadow node) {
-        Log.v(TAG, "New shadow node: " + node);
+        Logger.v(TAG, "New shadow node: " + node);
         mShadowNode = new WeakReference<>(node);
     }
 
@@ -143,7 +143,7 @@ public class CustomKeyboardLayout implements ReactSoftKeyboardMonitor.Listener {
     }
 
     private void sendCustomKeyboardResignedEvent() {
-        Log.v(TAG, "Notifying the custom-keyboard-resigned event to JS");
+        Logger.v(TAG, "Notifying the custom-keyboard-resigned event to JS");
         ReactContextHolder.getContext().getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit("kbdResigned", null);
     }
 }

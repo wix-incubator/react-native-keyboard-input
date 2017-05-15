@@ -1,7 +1,6 @@
 package com.wix.reactnativekeyboardinput.utils;
 
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -33,7 +32,7 @@ public class ViewUtils {
 
     public static ReactRootView getReactRootView() {
         final ReactRootView view = findChildByClass((ViewGroup) getWindow().getDecorView(), sVisibleReactRootViewMatcher);
-        Log.v(TAG, "Visible RCT view: " + (view != null ? view.hashCode() : null));
+        Logger.v(TAG, "Visible RCT view: " + (view != null ? view.hashCode() : null));
         return view;
     }
 

@@ -2,9 +2,10 @@ package com.wix.reactnativekeyboardinput;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
+
+import com.wix.reactnativekeyboardinput.utils.Logger;
 
 import static com.wix.reactnativekeyboardinput.GlobalDefs.TAG;
 
@@ -22,7 +23,7 @@ public class CustomKeyboardRootView extends FrameLayout {
     @Override
     public void onViewAdded(View child) {
         if (getChildCount() == 1) {
-            Log.d(TAG, "New custom keyboard content");
+            Logger.d(TAG, "New custom keyboard content");
             mLayout.onKeyboardHasCustomContent();
         }
         super.onViewAdded(child);

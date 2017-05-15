@@ -20,7 +20,7 @@ public class MainApplication extends NavigationApplication {
   @Override
   public List<ReactPackage> createAdditionalReactPackages() {
       return Arrays.<ReactPackage>asList(
-          new KeyboardInputPackage(MainApplication.this)
+          new KeyboardInputPackage(MainApplication.this, true)
       );
   }
 }

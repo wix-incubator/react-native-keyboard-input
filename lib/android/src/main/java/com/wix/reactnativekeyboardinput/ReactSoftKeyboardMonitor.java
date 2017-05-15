@@ -2,12 +2,12 @@ package com.wix.reactnativekeyboardinput;
 
 import android.graphics.Rect;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.ViewTreeObserver;
 
 import com.facebook.react.ReactRootView;
 import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.ReactContext;
+import com.wix.reactnativekeyboardinput.utils.Logger;
 import com.wix.reactnativekeyboardinput.utils.RuntimeUtils;
 import com.wix.reactnativekeyboardinput.utils.ViewUtils;
 
@@ -56,10 +56,10 @@ public class ReactSoftKeyboardMonitor implements LifecycleEventListener {
                 mExternalListener.onSoftKeyboardVisible(!mSoftKeyboardUp);
                 refreshKeyboardHeight();
                 mSoftKeyboardUp = true;
-                Log.d(TAG, "Keyboard SHOWING!");
+                Logger.d(TAG, "Keyboard SHOWING!");
             } else {
                 mSoftKeyboardUp = false;
-                Log.d(TAG, "Keyboard GONE!");
+                Logger.d(TAG, "Keyboard GONE!");
             }
         }
     };
@@ -150,12 +150,12 @@ public class ReactSoftKeyboardMonitor implements LifecycleEventListener {
     private void initViewportVisibleHeight() {
         mMaxViewportVisibleHeight = getViewportVisibleHeight();
         mLastViewportVisibleHeight = null;
-        Log.d(TAG, "Measured new max view-port height: "+mMaxViewportVisibleHeight);
+        Logger.d(TAG, "Measured new max view-port height: "+mMaxViewportVisibleHeight);
     }
 
     private void initLocallyVisibleHeight() {
         mLocallyVisibleHeight = getLocallyVisibleHeight();
-        Log.d(TAG, "Measured locally visible height: "+mLocallyVisibleHeight);
+        Logger.d(TAG, "Measured locally visible height: "+mLocallyVisibleHeight);
         mKeyboardHeight = null; // Reset so the keyboard would be measured in the next opportunity.
     }
 
