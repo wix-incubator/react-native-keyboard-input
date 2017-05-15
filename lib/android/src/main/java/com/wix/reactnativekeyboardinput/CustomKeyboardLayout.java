@@ -14,6 +14,7 @@ import java.lang.ref.WeakReference;
 
 import static com.wix.reactnativekeyboardinput.AppContextHolder.getCurrentActivity;
 import static com.wix.reactnativekeyboardinput.GlobalDefs.TAG;
+import static com.wix.reactnativekeyboardinput.utils.RuntimeUtils.dispatchUIUpdates;
 import static com.wix.reactnativekeyboardinput.utils.RuntimeUtils.runOnUIThread;
 import static com.wix.reactnativekeyboardinput.utils.ViewUtils.getWindow;
 
@@ -89,7 +90,7 @@ public class CustomKeyboardLayout implements ReactSoftKeyboardMonitor.Listener {
     }
 
     private void showCustomKeyboardContent() {
-        runOnUIThread(new Runnable() {
+        dispatchUIUpdates(new Runnable() {
             @Override
             public void run() {
                 final CustomKeyboardRootViewShadow shadowNode = mShadowNode.get();
@@ -101,11 +102,21 @@ public class CustomKeyboardLayout implements ReactSoftKeyboardMonitor.Listener {
     }
 
     private void hideCustomKeyboardContent() {
-        final CustomKeyboardRootViewShadow shadowNode = mShadowNode.get();
-        if (shadowNode != null) {
-            shadowNode.setHeight(0);
-        }
-        sendCustomKeyboardResignedEvent();
+        dispatchUIUpdates(new Runnable() {
+            @Override
+            public void run() {
+                final CustomKeyboardRootViewShadow shadowNode = mShadowNode.get();
+                if (shadowNode != null) {
+                    shadowNode.setHeight(0);
+                }
+            }
+        });
+        runOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                sendCustomKeyboardResignedEvent();
+            }
+        });
     }
 
     private void showSoftKeyboard() {

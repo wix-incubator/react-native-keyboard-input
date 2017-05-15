@@ -6,7 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import static com.wix.reactnativekeyboardinput.GlobalDefs.*;
+import static com.wix.reactnativekeyboardinput.GlobalDefs.TAG;
 
 public class CustomKeyboardRootView extends FrameLayout {
 
