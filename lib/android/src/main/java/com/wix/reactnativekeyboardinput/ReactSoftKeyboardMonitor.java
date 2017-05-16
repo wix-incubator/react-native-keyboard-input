@@ -3,46 +3,19 @@ package com.wix.reactnativekeyboardinput;
 import android.graphics.Rect;
 import android.support.annotation.Nullable;
 import android.view.ViewTreeObserver;
-import android.view.Window;
 
 import com.facebook.react.ReactRootView;
-import com.facebook.react.bridge.LifecycleEventListener;
-import com.facebook.react.bridge.ReactContext;
 import com.wix.reactnativekeyboardinput.utils.Logger;
 import com.wix.reactnativekeyboardinput.utils.RuntimeUtils;
-import com.wix.reactnativekeyboardinput.utils.ViewUtils;
 
 import static com.wix.reactnativekeyboardinput.GlobalDefs.TAG;
-import static com.wix.reactnativekeyboardinput.utils.ViewUtils.getReactRootView;
 import static com.wix.reactnativekeyboardinput.utils.ViewUtils.getWindow;
 
-public class ReactSoftKeyboardMonitor implements LifecycleEventListener {
+public class ReactSoftKeyboardMonitor implements ReactScreenMonitor.Listener {
 
     public interface Listener {
         void onSoftKeyboardVisible(boolean distinct);
-        void onNewScreen(); // TODO: Move this onto a dedicated "screen monitor" class, reporting to both this monitor and the layout manager
     }
-
-    private final ViewTreeObserver.OnGlobalLayoutListener mWindowLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
-        @Override
-        public void onGlobalLayout() {
-            final ReactRootView reactRootView = ViewUtils.getReactRootView();
-            if (mLastReactRootView == reactRootView) {
-                return;
-            }
-
-            removeInnerLayoutListener();
-            mLastReactRootView = reactRootView;
-
-            if (mLastReactRootView != null) { // This is applicable when activity is going down (e.g. bundle reload in RN dev mode)
-                registerInnerLayoutListener();
-
-                mExternalListener.onNewScreen();
-                initViewportVisibleHeight(); // TODO: running this each time might be redundant
-                initLocallyVisibleHeight();
-            }
-        }
-    };
 
     private final ViewTreeObserver.OnGlobalLayoutListener mInnerLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
         @Override
@@ -65,17 +38,13 @@ public class ReactSoftKeyboardMonitor implements LifecycleEventListener {
         }
     };
 
-    private Listener mExternalListener;
-
-    /** Monitor root react-view to detect root-view replacement, normally handled by a complete reinit (synonym with a screen replacement in RNN apps). */
-    private ReactRootView mLastReactRootView;
-
     /**
      * Soft-keyboard appearance (yes or no) is deduced according to <b>view-port</b> (window-level display-frame), as
      * root-view height normally remains unaffected during immediate layout. We therefore keep the maximal view-port size so we could
      * concurrently compare heights in each layout.
      */
     private int mMaxViewportVisibleHeight;
+
     private Integer mLastViewportVisibleHeight;
 
     /**
@@ -86,29 +55,24 @@ public class ReactSoftKeyboardMonitor implements LifecycleEventListener {
 
     private boolean mSoftKeyboardUp;
     private Integer mKeyboardHeight;
-    private boolean hasWindowLayoutListener;
+    private Listener mExternalListener;
+    private ReactRootView mLastReactRootView;
 
-    public ReactSoftKeyboardMonitor(ReactContext reactContext) {
-        reactContext.addLifecycleEventListener(this);
+    public ReactSoftKeyboardMonitor(ReactScreenMonitor screenMonitor) {
+        screenMonitor.addListener(this);
     }
 
     @Override
-    public void onHostResume() {
-        if (hasWindowLayoutListener) {
-            removeAllLayoutListeners();
+    public void onNewReactScreen(ReactRootView reactRootView) {
+        removeReactRootViewLayoutListener();
+        mLastReactRootView = reactRootView;
+
+        if (mLastReactRootView != null) { // 'Null' is applicable when activity is going down (e.g. bundle reload in RN dev mode)
+            registerReactRootViewLayoutListener();
+
+            initViewportVisibleHeight(); // TODO: running this each time might be redundant
+            initLocallyVisibleHeight();
         }
-        hasWindowLayoutListener = true;
-        registerWindowLayoutListener();
-    }
-
-    @Override
-    public void onHostDestroy() {
-        removeAllLayoutListeners();
-        hasWindowLayoutListener = false;
-    }
-
-    @Override
-    public void onHostPause() {
     }
 
     public void setListener(Listener listener) {
@@ -124,34 +88,15 @@ public class ReactSoftKeyboardMonitor implements LifecycleEventListener {
         return (int) (.5f * mLocallyVisibleHeight);
     }
 
-    private void registerWindowLayoutListener() {
-        getWindow().getDecorView().getViewTreeObserver().addOnGlobalLayoutListener(mWindowLayoutListener);
-    }
-
-    private void registerInnerLayoutListener() {
+    private void registerReactRootViewLayoutListener() {
         final ViewTreeObserver viewTreeObserver = mLastReactRootView.getViewTreeObserver();
         viewTreeObserver.addOnGlobalLayoutListener(mInnerLayoutListener);
     }
 
-    private void removeInnerLayoutListener() {
+    private void removeReactRootViewLayoutListener() {
         if (mLastReactRootView != null) {
             final ViewTreeObserver viewTreeObserver = mLastReactRootView.getViewTreeObserver();
             viewTreeObserver.removeOnGlobalLayoutListener(mInnerLayoutListener);
-        }
-    }
-
-    private void removeAllLayoutListeners() {
-        final Window window = getWindow();
-        if (window == null) {
-            // No window => no activity => nothing to clear.
-            return;
-        }
-
-        getWindow().getDecorView().getViewTreeObserver().removeOnGlobalLayoutListener(mWindowLayoutListener);
-
-        final ReactRootView reactRootView = getReactRootView();
-        if (reactRootView != null) {
-            reactRootView.getViewTreeObserver().removeOnGlobalLayoutListener(mInnerLayoutListener);
         }
     }
 

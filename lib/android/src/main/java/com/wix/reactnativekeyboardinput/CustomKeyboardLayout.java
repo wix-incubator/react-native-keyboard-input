@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
+import com.facebook.react.ReactRootView;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
@@ -18,17 +19,18 @@ import static com.wix.reactnativekeyboardinput.utils.RuntimeUtils.dispatchUIUpda
 import static com.wix.reactnativekeyboardinput.utils.RuntimeUtils.runOnUIThread;
 import static com.wix.reactnativekeyboardinput.utils.ViewUtils.getWindow;
 
-public class CustomKeyboardLayout implements ReactSoftKeyboardMonitor.Listener {
+public class CustomKeyboardLayout implements ReactSoftKeyboardMonitor.Listener, ReactScreenMonitor.Listener {
 
     private final InputMethodManager mInputMethodManager;
     private final ReactSoftKeyboardMonitor mKeyboardMonitor;
     private WeakReference<CustomKeyboardRootViewShadow> mShadowNode = new WeakReference<>(null);
 
-    public CustomKeyboardLayout(ReactContext reactContext, ReactSoftKeyboardMonitor keyboardMonitor) {
+    public CustomKeyboardLayout(ReactContext reactContext, ReactSoftKeyboardMonitor keyboardMonitor, ReactScreenMonitor screenMonitor) {
         mKeyboardMonitor = keyboardMonitor;
         mInputMethodManager = (InputMethodManager) reactContext.getSystemService(Context.INPUT_METHOD_SERVICE);
 
         mKeyboardMonitor.setListener(this);
+        screenMonitor.addListener(this);
     }
 
     @Override
@@ -40,7 +42,7 @@ public class CustomKeyboardLayout implements ReactSoftKeyboardMonitor.Listener {
     }
 
     @Override
-    public void onNewScreen() {
+    public void onNewReactScreen(ReactRootView reactRootView) {
         clearKeyboardOverlayMode();
         sendCustomKeyboardResignedEvent();
     }
@@ -146,4 +148,5 @@ public class CustomKeyboardLayout implements ReactSoftKeyboardMonitor.Listener {
         Logger.v(TAG, "Notifying the custom-keyboard-resigned event to JS");
         ReactContextHolder.getContext().getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit("kbdResigned", null);
     }
+
 }

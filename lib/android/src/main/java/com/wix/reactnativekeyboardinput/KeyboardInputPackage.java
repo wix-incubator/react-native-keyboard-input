@@ -49,7 +49,9 @@ public class KeyboardInputPackage implements ReactPackage {
         if (ReactContextHolder.getContext() == null) {
             ReactContextHolder.setContext(reactContext);
 
-            mLayout = new CustomKeyboardLayout(reactContext, new ReactSoftKeyboardMonitor(reactContext));
+            final ReactScreenMonitor screenMonitor = new ReactScreenMonitor(reactContext);
+            final ReactSoftKeyboardMonitor keyboardMonitor = new ReactSoftKeyboardMonitor(screenMonitor);
+            mLayout = new CustomKeyboardLayout(reactContext, keyboardMonitor, screenMonitor);
         }
     }
 }

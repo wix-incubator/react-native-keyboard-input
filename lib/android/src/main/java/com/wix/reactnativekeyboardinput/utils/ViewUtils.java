@@ -33,7 +33,12 @@ public class ViewUtils {
     }
 
     public static ReactRootView getReactRootView() {
-        final ReactRootView view = findChildByClass((ViewGroup) getWindow().getDecorView(), sVisibleReactRootViewMatcher);
+        final Window window = getWindow();
+        if (window == null) {
+            return null;
+        }
+
+        final ReactRootView view = findChildByClass((ViewGroup) window.getDecorView(), sVisibleReactRootViewMatcher);
         Logger.v(TAG, "Visible RCT view: " + (view != null ? view.hashCode() : null));
         return view;
     }
