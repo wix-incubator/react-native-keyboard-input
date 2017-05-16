@@ -124,7 +124,7 @@ export default class AwesomeProject extends Component {
 
         <KeyboardAccessoryView
           renderContent={this.keyboardAccessoryViewContent}
-          onHeightChanged={height => this.setState({keyboardAccessoryViewHeight: height})}
+          onHeightChanged={IsIOS ? height => this.setState({keyboardAccessoryViewHeight: height}) : undefined}
           trackInteractive={TrackInteractive}
           kbInputRef={this.textInputRef}
           kbComponent={this.state.customKeyboard.component}
