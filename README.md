@@ -121,4 +121,4 @@ This component takes care of making your toolbar (which is rendered via `renderC
 
 ## Demo
 
-See [demoApp.js](https://github.com/wix/react-native-keyboard-input/blob/master/demo/demoApp.js) for a full working example.
+See [demoScreen.js](https://github.com/wix/react-native-keyboard-input/blob/master/demo/demoScreen.js) for a full working example.
