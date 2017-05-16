@@ -46,7 +46,7 @@ public class KeyboardInputPackage implements ReactPackage {
     }
 
     private synchronized void init(ReactApplicationContext reactContext) {
-        if (ReactContextHolder.getContext() == null) {
+        if (ReactContextHolder.getContext() != reactContext) {
             ReactContextHolder.setContext(reactContext);
 
             final ReactScreenMonitor screenMonitor = new ReactScreenMonitor(reactContext);
