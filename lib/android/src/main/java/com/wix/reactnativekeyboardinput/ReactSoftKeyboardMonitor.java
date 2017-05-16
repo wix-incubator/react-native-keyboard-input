@@ -2,8 +2,8 @@ package com.wix.reactnativekeyboardinput;
 
 import android.graphics.Rect;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.ViewTreeObserver;
+import android.view.Window;
 
 import com.facebook.react.ReactRootView;
 import com.facebook.react.bridge.LifecycleEventListener;
@@ -141,6 +141,12 @@ public class ReactSoftKeyboardMonitor implements LifecycleEventListener {
     }
 
     private void removeAllLayoutListeners() {
+        final Window window = getWindow();
+        if (window == null) {
+            // No window => no activity => nothing to clear.
+            return;
+        }
+
         getWindow().getDecorView().getViewTreeObserver().removeOnGlobalLayoutListener(mWindowLayoutListener);
 
         final ReactRootView reactRootView = getReactRootView();

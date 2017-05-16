@@ -1,5 +1,6 @@
 package com.wix.reactnativekeyboardinput.utils;
 
+import android.app.Activity;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +28,8 @@ public class ViewUtils {
     private static final VisibleViewClassMatchPredicate sVisibleReactRootViewMatcher = new VisibleViewClassMatchPredicate(ReactRootView.class);
 
     public static Window getWindow() {
-        return getCurrentActivity().getWindow();
+        final Activity activity = getCurrentActivity();
+        return (activity == null ? null : activity.getWindow());
     }
 
     public static ReactRootView getReactRootView() {
