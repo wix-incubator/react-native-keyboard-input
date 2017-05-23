@@ -19,11 +19,13 @@ export default class KeyboardAccessoryView extends Component {
     iOSScrollBehavior: React.PropTypes.number,
     revealKeyboardInteractive: React.PropTypes.bool,
     manageScrollView: React.PropTypes.bool,
+    requiresSameParentToManageScrollView: React.PropTypes.bool,
   };
   static defaultProps = {
     iOSScrollBehavior: -1,
     revealKeyboardInteractive: false,
     manageScrollView: true,
+    requiresSameParentToManageScrollView: false,
   };
 
   constructor(props) {
@@ -92,6 +94,7 @@ export default class KeyboardAccessoryView extends Component {
         scrollBehavior={this.getIOSTrackingScrollBehavior()}
         revealKeyboardInteractive={this.props.revealKeyboardInteractive}
         manageScrollView={this.props.manageScrollView}
+        requiresSameParentToManageScrollView={this.props.requiresSameParentToManageScrollView}
       >
         {this.props.renderContent && this.props.renderContent()}
         <CustomKeyboardView
