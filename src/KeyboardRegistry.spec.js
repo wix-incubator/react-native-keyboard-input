@@ -4,8 +4,11 @@ import KeyboardRegistry from './KeyboardsRegistry';
 
 describe('KeyboardRegistry - components', () => {
   const mockComponent = 'test_component';
+  const anomtherMockComponent = 'test_component2';
   const MockElement = React.createElement(View, [], ['Hello world']);
+  const AnotherMockElement = React.createElement(View, [], ['Hello world again!']);
   const mockGenerator = () => MockElement;
+  const anotherMockGenerator = () => AnotherMockElement;
 
   beforeEach(() => {
     AppRegistry.registerComponent = jest.fn(AppRegistry.registerComponent);
@@ -48,6 +51,34 @@ describe('KeyboardRegistry - components', () => {
     KeyboardRegistry.registerKeyboard(mockComponent, mockGenerator, mockParams);
     const keyboards = KeyboardRegistry.getAllKeyboards();
     expect(keyboards).toEqual([{id: mockComponent, ...mockParams}]);
+  });
+
+  it('should get specific keyboards by demand', () => {
+    const mockParams1 = {icon: 5, title: 'mock title'};
+    const mockParams2 = {icon: 6, title: 'mock title2'};
+    KeyboardRegistry.registerKeyboard(mockComponent, mockGenerator, mockParams1);
+    KeyboardRegistry.registerKeyboard(anomtherMockComponent, anotherMockGenerator, mockParams2);
+
+    let keyboards = KeyboardRegistry.getKeyboards([mockComponent]);
+    expect(keyboards).toEqual([{id: mockComponent, ...mockParams1}]);
+
+    keyboards = KeyboardRegistry.getKeyboards([anomtherMockComponent]);
+    expect(keyboards).toEqual([{id: anomtherMockComponent, ...mockParams2}]);
+
+    keyboards = KeyboardRegistry.getKeyboards([mockComponent, anomtherMockComponent]);
+    expect(keyboards).toEqual([{id: mockComponent, ...mockParams1}, {id: anomtherMockComponent, ...mockParams2}]);
+
+    keyboards = KeyboardRegistry.getKeyboards(['not_existing']);
+    expect(keyboards).toEqual([]);
+
+    keyboards = KeyboardRegistry.getKeyboards(['not_existing', mockComponent]);
+    expect(keyboards).toEqual([{id: mockComponent, ...mockParams1}]);
+
+    keyboards = KeyboardRegistry.getKeyboards([]);
+    expect(keyboards).toEqual([]);
+
+    keyboards = KeyboardRegistry.getKeyboards();
+    expect(keyboards).toEqual([]);
   });
 });
 

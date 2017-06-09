@@ -5,6 +5,16 @@ import EventEmitterManager from './utils/EventEmitterManager';
 /*
 * Tech debt: how to deal with multiple registries in the app?
 */
+
+const getKeyboardsWithIDs = (keyboardIDs) => {
+  return keyboardIDs.map((keyboardId) => {
+    return {
+      id: keyboardId,
+      ...KeyboardRegistry.registeredKeyboards[keyboardId].params,
+    };
+  });
+};
+
 export default class KeyboardRegistry {
   static registeredKeyboards = {};
   static eventEmitter = new EventEmitterManager();
@@ -27,13 +37,13 @@ export default class KeyboardRegistry {
     return res.generator();
   };
 
+  static getKeyboards = (componentIDs = []) => {
+    const validKeyboardIDs = _.intersection(Object.keys(KeyboardRegistry.registeredKeyboards), componentIDs);
+    return getKeyboardsWithIDs(validKeyboardIDs);
+  };
+
   static getAllKeyboards = () => {
-    return Object.keys(KeyboardRegistry.registeredKeyboards).map((keyboardId) => {
-      return {
-        id: keyboardId,
-        ...KeyboardRegistry.registeredKeyboards[keyboardId].params,
-      };
-    });
+    return getKeyboardsWithIDs(Object.keys(KeyboardRegistry.registeredKeyboards));
   };
 
   static addListener = (globalID, callback) => {
