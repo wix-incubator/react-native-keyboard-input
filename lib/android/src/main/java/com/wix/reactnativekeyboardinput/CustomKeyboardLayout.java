@@ -44,7 +44,9 @@ public class CustomKeyboardLayout implements ReactSoftKeyboardMonitor.Listener, 
     @Override
     public void onNewReactScreen(ReactRootView reactRootView) {
         clearKeyboardOverlayMode();
-        sendCustomKeyboardResignedEvent();
+        if (reactRootView != null) {
+            sendCustomKeyboardResignedEvent();
+        }
     }
 
     public void setShadowNode(CustomKeyboardRootViewShadow node) {
