@@ -46,7 +46,7 @@ protected List<ReactPackage> getPackages() {
 ```
 
 #### iOS
-In Xcode, drag both `RCTCustomInputController.xcodeproj` and `KeyboardTrackingView.xcodeproj` from your `node_modules` to the Libraries folder in the Project Navigator, then add `licRCTCustomInputController.a` and `libKeyboardTrackingView.a` to your app target "Linked Frameworks and Libraries".
+In Xcode, drag both `RCTCustomInputController.xcodeproj` and `KeyboardTrackingView.xcodeproj` from your `node_modules` to the Libraries folder in the Project Navigator, then add `libRCTCustomInputController.a` and `libKeyboardTrackingView.a` to your app target "Linked Frameworks and Libraries".
 
 ##### Covering the whold keyboard in predictive mode
 To utilize this feature you'll need to add `KeyboardTrackingView` to your projects scheme build action.
