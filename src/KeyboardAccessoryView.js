@@ -1,9 +1,11 @@
 import React, {Component, PropTypes} from 'react';
-import {StyleSheet, Platform, Dimensions, NativeModules, NativeEventEmitter, DeviceEventEmitter, processColor} from 'react-native';
+import {StyleSheet, Platform, Dimensions, NativeModules, NativeEventEmitter, DeviceEventEmitter, processColor, BackHandler} from 'react-native';
 import {KeyboardTrackingView} from 'react-native-keyboard-tracking-view';
 import CustomKeyboardView from './CustomKeyboardView';
+import KeyboardUtils from './utils/KeyboardUtils';
 
 const IsIOS = Platform.OS === 'ios';
+const IsAndroid = Platform.OS === 'android';
 const ScreenSize = Dimensions.get('window');
 
 export default class KeyboardAccessoryView extends Component {
@@ -34,13 +36,19 @@ export default class KeyboardAccessoryView extends Component {
     this.onContainerComponentHeightChanged = this.onContainerComponentHeightChanged.bind(this);
     this.processInitialProps = this.processInitialProps.bind(this);
     this.registerForKeyboardResignedEvent = this.registerForKeyboardResignedEvent.bind(this);
+    this.registerAndroidBackHandler = this.registerAndroidBackHandler.bind(this);
+    this.onAndroidBackPressed = this.onAndroidBackPressed.bind(this);
 
     this.registerForKeyboardResignedEvent();
+    this.registerAndroidBackHandler();
   }
 
   componentWillUnmount() {
     if (this.customInputControllerEventsSubscriber) {
       this.customInputControllerEventsSubscriber.remove();
+    }
+    if (IsAndroid) {
+      BackHandler.removeEventListener('hardwareBackPress', this.onAndroidBackPressed);
     }
   }
 
@@ -75,6 +83,20 @@ export default class KeyboardAccessoryView extends Component {
         }
       });
     }
+  }
+
+  registerAndroidBackHandler() {
+    if (IsAndroid) {
+      BackHandler.addEventListener('hardwareBackPress', this.onAndroidBackPressed);
+    }
+  }
+
+  onAndroidBackPressed() {
+    if (this.props.kbComponent) {
+      KeyboardUtils.dismiss();
+      return true;
+    }
+    return false;
   }
 
   processInitialProps() {
