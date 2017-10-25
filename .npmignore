@@ -6,3 +6,49 @@ index.android.js
 index.ios.js
 .eslintrc
 *.spec.js
+
+# Xcode
+#
+
+
+## Build generated
+build/
+DerivedData/
+ModuleCache/
+
+## Various settings
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata/
+ios/info.plist
+
+## Other
+*.moved-aside
+*.xcuserstate
+
+## Obj-C/Swift specific
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Android/IJ
+#
+*.iml
+.idea
+.gradle
+local.properties
+
+# OSX
+#
+.DS_Store
+
+# node.js
+#
+npm-debug.log
