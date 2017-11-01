@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
 import com.facebook.react.ReactRootView;
 import com.facebook.react.bridge.Promise;
@@ -69,7 +70,8 @@ public class CustomKeyboardLayout implements ReactSoftKeyboardMonitor.Listener, 
         runOnUIThread(new Runnable() {
             @Override
             public void run() {
-                if (getCurrentActivity().getCurrentFocus() != null) {
+                final View focusedView = getCurrentActivity().getCurrentFocus();
+                if (focusedView instanceof EditText) {
                     showSoftKeyboard();
                 } else {
                     hideCustomKeyboardContent();
@@ -81,16 +83,15 @@ public class CustomKeyboardLayout implements ReactSoftKeyboardMonitor.Listener, 
     }
 
     public void clearFocusedView() {
-        final View focusedView = getCurrentActivity().getCurrentFocus();
-        if (focusedView != null) {
-            runOnUIThread(new Runnable() {
-                @Override
-                public void run() {
+        runOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                final View focusedView = getCurrentActivity().getCurrentFocus();
+                if (focusedView != null) {
                     focusedView.clearFocus();
-                    sendCustomKeyboardResignedEvent();
                 }
-            });
-        }
+            }
+        });
     }
 
     private void showCustomKeyboardContent() {
