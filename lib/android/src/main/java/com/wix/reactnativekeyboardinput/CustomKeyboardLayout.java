@@ -21,7 +21,6 @@ import static com.wix.reactnativekeyboardinput.utils.RuntimeUtils.runOnUIThread;
 import static com.wix.reactnativekeyboardinput.utils.ViewUtils.getWindow;
 
 public class CustomKeyboardLayout implements ReactSoftKeyboardMonitor.Listener, ReactScreenMonitor.Listener {
-
     private final InputMethodManager mInputMethodManager;
     private final ReactSoftKeyboardMonitor mKeyboardMonitor;
     private WeakReference<CustomKeyboardRootViewShadow> mShadowNode = new WeakReference<>(null);
@@ -95,33 +94,38 @@ public class CustomKeyboardLayout implements ReactSoftKeyboardMonitor.Listener, 
     }
 
     private void showCustomKeyboardContent() {
-        dispatchUIUpdates(new Runnable() {
-            @Override
-            public void run() {
-                final CustomKeyboardRootViewShadow shadowNode = mShadowNode.get();
-                if (shadowNode != null) {
-                    shadowNode.setHeight(getHeightForCustomContent());
-                }
-            }
-        });
+        setCustomKeyboardHeightImmediate(getHeightForCustomContent());
     }
 
     private void hideCustomKeyboardContent() {
-        dispatchUIUpdates(new Runnable() {
-            @Override
-            public void run() {
-                final CustomKeyboardRootViewShadow shadowNode = mShadowNode.get();
-                if (shadowNode != null) {
-                    shadowNode.setHeight(0);
-                }
-            }
-        });
+        setCustomKeyboardHeightImmediate(0);
         runOnUIThread(new Runnable() {
             @Override
             public void run() {
                 sendCustomKeyboardResignedEvent();
             }
         });
+    }
+
+    private void syncCustomKeyboardHeight(final int height) {
+        dispatchUIUpdates(new Runnable() {
+            @Override
+            public void run() {
+                setCustomKeyboardHeightImmediate(height);
+            }
+        });
+    }
+
+    private void setCustomKeyboardHeightImmediate(int height) {
+        try {
+            final CustomKeyboardRootViewShadow shadowNode = mShadowNode.get();
+            if (shadowNode != null) {
+                shadowNode.setHeight(height);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            syncCustomKeyboardHeight(height);
+        }
     }
 
     private void showSoftKeyboard() {
