@@ -94,9 +94,9 @@ public class CustomKeyboardLayout implements ReactSoftKeyboardMonitor.Listener, 
     }
 
     private void showCustomKeyboardContent() {
-        final int expendedHeight = getHeightForCustomContent();
-        if (!setCustomKeyboardHeight(expendedHeight)) {
-            syncHeightWithShadowNode(expendedHeight);
+        final int expandedHeight = getHeightForCustomContent();
+        if (!setCustomKeyboardHeight(expandedHeight)) {
+            syncHeightWithShadowNode(expandedHeight);
         }
     }
 
