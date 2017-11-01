@@ -95,14 +95,14 @@ public class CustomKeyboardLayout implements ReactSoftKeyboardMonitor.Listener, 
 
     private void showCustomKeyboardContent() {
         final int expandedHeight = getHeightForCustomContent();
-        if (!setCustomKeyboardHeight(expandedHeight)) {
-            syncHeightWithShadowNode(expandedHeight);
+        if (!setCustomKeyboardHeightImmediate(expandedHeight)) {
+            syncCustomKeyboardHeight(expandedHeight);
         }
     }
 
     private void hideCustomKeyboardContent() {
-        if (!setCustomKeyboardHeight(0)) {
-            syncHeightWithShadowNode(0);
+        if (!setCustomKeyboardHeightImmediate(0)) {
+            syncCustomKeyboardHeight(0);
         }
         runOnUIThread(new Runnable() {
             @Override
@@ -112,16 +112,16 @@ public class CustomKeyboardLayout implements ReactSoftKeyboardMonitor.Listener, 
         });
     }
 
-    private void syncHeightWithShadowNode(final int height) {
+    private void syncCustomKeyboardHeight(final int height) {
         dispatchUIUpdates(new Runnable() {
             @Override
             public void run() {
-                setCustomKeyboardHeight(height);
+                setCustomKeyboardHeightImmediate(height);
             }
         });
     }
 
-    private boolean setCustomKeyboardHeight(int height) {
+    private boolean setCustomKeyboardHeightImmediate(int height) {
         boolean success = true;
         try {
             final CustomKeyboardRootViewShadow shadowNode = mShadowNode.get();
