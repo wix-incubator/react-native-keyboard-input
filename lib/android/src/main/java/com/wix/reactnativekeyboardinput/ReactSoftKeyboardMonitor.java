@@ -15,6 +15,7 @@ public class ReactSoftKeyboardMonitor implements ReactScreenMonitor.Listener {
 
     public interface Listener {
         void onSoftKeyboardVisible(boolean distinct);
+        void onSoftKeyboardHidden();
     }
 
     private final ViewTreeObserver.OnGlobalLayoutListener mInnerLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -33,6 +34,7 @@ public class ReactSoftKeyboardMonitor implements ReactScreenMonitor.Listener {
                 Logger.d(TAG, "Keyboard SHOWING!");
             } else {
                 mSoftKeyboardUp = false;
+                mExternalListener.onSoftKeyboardHidden();
                 Logger.d(TAG, "Keyboard GONE!");
             }
         }

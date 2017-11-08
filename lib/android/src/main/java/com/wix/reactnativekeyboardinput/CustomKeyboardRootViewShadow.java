@@ -21,4 +21,8 @@ public class CustomKeyboardRootViewShadow extends LayoutShadowNode {
     public void setHeight(int heightPx) {
         setStyleHeight(heightPx);
     }
+
+    public float getHeight() {
+        return getStyleHeight().value;
+    }
 }

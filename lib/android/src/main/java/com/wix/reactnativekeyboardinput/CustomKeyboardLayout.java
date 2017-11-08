@@ -21,6 +21,7 @@ import static com.wix.reactnativekeyboardinput.utils.RuntimeUtils.runOnUIThread;
 import static com.wix.reactnativekeyboardinput.utils.ViewUtils.getWindow;
 
 public class CustomKeyboardLayout implements ReactSoftKeyboardMonitor.Listener, ReactScreenMonitor.Listener {
+    private boolean mFirstKeyboardShow = true;
     private final InputMethodManager mInputMethodManager;
     private final ReactSoftKeyboardMonitor mKeyboardMonitor;
     private WeakReference<CustomKeyboardRootViewShadow> mShadowNode = new WeakReference<>(null);
@@ -39,6 +40,13 @@ public class CustomKeyboardLayout implements ReactSoftKeyboardMonitor.Listener, 
             clearKeyboardOverlayMode();
         }
         hideCustomKeyboardContent();
+    }
+
+    @Override
+    public void onSoftKeyboardHidden() {
+        if (getShadowNodeHeight() == 0) {
+            mFirstKeyboardShow = true;
+        }
     }
 
     @Override
@@ -94,11 +102,11 @@ public class CustomKeyboardLayout implements ReactSoftKeyboardMonitor.Listener, 
     }
 
     private void showCustomKeyboardContent() {
-        setCustomKeyboardHeightImmediate(getHeightForCustomContent());
+        setCustomKeyboardHeight(getHeightForCustomContent());
     }
 
     private void hideCustomKeyboardContent() {
-        setCustomKeyboardHeightImmediate(0);
+        setCustomKeyboardHeight(0);
         runOnUIThread(new Runnable() {
             @Override
             public void run() {
@@ -107,25 +115,42 @@ public class CustomKeyboardLayout implements ReactSoftKeyboardMonitor.Listener, 
         });
     }
 
-    private void syncCustomKeyboardHeight(final int height) {
+    private void syncCustomKeyboardHeightAfterUIUpdate(final int height) {
         dispatchUIUpdates(new Runnable() {
             @Override
             public void run() {
-                setCustomKeyboardHeightImmediate(height);
+                setShadowNodeHeight(height);
             }
         });
     }
 
-    private void setCustomKeyboardHeightImmediate(int height) {
+    private void setCustomKeyboardHeight(int height) {
         try {
-            final CustomKeyboardRootViewShadow shadowNode = mShadowNode.get();
-            if (shadowNode != null) {
-                shadowNode.setHeight(height);
+            if (mFirstKeyboardShow) {
+                mFirstKeyboardShow = false;
+                syncCustomKeyboardHeightAfterUIUpdate(height);
+            } else {
+                setShadowNodeHeight(height);
             }
         } catch (Exception e) {
             e.printStackTrace();
-            syncCustomKeyboardHeight(height);
         }
+    }
+
+    private void setShadowNodeHeight(int height) {
+        final CustomKeyboardRootViewShadow shadowNode = mShadowNode.get();
+        if (shadowNode != null) {
+            shadowNode.setHeight(height);
+        }
+    }
+
+    private float getShadowNodeHeight() {
+        float height = 0;
+        final CustomKeyboardRootViewShadow shadowNode = mShadowNode.get();
+        if (shadowNode != null) {
+            height = shadowNode.getHeight();
+        }
+        return height;
     }
 
     private void showSoftKeyboard() {
