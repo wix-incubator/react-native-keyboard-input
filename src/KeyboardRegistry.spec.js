@@ -80,6 +80,14 @@ describe('KeyboardRegistry - components', () => {
     keyboards = KeyboardRegistry.getKeyboards();
     expect(keyboards).toEqual([]);
   });
+
+  it('should get specific keyboards by order', () => {
+    KeyboardRegistry.registerKeyboard(mockComponent, mockGenerator);
+    KeyboardRegistry.registerKeyboard(anomtherMockComponent, anotherMockGenerator);
+
+    let keyboards = KeyboardRegistry.getKeyboards([anomtherMockComponent, mockComponent]);
+    expect(keyboards).toEqual([{id: anomtherMockComponent}, {id: mockComponent}]);
+  });
 });
 
 describe('KeyboardRegistry - listeners', () => {

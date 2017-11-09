@@ -38,7 +38,7 @@ export default class KeyboardRegistry {
   };
 
   static getKeyboards = (componentIDs = []) => {
-    const validKeyboardIDs = _.intersection(Object.keys(KeyboardRegistry.registeredKeyboards), componentIDs);
+    const validKeyboardIDs = _.intersection(componentIDs, Object.keys(KeyboardRegistry.registeredKeyboards));
     return getKeyboardsWithIDs(validKeyboardIDs);
   };
 
