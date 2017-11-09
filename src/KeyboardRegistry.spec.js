@@ -4,7 +4,7 @@ import KeyboardRegistry from './KeyboardsRegistry';
 
 describe('KeyboardRegistry - components', () => {
   const mockComponent = 'test_component';
-  const anomtherMockComponent = 'test_component2';
+  const anotherMockComponent = 'test_component2';
   const MockElement = React.createElement(View, [], ['Hello world']);
   const AnotherMockElement = React.createElement(View, [], ['Hello world again!']);
   const mockGenerator = () => MockElement;
@@ -57,16 +57,16 @@ describe('KeyboardRegistry - components', () => {
     const mockParams1 = {icon: 5, title: 'mock title'};
     const mockParams2 = {icon: 6, title: 'mock title2'};
     KeyboardRegistry.registerKeyboard(mockComponent, mockGenerator, mockParams1);
-    KeyboardRegistry.registerKeyboard(anomtherMockComponent, anotherMockGenerator, mockParams2);
+    KeyboardRegistry.registerKeyboard(anotherMockComponent, anotherMockGenerator, mockParams2);
 
     let keyboards = KeyboardRegistry.getKeyboards([mockComponent]);
     expect(keyboards).toEqual([{id: mockComponent, ...mockParams1}]);
 
-    keyboards = KeyboardRegistry.getKeyboards([anomtherMockComponent]);
-    expect(keyboards).toEqual([{id: anomtherMockComponent, ...mockParams2}]);
+    keyboards = KeyboardRegistry.getKeyboards([anotherMockComponent]);
+    expect(keyboards).toEqual([{id: anotherMockComponent, ...mockParams2}]);
 
-    keyboards = KeyboardRegistry.getKeyboards([mockComponent, anomtherMockComponent]);
-    expect(keyboards).toEqual([{id: mockComponent, ...mockParams1}, {id: anomtherMockComponent, ...mockParams2}]);
+    keyboards = KeyboardRegistry.getKeyboards([mockComponent, anotherMockComponent]);
+    expect(keyboards).toEqual([{id: mockComponent, ...mockParams1}, {id: anotherMockComponent, ...mockParams2}]);
 
     keyboards = KeyboardRegistry.getKeyboards(['not_existing']);
     expect(keyboards).toEqual([]);
@@ -83,10 +83,10 @@ describe('KeyboardRegistry - components', () => {
 
   it('should get specific keyboards by order', () => {
     KeyboardRegistry.registerKeyboard(mockComponent, mockGenerator);
-    KeyboardRegistry.registerKeyboard(anomtherMockComponent, anotherMockGenerator);
+    KeyboardRegistry.registerKeyboard(anotherMockComponent, anotherMockGenerator);
 
-    let keyboards = KeyboardRegistry.getKeyboards([anomtherMockComponent, mockComponent]);
-    expect(keyboards).toEqual([{id: anomtherMockComponent}, {id: mockComponent}]);
+    let keyboards = KeyboardRegistry.getKeyboards([anotherMockComponent, mockComponent]);
+    expect(keyboards).toEqual([{id: anotherMockComponent}, {id: mockComponent}]);
   });
 });
 
