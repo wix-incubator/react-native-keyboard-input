@@ -25,6 +25,7 @@ export default class AwesomeProject extends Component {
     this.onKeyboardItemSelected = this.onKeyboardItemSelected.bind(this);
     this.resetKeyboardView = this.resetKeyboardView.bind(this);
     this.onKeyboardResigned = this.onKeyboardResigned.bind(this);
+    this.onAutoGrowChangeText = this.onAutoGrowChangeText.bind(this);
 
     this.state = {
       customKeyboard: {
@@ -32,12 +33,17 @@ export default class AwesomeProject extends Component {
         initialProps: undefined,
       },
       receivedKeyboardData: undefined,
+      textInputValue: '',
     };
   }
 
   onKeyboardItemSelected(keyboardId, params) {
     const receivedKeyboardData = `onItemSelected from "${keyboardId}"\nreceived params: ${JSON.stringify(params)}`;
     this.setState({receivedKeyboardData});
+
+    if (keyboardId === 'EmojiKeyboard') {
+      this.setState({textInputValue: `${this.state.textInputValue}${params.emojiText}`});
+    }
   }
 
   getToolbarButtons() {
@@ -51,6 +57,11 @@ export default class AwesomeProject extends Component {
         text: 'show2',
         testID: 'show2',
         onPress: () => this.showKeyboardView('AnotherKeyboardView', 'SECOND - 2 (passed prop)'),
+      },
+      {
+        text: 'emoji',
+        testID: 'emoji',
+        onPress: () => this.showKeyboardView('EmojiKeyboard'),
       },
       {
         text: 'reset',
@@ -68,11 +79,15 @@ export default class AwesomeProject extends Component {
     this.resetKeyboardView();
   }
 
+  onAutoGrowChangeText(text) {
+    this.setState({textInputValue: text});
+  }
+
   showKeyboardView(component, title) {
     this.setState({
       customKeyboard: {
         component,
-        initialProps: {title},
+        initialProps: title && {title},
       },
     });
   }
@@ -84,6 +99,8 @@ export default class AwesomeProject extends Component {
         <View style={{borderTopWidth: StyleSheet.hairlineWidth, borderColor: '#bbb'}}/>
         <View style={styles.inputContainer}>
           <AutoGrowingTextInput
+            value={this.state.textInputValue}
+            onChangeText={this.onAutoGrowChangeText}
             maxHeight={200}
             style={styles.textInput}
             ref={(r) => {
@@ -101,7 +118,7 @@ export default class AwesomeProject extends Component {
         <View style={{flexDirection: 'row'}}>
           {
             this.getToolbarButtons().map((button, index) =>
-              <TouchableOpacity onPress={button.onPress} style={{paddingLeft: 15, paddingBottom: 10}} key={index} testID={button.testID}>
+              <TouchableOpacity onPress={button.onPress} style={styles.toolbarButton} key={button.text} testID={button.testID}>
                 <Text>{button.text}</Text>
               </TouchableOpacity>)
           }
@@ -113,7 +130,6 @@ export default class AwesomeProject extends Component {
   render() {
     return (
       <View style={styles.container}>
-
         <ScrollView
           contentContainerStyle={styles.scrollContainer}
           keyboardDismissMode={TrackInteractive ? 'interactive' : 'none'}
@@ -121,7 +137,6 @@ export default class AwesomeProject extends Component {
           <Text style={styles.welcome}>{this.props.message ? this.props.message : 'Keyboards example'}</Text>
           <Text testID={'demo-message'}>{this.state.receivedKeyboardData}</Text>
         </ScrollView>
-
         <KeyboardAccessoryView
           renderContent={this.keyboardAccessoryViewContent}
           onHeightChanged={IsIOS ? height => this.setState({keyboardAccessoryViewHeight: height}) : undefined}
@@ -156,6 +171,10 @@ const styles = StyleSheet.create({
     paddingBottom: 50,
   },
   inputContainer: {
+    paddingLeft: 15,
+    paddingRight: 15,
+    paddingTop: 5,
+    paddingBottom: 5,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -169,13 +188,8 @@ const styles = StyleSheet.create({
   },
   textInput: {
     flex: 1,
-    marginLeft: 10,
-    marginTop: 10,
-    marginBottom: 10,
-    paddingLeft: 10,
-    paddingTop: 2,
-    paddingBottom: 5,
-    fontSize: 16,
+    padding: 10,
+    fontSize: 17,
     backgroundColor: 'white',
     borderWidth: 0.5 / PixelRatio.get(),
     borderRadius: 18,
@@ -183,5 +197,9 @@ const styles = StyleSheet.create({
   sendButton: {
     paddingRight: 15,
     paddingLeft: 15,
+  },
+  toolbarButton: {
+    paddingLeft: 15,
+    paddingBottom: 10,
   },
 });
