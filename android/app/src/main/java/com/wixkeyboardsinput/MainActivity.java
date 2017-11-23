@@ -1,4 +1,4 @@
-package com.awesomeproject;
+package com.wixkeyboardsinput;
 
 import com.reactnativenavigation.controllers.SplashActivity;
 
