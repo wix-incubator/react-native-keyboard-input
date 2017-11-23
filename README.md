@@ -4,7 +4,7 @@ Presents a React component as an input view which replaces the system keyboard. 
 
 Supports both iOS and Android.
 
-<img style="width:300px" src="Supplementals/example2.gif" />   <img style="width:300px" src="Supplementals/example-android.gif" />
+<img src="Supplementals/example2.gif" width=300/>   <img style="width:300px" src="Supplementals/example-android.gif" width=300/>
 
 # Installation
 Install the package from npm:
