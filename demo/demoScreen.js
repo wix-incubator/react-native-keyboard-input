@@ -82,6 +82,7 @@ export default class AwesomeProject extends Component {
     return (
       <InnerContainerComponent blurType="xlight" style={styles.blurContainer}>
         <View style={{borderTopWidth: StyleSheet.hairlineWidth, borderColor: '#bbb'}}/>
+
         <View style={styles.inputContainer}>
           <AutoGrowingTextInput
             maxHeight={200}
@@ -98,6 +99,7 @@ export default class AwesomeProject extends Component {
             <Text>Action</Text>
           </TouchableOpacity>
         </View>
+
         <View style={{flexDirection: 'row'}}>
           {
             this.getToolbarButtons().map((button, index) =>
@@ -159,6 +161,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    marginBottom: 25,
   },
   blurContainer: {
     ...Platform.select({
@@ -183,5 +186,6 @@ const styles = StyleSheet.create({
   sendButton: {
     paddingRight: 15,
     paddingLeft: 15,
+    alignSelf: 'center',
   },
 });
