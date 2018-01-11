@@ -1,4 +1,5 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {StyleSheet, Platform, Dimensions, NativeModules, NativeEventEmitter, DeviceEventEmitter, processColor, BackHandler} from 'react-native';
 import {KeyboardTrackingView} from 'react-native-keyboard-tracking-view';
 import CustomKeyboardView from './CustomKeyboardView';
@@ -11,17 +12,17 @@ const ScreenSize = Dimensions.get('window');
 export default class KeyboardAccessoryView extends Component {
   static propTypes = {
     renderContent: PropTypes.func,
-    onHeightChanged: React.PropTypes.func,
-    kbInputRef: React.PropTypes.object,
-    kbComponent: React.PropTypes.string,
-    kbInitialProps: React.PropTypes.object,
-    onItemSelected: React.PropTypes.func,
-    onRequestShowKeyboard: React.PropTypes.func,
-    onKeyboardResigned: React.PropTypes.func,
-    iOSScrollBehavior: React.PropTypes.number,
-    revealKeyboardInteractive: React.PropTypes.bool,
-    manageScrollView: React.PropTypes.bool,
-    requiresSameParentToManageScrollView: React.PropTypes.bool,
+    onHeightChanged: PropTypes.func,
+    kbInputRef: PropTypes.object,
+    kbComponent: PropTypes.string,
+    kbInitialProps: PropTypes.object,
+    onItemSelected: PropTypes.func,
+    onRequestShowKeyboard: PropTypes.func,
+    onKeyboardResigned: PropTypes.func,
+    iOSScrollBehavior: PropTypes.number,
+    revealKeyboardInteractive: PropTypes.bool,
+    manageScrollView: PropTypes.bool,
+    requiresSameParentToManageScrollView: PropTypes.bool,
   };
   static defaultProps = {
     iOSScrollBehavior: -1,

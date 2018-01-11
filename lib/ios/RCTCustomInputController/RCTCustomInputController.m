@@ -8,23 +8,7 @@
 #import "RCTCustomInputController.h"
 #import "RCTCustomKeyboardViewController.h"
 
-#if __has_include(<React/RCTUIManager.h>)
 #import <React/RCTUIManager.h>
-#else
-#import "RCTUIManager.h"
-#endif
-
-#if __has_include(<React/RCTTextView.h>)
-#import <React/RCTTextView.h>
-#else
-#import "RCTTextView.h"
-#endif
-
-#if __has_include(<React/RCTTextField.h>)
-#import <React/RCTTextField.h>
-#else
-#import "RCTTextField.h"
-#endif
 
 #import "LNAnimator.h"
 
@@ -106,23 +90,6 @@ RCT_EXPORT_MODULE(CustomInputController)
     return self;
 }
 
--(BOOL)reactCanBecomeFirstResponder:(UIView*)inputField
-{
-    if([inputField respondsToSelector:@selector(reactWillMakeFirstResponder)])
-    {
-        [inputField performSelector:@selector(reactWillMakeFirstResponder)];
-    }
-    return [inputField canBecomeFirstResponder];
-}
-
--(void)reactDidMakeFirstResponder:(UIView*)inputField
-{
-    if([inputField respondsToSelector:@selector(reactDidMakeFirstResponder)])
-    {
-        [inputField performSelector:@selector(reactDidMakeFirstResponder)];
-    }
-}
-
 -(UIView*)getFirstResponder:(UIView*)view
 {
     if (view == nil || [view isFirstResponder])
@@ -144,11 +111,6 @@ RCT_EXPORT_MODULE(CustomInputController)
 RCT_EXPORT_METHOD(presentCustomInputComponent:(nonnull NSNumber*)inputFieldTag params:(nonnull NSDictionary*)params)
 {
     UIView* inputField = [self.bridge.uiManager viewForReactTag:inputFieldTag];
-    BOOL canBecomeFirstResponder = [self reactCanBecomeFirstResponder:inputField];
-    if(canBecomeFirstResponder)
-    {
-        [self reactDidMakeFirstResponder:inputField];
-    }
     
     RCTBridge* bridge = [self.bridge valueForKey:@"parentBridge"];
     if(bridge != nil)
@@ -173,9 +135,9 @@ RCT_EXPORT_METHOD(presentCustomInputComponent:(nonnull NSNumber*)inputFieldTag p
         helperView.tag = kHlperViewTag;
         helperView.delegate = self;
         
-        if ([inputField isKindOfClass:[RCTTextView class]])
+        if ([inputField isKindOfClass:NSClassFromString(@"RCTTextView")])
         {
-            UITextView *textView = [inputField valueForKey:@"_textView"];
+            UITextView *textView = [inputField valueForKey:@"_backedTextInput"];
             if (textView != nil)
             {
                 helperView.inputAccessoryView = textView.inputAccessoryView;
@@ -206,14 +168,13 @@ RCT_EXPORT_METHOD(resetInput:(nonnull NSNumber*)inputFieldTag)
     self.customInputComponentPresented = NO;
     
     UIView* inputField = [self.bridge.uiManager viewForReactTag:inputFieldTag];
-    if(inputField != nil && [self reactCanBecomeFirstResponder:inputField])
+    if(inputField != nil)
     {
         _WXInputHelperView* helperView = [inputField.superview viewWithTag:kHlperViewTag];
         if(helperView != nil && [helperView isFirstResponder])
         {//restore the first responder only if it was already the first responder to prevent the keyboard from opening again if not necessary
-            [inputField becomeFirstResponder];
+            [inputField reactFocus];
         }
-        [self reactDidMakeFirstResponder:inputField];
     }
 }
 

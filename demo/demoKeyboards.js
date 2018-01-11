@@ -1,4 +1,5 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {Text, TouchableOpacity, ScrollView, StyleSheet} from 'react-native';
 import {KeyboardRegistry} from 'react-native-keyboard-input';
 

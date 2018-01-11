@@ -1,7 +1,7 @@
 {
   "name": "react-native-keyboard-input",
   "description": "React Native Custom Input Controller",
-  "version": "4.0.1",
+  "version": "5.0.0",
   "main": "src/index.js",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
@@ -32,11 +32,11 @@
   },
   "dependencies": {
     "lodash": "^4.17.4",
-    "react-native-keyboard-tracking-view": "^4.0.0"
+    "react-native-keyboard-tracking-view": "^5.0.0"
   },
   "peerDependencies": {
-    "react": "~15.4.2",
-    "react-native": "^0.38.0"
+    "react": "~16.0.0",
+    "react-native": "^0.51.0"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.1",
@@ -51,10 +51,10 @@
     "eslint-plugin-react-native": "^2.0.0",
     "jest": "^18.1.0",
     "mocha": "^3.3.0",
-    "react": "16.0.0-alpha.6",
-    "react-native": "^0.44.0",
-    "react-native-autogrow-textinput": "^3.0.0",
-    "react-native-blur": "~1.0.0",
+    "react": "16.0.0",
+    "react-native": "^0.51.0",
+    "react-native-autogrow-textinput": "^5.0.0",
+    "react-native-blur": "^3.0.0",
     "react-native-navigation": "^1.1.70"
   },
   "jest": {
