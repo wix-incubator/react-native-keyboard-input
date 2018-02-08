@@ -109,9 +109,24 @@ export default class KeyboardAccessoryView extends Component {
     return this.props.kbInitialProps;
   }
 
+  getNativeProps(callback) {
+    if (this.trackingViewRef) {
+      this.trackingViewRef.getNativeProps(callback);
+    } else {
+      callback({});
+    }
+  }
+
+  scrollToStart() {
+    if (this.trackingViewRef) {
+      this.trackingViewRef.scrollToStart();
+    }
+  }
+
   render() {
     return (
       <KeyboardTrackingView
+        ref={r => this.trackingViewRef = r}
         style={styles.trackingToolbarContainer}
         onLayout={this.onContainerComponentHeightChanged}
         scrollBehavior={this.getIOSTrackingScrollBehavior()}

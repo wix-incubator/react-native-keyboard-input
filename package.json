@@ -1,7 +1,7 @@
 {
   "name": "react-native-keyboard-input",
   "description": "React Native Custom Input Controller",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "main": "src/index.js",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "lodash": "^4.17.4",
-    "react-native-keyboard-tracking-view": "^5.0.0"
+    "react-native-keyboard-tracking-view": "^5.1.2"
   },
   "peerDependencies": {
     "react": "~16.0.0",
