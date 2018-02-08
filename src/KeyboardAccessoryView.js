@@ -109,12 +109,11 @@ export default class KeyboardAccessoryView extends Component {
     return this.props.kbInitialProps;
   }
 
-  getNativeProps(callback) {
+  async getNativeProps() {
     if (this.trackingViewRef) {
-      this.trackingViewRef.getNativeProps(callback);
-    } else {
-      callback({});
+      return await this.trackingViewRef.getNativeProps();
     }
+    return {};
   }
 
   scrollToStart() {
