@@ -66,7 +66,15 @@
     [_rootView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor].active = YES;
     [_rootView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor].active = YES;
     [_rootView.topAnchor constraintEqualToAnchor:self.view.topAnchor].active = YES;
-    [_rootView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor].active = YES;
+
+    NSLayoutYAxisAnchor *yAxisAnchor = self.view.bottomAnchor;
+#if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_10_3
+    if (@available(iOS 11.0, *)) {
+        yAxisAnchor = self.view.safeAreaLayoutGuide.bottomAnchor;
+    }
+#endif
+    [_rootView.bottomAnchor constraintEqualToAnchor:yAxisAnchor].active = YES;
+    
 }
 
 @end
