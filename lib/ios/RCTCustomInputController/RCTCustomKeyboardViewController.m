@@ -74,7 +74,6 @@
     }
 #endif
     [_rootView.bottomAnchor constraintEqualToAnchor:yAxisAnchor].active = YES;
-    
 }
 
 @end
