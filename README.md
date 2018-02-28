@@ -38,7 +38,7 @@ import com.wix.reactnativekeyboardinput.KeyboardInputPackage;
 protected List<ReactPackage> getPackages() {
   return Arrays.<ReactPackage>asList(
       // Add this package:
-      new KeyboardInputPackage(this) // (this = Android application object)
+      new KeyboardInputPackage(getApplication())
     );
 }
 ```
