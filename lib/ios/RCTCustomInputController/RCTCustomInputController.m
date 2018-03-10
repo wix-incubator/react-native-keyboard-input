@@ -9,6 +9,7 @@
 #import "RCTCustomKeyboardViewController.h"
 
 #import <React/RCTUIManager.h>
+#import <objc/runtime.h>
 
 #import "LNAnimator.h"
 
@@ -110,57 +111,86 @@ RCT_EXPORT_MODULE(CustomInputController)
 
 RCT_EXPORT_METHOD(presentCustomInputComponent:(nonnull NSNumber*)inputFieldTag params:(nonnull NSDictionary*)params)
 {
-    UIView* inputField = [self.bridge.uiManager viewForReactTag:inputFieldTag];
-    
     RCTBridge* bridge = [self.bridge valueForKey:@"parentBridge"];
-    if(bridge != nil)
+    if(bridge == nil)
     {
-        NSDictionary *initialProps = params[@"initialProps"];
-        RCTRootView* rv = [[RCTRootView alloc] initWithBridge:bridge moduleName:params[@"component"] initialProperties:initialProps];
-        if(initialProps != nil && initialProps[@"backgroundColor"] != nil)
+        return;
+    }
+    
+    UIView* inputField = [self.bridge.uiManager viewForReactTag:inputFieldTag];
+    NSDictionary *initialProps = params[@"initialProps"];
+    RCTRootView* rv = [[RCTRootView alloc] initWithBridge:bridge moduleName:params[@"component"] initialProperties:initialProps];
+    if(initialProps != nil && initialProps[@"backgroundColor"] != nil)
+    {
+        UIColor *backgroundColor = [RCTConvert UIColor:initialProps[@"backgroundColor"]];
+        if(backgroundColor != nil)
         {
-            UIColor *backgroundColor = [RCTConvert UIColor:initialProps[@"backgroundColor"]];
-            if(backgroundColor != nil)
-            {
-                rv.backgroundColor = backgroundColor;
-            }
+            rv.backgroundColor = backgroundColor;
+        }
+    }
+    
+    self.customInputComponentPresented = NO;
+    
+    RCTCustomKeyboardViewController* customKeyboardController = [[RCTCustomKeyboardViewController alloc] init];
+    customKeyboardController.rootView = rv;
+    
+    _WXInputHelperView* helperView = [[_WXInputHelperView alloc] initWithFrame:CGRectZero];
+    helperView.tag = kHlperViewTag;
+    helperView.delegate = self;
+    
+    if ([inputField isKindOfClass:NSClassFromString(@"RCTTextView")])
+    {
+        UITextView *textView = nil;
+        Ivar backedTextInputIvar = class_getInstanceVariable([inputField class], "_backedTextInput");
+        if (backedTextInputIvar != NULL)
+        {
+            textView = [inputField valueForKey:@"_backedTextInput"];
+        }
+        else if([inputField isKindOfClass:[UITextView class]])
+        {
+            textView = (UITextView*)inputField;
         }
         
-        self.customInputComponentPresented = NO;
-        
-        RCTCustomKeyboardViewController* customKeyboardController = [[RCTCustomKeyboardViewController alloc] init];
-        customKeyboardController.rootView = rv;
-        
-        _WXInputHelperView* helperView = [[_WXInputHelperView alloc] initWithFrame:CGRectZero];
-        helperView.tag = kHlperViewTag;
-        helperView.delegate = self;
-        
-        if ([inputField isKindOfClass:NSClassFromString(@"RCTTextView")])
+        if (textView != nil)
         {
-            UITextView *textView = [inputField valueForKey:@"_backedTextInput"];
-            if (textView != nil)
+            helperView.inputAccessoryView = textView.inputAccessoryView;
+        }
+    }
+    else if ([inputField isKindOfClass:NSClassFromString(@"RCTUITextView")] && [inputField isKindOfClass:[UITextView class]])
+    {
+        UITextView *textView = (UITextView*)inputField;
+        helperView.inputAccessoryView = textView.inputAccessoryView;
+    }
+    else if([inputField isKindOfClass:NSClassFromString(@"RCTMultilineTextInputView")])
+    {
+        Ivar backedTextInputIvar = class_getInstanceVariable([inputField class], "_backedTextInputView");
+        if (backedTextInputIvar != NULL)
+        {
+            id textViewObj = [inputField valueForKey:@"_backedTextInputView"];
+            if ([textViewObj isKindOfClass:[UITextView class]])
             {
+                UITextView *textView = (UITextView*)textViewObj;
                 helperView.inputAccessoryView = textView.inputAccessoryView;
             }
         }
-        else
-        {
-            UIView *firstResponder = [self getFirstResponder:inputField];
-            helperView.inputAccessoryView = firstResponder.inputAccessoryView;
-        }
-        
-        [helperView reloadInputViews];
-        
-        helperView.backgroundColor = [UIColor clearColor];
-        [inputField.superview addSubview:helperView];
-        [inputField.superview sendSubviewToBack:helperView];
-        
-        helperView.inputViewController = customKeyboardController;
-        [helperView reloadInputViews];
-        [helperView becomeFirstResponder];
-        
-        self.customInputComponentPresented = YES;
     }
+    else
+    {
+        UIView *firstResponder = [self getFirstResponder:inputField];
+        helperView.inputAccessoryView = firstResponder.inputAccessoryView;
+    }
+    
+    [helperView reloadInputViews];
+    
+    helperView.backgroundColor = [UIColor clearColor];
+    [inputField.superview addSubview:helperView];
+    [inputField.superview sendSubviewToBack:helperView];
+    
+    helperView.inputViewController = customKeyboardController;
+    [helperView reloadInputViews];
+    [helperView becomeFirstResponder];
+    
+    self.customInputComponentPresented = YES;
 }
 
 RCT_EXPORT_METHOD(resetInput:(nonnull NSNumber*)inputFieldTag)
