@@ -178,8 +178,9 @@ public class CustomKeyboardLayout implements ReactSoftKeyboardMonitor.Listener, 
 
     private void sendCustomKeyboardResignedEvent() {
         Logger.v(TAG, "Notifying the custom-keyboard-resigned event to JS");
-        if(ReactContextHolder.getContext().hasActiveCatalystInstance())
+        if (ReactContextHolder.getContext().hasActiveCatalystInstance()) {
             ReactContextHolder.getContext().getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit("kbdResigned", null);
+        }
     }
 
 }
