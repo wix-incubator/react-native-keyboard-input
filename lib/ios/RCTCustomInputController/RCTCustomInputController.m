@@ -91,6 +91,11 @@ RCT_EXPORT_MODULE(CustomInputController)
     return self;
 }
 
++ (BOOL)requiresMainQueueSetup
+{
+    return YES;
+}
+
 -(UIView*)getFirstResponder:(UIView*)view
 {
     if (view == nil || [view isFirstResponder])
