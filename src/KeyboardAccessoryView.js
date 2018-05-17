@@ -1,13 +1,12 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {StyleSheet, Platform, Dimensions, NativeModules, NativeEventEmitter, DeviceEventEmitter, processColor, BackHandler} from 'react-native';
+import {StyleSheet, Platform, NativeModules, NativeEventEmitter, DeviceEventEmitter, processColor, BackHandler} from 'react-native';
 import {KeyboardTrackingView} from 'react-native-keyboard-tracking-view';
 import CustomKeyboardView from './CustomKeyboardView';
 import KeyboardUtils from './utils/KeyboardUtils';
 
 const IsIOS = Platform.OS === 'ios';
 const IsAndroid = Platform.OS === 'android';
-const ScreenSize = Dimensions.get('window');
 
 export default class KeyboardAccessoryView extends Component {
   static propTypes = {
@@ -156,10 +155,10 @@ const styles = StyleSheet.create({
   trackingToolbarContainer: {
     ...Platform.select({
       ios: {
-        width: ScreenSize.width,
         position: 'absolute',
         bottom: 0,
         left: 0,
+        right: 0,
       },
     }),
   },
