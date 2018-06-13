@@ -8,7 +8,7 @@ export default class TextInputKeyboardManagerIOS {
     if (!textInputRef || !CustomInputController) {
       return;
     }
-    const reactTag = ReactNative.findNodeHandle(textInputRef);
+    const reactTag = ReactNative.findNodeHandle(textInputRef.current || textInputRef);
     if (reactTag) {
       CustomInputController.presentCustomInputComponent(reactTag, {component, initialProps});
     }
@@ -18,7 +18,7 @@ export default class TextInputKeyboardManagerIOS {
     if (!textInputRef || !CustomInputController) {
       return;
     }
-    const reactTag = ReactNative.findNodeHandle(textInputRef);
+    const reactTag = ReactNative.findNodeHandle(textInputRef.current || textInputRef);
     if (reactTag) {
       CustomInputController.resetInput(reactTag);
     }
@@ -33,7 +33,7 @@ export default class TextInputKeyboardManagerIOS {
       if(performLayoutAnimation) {
         LayoutAnimation.configureNext(springAnimation);
       }
-      const reactTag = ReactNative.findNodeHandle(textInputRef);
+      const reactTag = ReactNative.findNodeHandle(textInputRef.current || textInputRef);
       if (expand) {
         CustomInputController.expandFullScreenForInput(reactTag);
       } else {
