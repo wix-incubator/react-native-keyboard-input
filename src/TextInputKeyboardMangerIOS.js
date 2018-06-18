@@ -8,7 +8,7 @@ export default class TextInputKeyboardManagerIOS {
     if (!textInputRef || !CustomInputController) {
       return;
     }
-    const reactTag = ReactNative.findNodeHandle(textInputRef);
+    const reactTag = findNodeHandle(textInputRef);
     if (reactTag) {
       CustomInputController.presentCustomInputComponent(reactTag, {component, initialProps});
     }
@@ -18,7 +18,7 @@ export default class TextInputKeyboardManagerIOS {
     if (!textInputRef || !CustomInputController) {
       return;
     }
-    const reactTag = ReactNative.findNodeHandle(textInputRef);
+    const reactTag = findNodeHandle(textInputRef);
     if (reactTag) {
       CustomInputController.resetInput(reactTag);
     }
@@ -30,10 +30,10 @@ export default class TextInputKeyboardManagerIOS {
 
   static toggleExpandKeyboard = (textInputRef, expand, performLayoutAnimation = false) => {
     if (textInputRef) {
-      if(performLayoutAnimation) {
+      if (performLayoutAnimation) {
         LayoutAnimation.configureNext(springAnimation);
       }
-      const reactTag = ReactNative.findNodeHandle(textInputRef);
+      const reactTag = findNodeHandle(textInputRef);
       if (expand) {
         CustomInputController.expandFullScreenForInput(reactTag);
       } else {
@@ -41,6 +41,10 @@ export default class TextInputKeyboardManagerIOS {
       }
     }
   };
+}
+
+function findNodeHandle(ref) {
+  return ReactNative.findNodeHandle(ref.current || ref);
 }
 
 const springAnimation = {
