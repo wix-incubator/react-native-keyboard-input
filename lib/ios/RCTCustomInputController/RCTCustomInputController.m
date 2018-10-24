@@ -69,6 +69,11 @@ NSString *const RCTCustomInputControllerKeyboardResigendEvent = @"kbdResigned";
 
 @implementation RCTCustomInputController
 
++ (BOOL)requiresMainQueueSetup
+{
+    return YES;
+}
+
 - (dispatch_queue_t)methodQueue
 {
     return dispatch_get_main_queue();
