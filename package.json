@@ -51,11 +51,12 @@
     "eslint-plugin-react-native": "^2.0.0",
     "jest": "^18.1.0",
     "mocha": "^3.3.0",
-    "react": "^16.6.0-alpha.8af6728",
-    "react-native": "^0.57.3",
+    "react": "16.8.3",
+    "react-native": "0.59.x",
     "react-native-autogrow-textinput": "^5.0.0",
     "react-native-blur": "^3.0.0",
-    "react-native-navigation": "^1.1.70"
+    "react-native-navigation": "^1.1.70",
+    "metro-react-native-babel-preset": "^0.53.1"
   },
   "jest": {
     "preset": "react-native",
