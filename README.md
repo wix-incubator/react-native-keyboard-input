@@ -117,7 +117,7 @@ While this package provides several component and classes for low-level control 
 
 | Prop | Type | Description |
 | ---- | ---- | ----------- |
-| renderContent | Function | a fucntion for rendering the content of the keyboard toolbar |
+| renderContent | Function | a function for rendering the content of the keyboard toolbar |
 | kbInputRef | Object | A ref to the input component which triggers the showing of the keyboard |
 | kbComponent | String | The registered component name |
 | kbInitialProps | Object | Initial props to pass to the registered keyboard component |
