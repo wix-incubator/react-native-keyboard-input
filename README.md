@@ -104,7 +104,7 @@ KeyboardRegistry.onItemSelected(`MyKeyboardView`, params);
 ```
 
 ## 2. Using the keyboard component as an input view
-While this package provides several component and classes for low-level control over custom keyboard inputs, the easiets way would be to use `KeyboardAccessoryView`. It's the only thing you'll need to show your Keyboard component as a custom input. For example:
+While this package provides several component and classes for low-level control over custom keyboard inputs, the easiest way would be to use `KeyboardAccessoryView`. It's the only thing you'll need to show your Keyboard component as a custom input. For example:
 
 ```js
 <KeyboardAccessoryView
