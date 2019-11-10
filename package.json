@@ -38,8 +38,7 @@
   },
   "peerDependencies": {
     "react": "16.9.0",
-    "react-native": "0.61.4",
-    "prop-types": "^15.7.2"
+    "react-native": "0.61.4"
   },
   "devDependencies": {
     "@babel/core": "7.7.2",
@@ -61,7 +60,8 @@
     "react-test-renderer": "16.9.0",
     "react-native-autogrow-textinput": "^5.0.0",
     "react-native-navigation": "^3.4.0",
-    "metro-react-native-babel-preset": "0.56.3"
+    "metro-react-native-babel-preset": "0.56.3",
+    "prop-types": "^15.7.2"
   },
   "jest": {
     "preset": "react-native",

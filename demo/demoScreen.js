@@ -39,6 +39,10 @@ export default class KeyboardInput extends Component {
     this.setState({receivedKeyboardData});
   }
 
+  onKeyboardResigned() {
+    this.resetKeyboardView();
+  }
+
   getToolbarButtons() {
     return [
       {
@@ -63,10 +67,6 @@ export default class KeyboardInput extends Component {
     this.setState({customKeyboard: {}});
   }
 
-  onKeyboardResigned() {
-    this.resetKeyboardView();
-  }
-
   showKeyboardView(component, title) {
     this.setState({
       customKeyboard: {
@@ -78,7 +78,7 @@ export default class KeyboardInput extends Component {
 
   keyboardAccessoryViewContent() {
     return (
-      <View style={styles.container}>
+      <View style={styles.keyboardContainer}>
         <View style={{borderTopWidth: StyleSheet.hairlineWidth, borderColor: '#bbb'}}/>
 
         <View style={styles.inputContainer}>
@@ -101,7 +101,12 @@ export default class KeyboardInput extends Component {
         <View style={{flexDirection: 'row'}}>
           {
             this.getToolbarButtons().map((button, index) =>
-              <TouchableOpacity onPress={button.onPress} style={{paddingLeft: 15, paddingBottom: 10}} key={index} testID={button.testID}>
+              <TouchableOpacity
+                onPress={button.onPress}
+                style={{paddingLeft: 15, paddingBottom: 10}}
+                key={index}
+                testID={button.testID}
+              >
                 <Text>{button.text}</Text>
               </TouchableOpacity>)
           }
@@ -161,7 +166,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: 25,
   },
-  container: {
+  keyboardContainer: {
     ...Platform.select({
       ios: {
         flex: 1,

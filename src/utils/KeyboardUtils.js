@@ -1,4 +1,4 @@
-import {Keyboard, Platform,} from 'react-native';
+import {Keyboard, Platform} from 'react-native';
 import TextInputKeyboardMangerIOS from '../TextInputKeyboardMangerIOS';
 import TextInputKeyboardManagerAndroid from '../TextInputKeyboardManagerAndroid';
 
