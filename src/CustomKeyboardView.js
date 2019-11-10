@@ -43,36 +43,12 @@ export default class CustomKeyboardView extends Component {
             this.keyboardExpandedToggle[args.keyboardId] = false;
           }
           this.keyboardExpandedToggle[args.keyboardId] = !this.keyboardExpandedToggle[args.keyboardId];
-          TextInputKeyboardManagerIOS.toggleExpandKeyboard(this.props.inputRef, this.keyboardExpandedToggle[args.keyboardId], this.props.initialProps.expandWithLayoutAnimation);
+          TextInputKeyboardManagerIOS.toggleExpandKeyboard(
+            this.props.inputRef, this.keyboardExpandedToggle[args.keyboardId], this.props.initialProps.expandWithLayoutAnimation,
+          );
         }
       });
     }
-  }
-
-  async componentWillReceiveProps(nextProps) {
-    const {inputRef, component, initialProps, onRequestShowKeyboard} = nextProps;
-
-    if (IsAndroid) {
-      if (this.props.component !== component && !component) {
-        await TextInputKeyboardManagerAndroid.reset();
-      }
-    }
-
-    if (IsIOS && TextInputKeyboardManagerIOS && inputRef && component !== this.props.component) {
-      if (component) {
-        TextInputKeyboardManagerIOS.setInputComponent(inputRef, {component, initialProps});
-      } else {
-        TextInputKeyboardManagerIOS.removeInputComponent(inputRef);
-      }
-    }
-
-    if (onRequestShowKeyboard && !this.registeredRequestShowKeyboard) {
-      this.registeredRequestShowKeyboard = true;
-      KeyboardRegistry.addListener('onRequestShowKeyboard', (args) => {
-        onRequestShowKeyboard(args.keyboardId);
-      });
-    }
-    this.registerListener(this.props, nextProps);
   }
 
   shouldComponentUpdate(nextProps) {
@@ -97,6 +73,32 @@ export default class CustomKeyboardView extends Component {
         onItemSelected(component, args);
       });
     }
+  }
+
+  async UNSAFE_componentWillReceiveProps(nextProps) { //eslint-disable-line
+    const {inputRef, component, initialProps, onRequestShowKeyboard} = nextProps;
+
+    if (IsAndroid) {
+      if (this.props.component !== component && !component) {
+        await TextInputKeyboardManagerAndroid.reset();
+      }
+    }
+
+    if (IsIOS && TextInputKeyboardManagerIOS && inputRef && component !== this.props.component) {
+      if (component) {
+        TextInputKeyboardManagerIOS.setInputComponent(inputRef, {component, initialProps});
+      } else {
+        TextInputKeyboardManagerIOS.removeInputComponent(inputRef);
+      }
+    }
+
+    if (onRequestShowKeyboard && !this.registeredRequestShowKeyboard) {
+      this.registeredRequestShowKeyboard = true;
+      KeyboardRegistry.addListener('onRequestShowKeyboard', (args) => {
+        onRequestShowKeyboard(args.keyboardId);
+      });
+    }
+    this.registerListener(this.props, nextProps);
   }
 
   registerListener(props, nextProps) {

@@ -1,7 +1,7 @@
 {
   "name": "react-native-keyboard-input",
   "description": "React Native Custom Input Controller",
-  "version": "5.3.1",
+  "version": "5.4.0",
   "main": "src/index.js",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
@@ -25,6 +25,8 @@
     "url": "https://github.com/wix/react-native-keyboard-input/issues"
   },
   "scripts": {
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint src -c .eslintrc",
@@ -35,28 +37,31 @@
     "react-native-keyboard-tracking-view": "^5.5.0"
   },
   "peerDependencies": {
-    "react": "^16.6.0-alpha.8af6728",
-    "react-native": "^0.57.3"
+    "react": "16.9.0",
+    "react-native": "0.61.4",
+    "prop-types": "^15.7.2"
   },
   "devDependencies": {
+    "@babel/core": "7.7.2",
+    "@babel/runtime": "7.7.2",
     "babel-eslint": "^7.2.1",
-    "babel-jest": "^18.0.0",
+    "babel-jest": "24.9.0",
     "babel-preset-react-native": "1.9.1",
     "detox": "latest",
-    "eslint": "^3.0.0",
+    "eslint": "6.6.0",
     "eslint-config-airbnb": "^14.0.0",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "4.0.0",
     "eslint-plugin-react": "^6.9.0",
     "eslint-plugin-react-native": "^2.0.0",
-    "jest": "^18.1.0",
+    "jest": "24.9.0",
     "mocha": "^3.3.0",
-    "react": "16.8.3",
-    "react-native": "0.59.x",
+    "react": "16.9.0",
+    "react-native": "0.61.4",
+    "react-test-renderer": "16.9.0",
     "react-native-autogrow-textinput": "^5.0.0",
-    "react-native-blur": "^3.0.0",
-    "react-native-navigation": "^1.1.70",
-    "metro-react-native-babel-preset": "^0.53.1"
+    "react-native-navigation": "^3.4.0",
+    "metro-react-native-babel-preset": "0.56.3"
   },
   "jest": {
     "preset": "react-native",
@@ -71,8 +76,8 @@
   "detox": {
     "configurations": {
       "ios.sim.debug": {
-        "binaryPath": "ios/DerivedData/AwesomeProject/Build/Products/Debug-iphonesimulator/AwesomeProject.app",
-        "build": "xcodebuild -project ios/AwesomeProject.xcodeproj -scheme AwesomeProject -configuration Debug -sdk iphonesimulator -derivedDataPath ios",
+        "binaryPath": "ios/DerivedData/KeyboardInput/Build/Products/Debug-iphonesimulator/KeyboardInput.app",
+        "build": "xcodebuild -project ios/KeyboardInput.xcodeproj -scheme KeyboardInput -configuration Debug -sdk iphonesimulator -derivedDataPath ios",
         "type": "ios.simulator",
         "name": "iPhone 7"
       }

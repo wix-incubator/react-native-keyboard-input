@@ -1,4 +1,4 @@
 import {AppRegistry} from 'react-native';
-import AwesomeProject from './demo/demoScreen';
+import KeyboardInput from './demo/demoScreen';
 
-AppRegistry.registerComponent('AwesomeProject', () => AwesomeProject);
+AppRegistry.registerComponent('KeyboardInput', () => KeyboardInput);

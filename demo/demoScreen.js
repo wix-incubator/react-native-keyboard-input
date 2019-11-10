@@ -9,7 +9,6 @@ import {
   Platform,
 } from 'react-native';
 import {AutoGrowingTextInput} from 'react-native-autogrow-textinput';
-import {BlurView} from 'react-native-blur';
 import {KeyboardAccessoryView, KeyboardUtils} from 'react-native-keyboard-input';
 
 import './demoKeyboards';
@@ -17,7 +16,7 @@ import './demoKeyboards';
 const IsIOS = Platform.OS === 'ios';
 const TrackInteractive = true;
 
-export default class AwesomeProject extends Component {
+export default class KeyboardInput extends Component {
 
   constructor(props) {
     super(props);
@@ -78,9 +77,8 @@ export default class AwesomeProject extends Component {
   }
 
   keyboardAccessoryViewContent() {
-    const InnerContainerComponent = (IsIOS && BlurView) ? BlurView : View;
     return (
-      <InnerContainerComponent blurType="xlight" style={styles.blurContainer}>
+      <View style={styles.container}>
         <View style={{borderTopWidth: StyleSheet.hairlineWidth, borderColor: '#bbb'}}/>
 
         <View style={styles.inputContainer}>
@@ -108,7 +106,7 @@ export default class AwesomeProject extends Component {
               </TouchableOpacity>)
           }
         </View>
-      </InnerContainerComponent>
+      </View>
     );
   }
 
@@ -163,7 +161,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: 25,
   },
-  blurContainer: {
+  container: {
     ...Platform.select({
       ios: {
         flex: 1,

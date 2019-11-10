@@ -1,8 +1,9 @@
 package com.wix.reactnativekeyboardinput;
 
 import android.graphics.Rect;
-import android.support.annotation.Nullable;
 import android.view.ViewTreeObserver;
+
+import androidx.annotation.Nullable;
 
 import com.facebook.react.ReactRootView;
 import com.wix.reactnativekeyboardinput.utils.Logger;

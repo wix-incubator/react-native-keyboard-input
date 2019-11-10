@@ -1,6 +1,7 @@
 package com.wix.reactnativekeyboardinput;
 
 import com.facebook.react.uimanager.LayoutShadowNode;
+import com.facebook.react.uimanager.NativeViewHierarchyOptimizer;
 
 public class CustomKeyboardRootViewShadow extends LayoutShadowNode {
 
@@ -14,7 +15,7 @@ public class CustomKeyboardRootViewShadow extends LayoutShadowNode {
     }
 
     @Override
-    public void onBeforeLayout() {
+    public void onBeforeLayout(NativeViewHierarchyOptimizer nativeViewHierarchyOptimizer) {
         mLayout.setShadowNode(this);
     }
 

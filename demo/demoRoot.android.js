@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-export default class AwesomeProject extends Component {
+export default class KeyboardInput extends Component {
 
   onPressBodyMessage() {
     this.props.navigator.push({
