@@ -97,6 +97,9 @@ android/.settings/*
 android/app/.project
 android/app/.classpath
 android/app/.settings/*
+lib/android/.project
+lib/android/.classpath
+lib/android/.settings/*
 
 # node.js
 #
