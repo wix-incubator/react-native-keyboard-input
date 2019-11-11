@@ -12,6 +12,7 @@ const CustomKeyboardViewNativeAndroid = requireNativeComponent('CustomKeyboardVi
 
 export default class CustomKeyboardView extends Component {
   static propTypes = {
+    isKeyBoardUp: PropTypes.boolean,
     inputRef: PropTypes.object,
     initialProps: PropTypes.object,
     component: PropTypes.string,
@@ -50,7 +51,7 @@ export default class CustomKeyboardView extends Component {
   }
 
   async componentWillReceiveProps(nextProps) {
-    const {inputRef, component, initialProps, onRequestShowKeyboard} = nextProps;
+    const {inputRef, component, initialProps, onRequestShowKeyboard, isKeyBoardUp} = nextProps;
 
     if (IsAndroid) {
       if (this.props.component !== component && !component) {
@@ -58,7 +59,14 @@ export default class CustomKeyboardView extends Component {
       }
     }
 
-    if (IsIOS && TextInputKeyboardManagerIOS && inputRef && component !== this.props.component) {
+    if (IsIOS && TextInputKeyboardManagerIOS && inputRef && 
+      (
+        // Component has changed
+        component !== this.props.component ||
+        // 💩 Keyboard is, and was already, down
+        (!isKeyBoardUp && !this.props.isKeyBoardUp)
+      )
+    ) {
       if (component) {
         TextInputKeyboardManagerIOS.setInputComponent(inputRef, {component, initialProps});
       } else {

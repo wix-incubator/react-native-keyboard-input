@@ -10,6 +10,13 @@ const IsAndroid = Platform.OS === 'android';
 
 export default class KeyboardAccessoryView extends Component {
   static propTypes = {
+    // -------------------------------------------------------------------------
+    // Following props has been added to make a custom keyboard show when it
+    // has already been displayed, is hidden and is the last to have been dislpayed
+    // See CustomKeyboardView's componentWillReceiveProps method
+    isKeyBoardUp: this.propTypes.bool,
+    tsToForceReceiveProps: PropTypes.number,
+    // -------------------------------------------------------------------------
     renderContent: PropTypes.func,
     onHeightChanged: PropTypes.func,
     kbInputRef: PropTypes.object,
@@ -140,6 +147,8 @@ export default class KeyboardAccessoryView extends Component {
       >
         {this.props.renderContent && this.props.renderContent()}
         <CustomKeyboardView
+          isKeyBoardUp={this.props.isKeyBoardUp}
+          tsToForceReceiveProps={this.props.tsToForceReceiveProps}
           inputRef={this.props.kbInputRef}
           component={this.props.kbComponent}
           initialProps={this.processInitialProps()}
