@@ -57,6 +57,17 @@
     if(_rootView != nil)
     {
         [_rootView removeFromSuperview];
+    } else {
+        // Add background view that covers the entire input view
+        UIView *whiteBackground = [[UIView alloc] init];
+        whiteBackground.backgroundColor = [UIColor whiteColor];
+        [self.inputView addSubview: whiteBackground];
+
+        whiteBackground.translatesAutoresizingMaskIntoConstraints = NO;
+        [whiteBackground.leadingAnchor constraintEqualToAnchor:self.inputView.leadingAnchor].active = YES;
+        [whiteBackground.trailingAnchor constraintEqualToAnchor:self.inputView.trailingAnchor].active = YES;
+        [whiteBackground.topAnchor constraintEqualToAnchor:self.inputView.topAnchor].active = YES;
+        [whiteBackground.bottomAnchor constraintEqualToAnchor:self.inputView.bottomAnchor].active = YES;
     }
     
     _rootView = rootView;
