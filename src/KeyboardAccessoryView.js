@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
+import { View } from 'react-native'
 import PropTypes from 'prop-types';
 import {StyleSheet, Platform, NativeModules, NativeEventEmitter, DeviceEventEmitter, processColor, BackHandler} from 'react-native';
-import {KeyboardTrackingView} from 'react-native-keyboard-tracking-view';
 import CustomKeyboardView from './CustomKeyboardView';
 import KeyboardUtils from './utils/KeyboardUtils';
 
@@ -127,7 +127,7 @@ export default class KeyboardAccessoryView extends Component {
 
   render() {
     return (
-      <KeyboardTrackingView
+      <View
         ref={r => this.trackingViewRef = r}
         style={styles.trackingToolbarContainer}
         onLayout={this.onContainerComponentHeightChanged}
@@ -146,7 +146,7 @@ export default class KeyboardAccessoryView extends Component {
           onItemSelected={this.props.onItemSelected}
           onRequestShowKeyboard={this.props.onRequestShowKeyboard}
         />
-      </KeyboardTrackingView>
+       </View>
     );
   }
 }
