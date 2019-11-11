@@ -8,6 +8,7 @@ import {
   PixelRatio,
   Platform,
 } from 'react-native';
+import PropTypes from 'prop-types';
 import {AutoGrowingTextInput} from 'react-native-autogrow-textinput';
 import {KeyboardAccessoryView, KeyboardUtils} from 'react-native-keyboard-input';
 
@@ -17,6 +18,9 @@ const IsIOS = Platform.OS === 'ios';
 const TrackInteractive = true;
 
 export default class KeyboardInput extends Component {
+  static propTypes = {
+    message: PropTypes.string,
+  };
 
   constructor(props) {
     super(props);
@@ -143,10 +147,12 @@ export default class KeyboardInput extends Component {
   }
 }
 
+const COLOR = '#F5FCFF';
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5FCFF',
+    backgroundColor: COLOR,
   },
   scrollContainer: {
     justifyContent: 'center',
@@ -170,6 +176,7 @@ const styles = StyleSheet.create({
     ...Platform.select({
       ios: {
         flex: 1,
+        backgroundColor: COLOR,
       },
     }),
   },
