@@ -7,22 +7,55 @@ Navigation.registerComponent('screens.star', () => KeyboardAppScreen);
 Navigation.registerComponent('screens.settings', () => DemoRootScreen);
 Navigation.registerComponent('screens.innerScreen', () => KeyboardAppScreen);
 
-Navigation.startTabBasedApp({
-  tabs: [
-    {
-      label: 'Main Tab',
-      screen: 'screens.star',
-      icon: require('./demo/res/star.png'),
-      title: 'Main Tab',
-      passProps: {
-        message: 'On the main tab, the keyboard input is in the root screen!'
-      }
+Navigation.setRoot({
+  root: {
+    bottomTabs: {
+      children: [{
+        stack: {
+          children: [{
+            component: {
+              name: 'screens.star',
+              passProps: {
+                message: 'On the main tab, the keyboard input is in the root screen!',
+              },
+            },
+          }],
+          options: {
+            bottomTab: {
+              text: 'Main Tab',
+              icon: require('./demo/res/star.png'),
+            },
+            topBar: {
+              title: {
+                text: 'Main Tab',
+              },
+            },
+          },
+        },
+      },
+      {
+        stack: {
+          children: [{
+            component: {
+              name: 'screens.settings',
+              passProps: {
+                message: 'Secondary Tab',
+              },
+            },
+          }],
+          options: {
+            bottomTab: {
+              text: 'Second Tab',
+              icon: require('./demo/res/settings.png'),
+            },
+            topBar: {
+              title: {
+                text: 'Second Tab',
+              },
+            },
+          },
+        },
+      }],
     },
-    {
-      label: 'Second Tab',
-      screen: 'screens.settings',
-      icon: require('./demo/res/settings.png'),
-      title: 'Secondary Tab'
-    }
-  ]
+  },
 });

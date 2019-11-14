@@ -8,8 +8,8 @@ import {
   PixelRatio,
   Platform,
 } from 'react-native';
+import PropTypes from 'prop-types';
 import {AutoGrowingTextInput} from 'react-native-autogrow-textinput';
-import {BlurView} from 'react-native-blur';
 import {KeyboardAccessoryView, KeyboardUtils} from 'react-native-keyboard-input';
 
 import './demoKeyboards';
@@ -17,7 +17,10 @@ import './demoKeyboards';
 const IsIOS = Platform.OS === 'ios';
 const TrackInteractive = true;
 
-export default class AwesomeProject extends Component {
+export default class KeyboardInput extends Component {
+  static propTypes = {
+    message: PropTypes.string,
+  };
 
   constructor(props) {
     super(props);
@@ -38,6 +41,10 @@ export default class AwesomeProject extends Component {
   onKeyboardItemSelected(keyboardId, params) {
     const receivedKeyboardData = `onItemSelected from "${keyboardId}"\nreceived params: ${JSON.stringify(params)}`;
     this.setState({receivedKeyboardData});
+  }
+
+  onKeyboardResigned() {
+    this.resetKeyboardView();
   }
 
   getToolbarButtons() {
@@ -64,10 +71,6 @@ export default class AwesomeProject extends Component {
     this.setState({customKeyboard: {}});
   }
 
-  onKeyboardResigned() {
-    this.resetKeyboardView();
-  }
-
   showKeyboardView(component, title) {
     this.setState({
       customKeyboard: {
@@ -78,9 +81,8 @@ export default class AwesomeProject extends Component {
   }
 
   keyboardAccessoryViewContent() {
-    const InnerContainerComponent = (IsIOS && BlurView) ? BlurView : View;
     return (
-      <InnerContainerComponent blurType="xlight" style={styles.blurContainer}>
+      <View style={styles.keyboardContainer}>
         <View style={{borderTopWidth: StyleSheet.hairlineWidth, borderColor: '#bbb'}}/>
 
         <View style={styles.inputContainer}>
@@ -103,12 +105,17 @@ export default class AwesomeProject extends Component {
         <View style={{flexDirection: 'row'}}>
           {
             this.getToolbarButtons().map((button, index) =>
-              <TouchableOpacity onPress={button.onPress} style={{paddingLeft: 15, paddingBottom: 10}} key={index} testID={button.testID}>
+              <TouchableOpacity
+                onPress={button.onPress}
+                style={{paddingLeft: 15, paddingBottom: 10}}
+                key={index}
+                testID={button.testID}
+              >
                 <Text>{button.text}</Text>
               </TouchableOpacity>)
           }
         </View>
-      </InnerContainerComponent>
+      </View>
     );
   }
 
@@ -140,10 +147,12 @@ export default class AwesomeProject extends Component {
   }
 }
 
+const COLOR = '#F5FCFF';
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5FCFF',
+    backgroundColor: COLOR,
   },
   scrollContainer: {
     justifyContent: 'center',
@@ -163,10 +172,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: 25,
   },
-  blurContainer: {
+  keyboardContainer: {
     ...Platform.select({
       ios: {
         flex: 1,
+        backgroundColor: COLOR,
       },
     }),
   },

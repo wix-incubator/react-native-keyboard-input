@@ -1,10 +1,11 @@
 package com.wix.reactnativekeyboardinput.utils;
 
 import android.app.Activity;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+
+import androidx.annotation.Nullable;
 
 import com.facebook.react.ReactRootView;
 
@@ -46,7 +47,8 @@ public class ViewUtils {
     /**
      * Returns the first instance of clazz in root for which <code>predicate</code> is evaluated as <code>true</code>.
      */
-    @Nullable public static <T> T findChildByClass(ViewGroup root, PredicateFunc<View> predicate) {
+    @Nullable
+    public static <T> T findChildByClass(ViewGroup root, PredicateFunc<View> predicate) {
         for (int i = 0; i < root.getChildCount(); i++) {
             View view = root.getChildAt(i);
             if (predicate.invoke(view)) {
