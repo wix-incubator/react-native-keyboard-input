@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "lodash": "^4.17.4",
-    "react-native-keyboard-tracking-view": "^5.5.0"
+    "react-native-keyboard-tracking-view": "^5.7.0"
   },
   "peerDependencies": {
     "react": "16.9.0",
