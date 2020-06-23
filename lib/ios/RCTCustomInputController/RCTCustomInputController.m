@@ -63,8 +63,7 @@ NSString *const RCTCustomInputControllerKeyboardResigendEvent = @"kbdResigned";
     BOOL _performingExpandTransition;
 }
 
-@property(nonatomic) BOOL customInputComponentPresented;
-
+@property (nonatomic) BOOL customInputComponentPresented;
 @end
 
 @implementation RCTCustomInputController
@@ -114,7 +113,7 @@ RCT_EXPORT_MODULE(CustomInputController)
     return nil;
 }
 
-RCT_EXPORT_METHOD(presentCustomInputComponent:(nonnull NSNumber*)inputFieldTag params:(nonnull NSDictionary*)params)
+RCT_EXPORT_METHOD(presentCustomInputComponent:(nonnull NSNumber*)inputFieldTag params:(nonnull NSDictionary*)params useSafeArea:(BOOL)useSafeArea)
 {
     RCTBridge* bridge = [self.bridge valueForKey:@"parentBridge"];
     if(bridge == nil)
@@ -136,7 +135,7 @@ RCT_EXPORT_METHOD(presentCustomInputComponent:(nonnull NSNumber*)inputFieldTag p
     
     self.customInputComponentPresented = NO;
     
-    RCTCustomKeyboardViewController* customKeyboardController = [[RCTCustomKeyboardViewController alloc] init];
+    RCTCustomKeyboardViewController* customKeyboardController = [[RCTCustomKeyboardViewController alloc] initWithUsingSafeArea:useSafeArea];
     customKeyboardController.rootView = rv;
     
     _WXInputHelperView* helperView = [[_WXInputHelperView alloc] initWithFrame:CGRectZero];

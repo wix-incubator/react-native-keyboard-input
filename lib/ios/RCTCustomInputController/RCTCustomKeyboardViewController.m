@@ -12,9 +12,13 @@
     #define ObservingInputAccessoryView_IsAvailable true
 #endif
 
+@interface RCTCustomKeyboardViewController ()
+@property (nonatomic, assign, getter=isUseingSafeArea) BOOL useSafeArea;
+@end
+
 @implementation RCTCustomKeyboardViewController
 
-- (instancetype)init
+- (instancetype)initWithUsingSafeArea:(BOOL)useSafeArea
 {
 	self = [super init];
 	
@@ -23,6 +27,7 @@
 		self.inputView = [[UIInputView alloc] initWithFrame:CGRectZero inputViewStyle:UIInputViewStyleKeyboard];
 
         self.heightConstraint = [self.inputView.heightAnchor constraintEqualToConstant:0];
+        self.useSafeArea = useSafeArea;
         
 #ifdef ObservingInputAccessoryView_IsAvailable
         ObservingInputAccessoryView *activeObservingInputAccessoryView = [ObservingInputAccessoryViewManager sharedInstance].activeObservingInputAccessoryView;
@@ -63,17 +68,33 @@
     _rootView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.inputView addSubview:_rootView];
     
+    [self updateRootViewConstraints];
+    [self.inputView setNeedsLayout];
+}
+
+- (void)updateRootViewConstraints {
+    _rootView.translatesAutoresizingMaskIntoConstraints = NO;
     [_rootView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor].active = YES;
     [_rootView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor].active = YES;
     [_rootView.topAnchor constraintEqualToAnchor:self.view.topAnchor].active = YES;
 
-    NSLayoutYAxisAnchor *yAxisAnchor = self.view.bottomAnchor;
-#if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_10_3
-    if (@available(iOS 11.0, *)) {
-        yAxisAnchor = self.view.safeAreaLayoutGuide.bottomAnchor;
-    }
-#endif
+    NSLayoutYAxisAnchor *yAxisAnchor = [self bottomLayoutAnchorUsingSafeArea:self.isUseingSafeArea];
     [_rootView.bottomAnchor constraintEqualToAnchor:yAxisAnchor].active = YES;
+}
+
+- (NSLayoutYAxisAnchor *)bottomLayoutAnchorUsingSafeArea:(BOOL)useSafeArea {
+    NSLayoutYAxisAnchor *yAxisAnchor = self.view.bottomAnchor;
+    
+    if (!useSafeArea) {
+        return yAxisAnchor;
+    }
+    
+    #if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_10_3
+        if (@available(iOS 11.0, *)) {
+            yAxisAnchor = self.view.safeAreaLayoutGuide.bottomAnchor;
+        }
+    #endif
+    return yAxisAnchor;
 }
 
 @end

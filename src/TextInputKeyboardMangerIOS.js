@@ -4,13 +4,13 @@ const CustomInputController = NativeModules.CustomInputController;
 
 export default class TextInputKeyboardManagerIOS {
 
-  static setInputComponent = (textInputRef, {component, initialProps}) => {
+  static setInputComponent = (textInputRef, {component, initialProps}, useSafeArea) => {
     if (!textInputRef || !CustomInputController) {
       return;
     }
     const reactTag = findNodeHandle(textInputRef);
     if (reactTag) {
-      CustomInputController.presentCustomInputComponent(reactTag, {component, initialProps});
+      CustomInputController.presentCustomInputComponent(reactTag, {component, initialProps}, useSafeArea);
     }
   };
 

@@ -217,7 +217,7 @@ PODS:
     - React-cxxreact (= 0.61.4)
     - React-jsi (= 0.61.4)
     - ReactCommon/jscallinvoker (= 0.61.4)
-  - ReactNativeKeyboardInput (5.4.0):
+  - ReactNativeKeyboardInput (6.0.1):
     - React
   - ReactNativeKeyboardTrackingView (5.6.1):
     - React
@@ -346,11 +346,11 @@ SPEC CHECKSUMS:
   React-RCTText: 21934e0a51d522abcd0a275407e80af45d6fd9ec
   React-RCTVibration: 0f76400ee3cec6edb9c125da49fed279340d145a
   ReactCommon: a6a294e7028ed67b926d29551aa9394fd989c24c
-  ReactNativeKeyboardInput: a7e007a56d2f3c831341eec14e632ab5615f12ac
+  ReactNativeKeyboardInput: 266ba27a2e9921f5bdc0b4cc30289b2a2f46b157
   ReactNativeKeyboardTrackingView: a240a6a0dba852bb107109a7ec7e98b884055977
   ReactNativeNavigation: 3fad99b3843e8840affd70577aaa30bf14b272d5
   Yoga: ba3d99dbee6c15ea6bbe3783d1f0cb1ffb79af0f
 
 PODFILE CHECKSUM: db72c512534d095b2d49d5dbe372d7ea041b7645
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.9.3

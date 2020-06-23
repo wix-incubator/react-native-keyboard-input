@@ -141,6 +141,7 @@ export default class KeyboardInput extends Component {
           onItemSelected={this.onKeyboardItemSelected}
           onKeyboardResigned={this.onKeyboardResigned}
           revealKeyboardInteractive
+          useSafeArea={false}
         />
       </View>
     );
