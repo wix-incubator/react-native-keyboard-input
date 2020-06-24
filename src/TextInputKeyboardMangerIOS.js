@@ -10,7 +10,7 @@ export default class TextInputKeyboardManagerIOS {
     }
     const reactTag = findNodeHandle(textInputRef);
     if (reactTag) {
-      CustomInputController.presentCustomInputComponent(reactTag, {component, initialProps}, useSafeArea);
+      CustomInputController.presentCustomInputComponent(reactTag, {component, initialProps, useSafeArea});
     }
   };
 

@@ -114,10 +114,10 @@ RCT_EXPORT_MODULE(CustomInputController)
 }
 
 - (BOOL)shouldUseSafeAreaFrom:(NSDictionary *)params {
-    return params[@"useSafeArea"] ? [params[@"useSafeArea"] isEqual:@(1)] : YES;
+    return [params[@"useSafeArea"] isEqual:@(1)];
 }
 
-RCT_EXPORT_METHOD(presentCustomInputComponent:(nonnull NSNumber*)inputFieldTag params:(nonnull NSDictionary*)params
+RCT_EXPORT_METHOD(presentCustomInputComponent:(nonnull NSNumber*)inputFieldTag params:(nonnull NSDictionary*)params)
 {
     RCTBridge* bridge = [self.bridge valueForKey:@"parentBridge"];
     if(bridge == nil)

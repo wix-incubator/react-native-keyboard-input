@@ -88,7 +88,10 @@ export default class CustomKeyboardView extends Component {
 
     if (IsIOS && TextInputKeyboardManagerIOS && inputRef && component !== this.props.component) {
       if (component) {
-        TextInputKeyboardManagerIOS.setInputComponent(inputRef, {component, initialProps, useSafeArea});
+        TextInputKeyboardManagerIOS.setInputComponent(inputRef, {
+          component,
+          initialProps: {...initialProps, useSafeArea},
+        });
       } else {
         TextInputKeyboardManagerIOS.removeInputComponent(inputRef);
       }
