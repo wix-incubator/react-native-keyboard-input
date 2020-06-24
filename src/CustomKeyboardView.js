@@ -31,7 +31,7 @@ export default class CustomKeyboardView extends Component {
       this.addOnItemSelectListener(onItemSelected, component);
 
       if (TextInputKeyboardManagerIOS && inputRef) {
-        TextInputKeyboardManagerIOS.setInputComponent(inputRef, {component, initialProps}, useSafeArea);
+        TextInputKeyboardManagerIOS.setInputComponent(inputRef, {component, initialProps, useSafeArea});
       }
 
       this.registeredRequestShowKeyboard = false;
@@ -88,7 +88,7 @@ export default class CustomKeyboardView extends Component {
 
     if (IsIOS && TextInputKeyboardManagerIOS && inputRef && component !== this.props.component) {
       if (component) {
-        TextInputKeyboardManagerIOS.setInputComponent(inputRef, {component, initialProps}, useSafeArea);
+        TextInputKeyboardManagerIOS.setInputComponent(inputRef, {component, initialProps, useSafeArea});
       } else {
         TextInputKeyboardManagerIOS.removeInputComponent(inputRef);
       }

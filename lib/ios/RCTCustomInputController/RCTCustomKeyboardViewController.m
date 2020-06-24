@@ -13,7 +13,7 @@
 #endif
 
 @interface RCTCustomKeyboardViewController ()
-@property (nonatomic, assign, getter=isUseingSafeArea) BOOL useSafeArea;
+@property (nonatomic, assign, getter=isUsingSafeArea) BOOL useSafeArea;
 @end
 
 @implementation RCTCustomKeyboardViewController
@@ -77,8 +77,8 @@
     [_rootView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor].active = YES;
     [_rootView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor].active = YES;
     [_rootView.topAnchor constraintEqualToAnchor:self.view.topAnchor].active = YES;
-
-    NSLayoutYAxisAnchor *yAxisAnchor = [self bottomLayoutAnchorUsingSafeArea:self.isUseingSafeArea];
+    
+    NSLayoutYAxisAnchor *yAxisAnchor = [self bottomLayoutAnchorUsingSafeArea:self.isUsingSafeArea];
     [_rootView.bottomAnchor constraintEqualToAnchor:yAxisAnchor].active = YES;
 }
 
@@ -89,12 +89,11 @@
         return yAxisAnchor;
     }
     
-    #if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_10_3
-        if (@available(iOS 11.0, *)) {
-            yAxisAnchor = self.view.safeAreaLayoutGuide.bottomAnchor;
-        }
-    #endif
+#if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_10_3
+    if (@available(iOS 11.0, *)) {
+        yAxisAnchor = self.view.safeAreaLayoutGuide.bottomAnchor;
+    }
+#endif
     return yAxisAnchor;
 }
-
 @end
