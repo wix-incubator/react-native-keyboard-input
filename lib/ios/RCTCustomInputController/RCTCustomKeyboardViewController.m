@@ -73,7 +73,6 @@
 }
 
 - (void)updateRootViewConstraints {
-    _rootView.translatesAutoresizingMaskIntoConstraints = NO;
     [_rootView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor].active = YES;
     [_rootView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor].active = YES;
     [_rootView.topAnchor constraintEqualToAnchor:self.view.topAnchor].active = YES;
