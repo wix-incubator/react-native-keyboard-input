@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   PixelRatio,
   Platform,
+  Switch,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import {AutoGrowingTextInput} from 'react-native-autogrow-textinput';
@@ -35,6 +36,7 @@ export default class KeyboardInput extends Component {
         initialProps: undefined,
       },
       receivedKeyboardData: undefined,
+      useSafeArea: true,
     };
   }
 
@@ -80,6 +82,26 @@ export default class KeyboardInput extends Component {
     });
   }
 
+  toggleUseSafeArea = () => {
+    const {useSafeArea} = this.state;
+    this.setState({
+      useSafeArea: !useSafeArea,
+    });
+  }
+
+  safeAreaSwitchToggleForIOS = () => {
+    if (Platform.OS !== 'ios') {
+      return (<View />);
+    }
+    const {useSafeArea} = this.state;
+    return (
+      <View style={styles.safeAreaSwitchContainer}>
+        <Text>Safe Area Enabled:</Text>
+        <Switch style={styles.switch} value={useSafeArea} onValueChange={this.toggleUseSafeArea}/>
+      </View>
+    );
+  }
+
   keyboardAccessoryViewContent() {
     return (
       <View style={styles.keyboardContainer}>
@@ -101,7 +123,7 @@ export default class KeyboardInput extends Component {
             <Text>Action</Text>
           </TouchableOpacity>
         </View>
-
+        { this.safeAreaSwitchToggleForIOS() }
         <View style={{flexDirection: 'row'}}>
           {
             this.getToolbarButtons().map((button, index) =>
@@ -141,7 +163,7 @@ export default class KeyboardInput extends Component {
           onItemSelected={this.onKeyboardItemSelected}
           onKeyboardResigned={this.onKeyboardResigned}
           revealKeyboardInteractive
-          useSafeArea={false}
+          useSafeArea={this.state.useSafeArea}
         />
       </View>
     );
@@ -198,5 +220,14 @@ const styles = StyleSheet.create({
     paddingRight: 15,
     paddingLeft: 15,
     alignSelf: 'center',
+  },
+  switch: {
+    marginLeft: 15,
+  },
+  safeAreaSwitchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft: 15,
+    marginBottom: 15,
   },
 });
