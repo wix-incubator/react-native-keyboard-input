@@ -17,7 +17,6 @@
 
 - (instancetype)initWithUsingSafeArea:(BOOL)useSafeArea;
 - (void) setAllowsSelfSizing:(BOOL)allowsSelfSizing;
-- (void)setNeedSafeAreaUpdate:(BOOL)useSafeArea;
 
 @property (nonatomic, strong) NSLayoutConstraint *heightConstraint;
 @property (nonatomic, strong) RCTRootView *rootView;

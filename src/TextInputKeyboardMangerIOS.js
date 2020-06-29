@@ -14,10 +14,6 @@ export default class TextInputKeyboardManagerIOS {
     }
   };
 
-  static setUsingSafeArea = (useSafeArea) => {
-    CustomInputController.updateSafeArea(useSafeArea);
-  }
-
   static removeInputComponent = (textInputRef) => {
     if (!textInputRef || !CustomInputController) {
       return;

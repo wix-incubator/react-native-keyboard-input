@@ -14,8 +14,6 @@
 
 @interface RCTCustomKeyboardViewController ()
 @property (nonatomic, assign, getter=isUsingSafeArea) BOOL useSafeArea;
-@property (nonatomic, strong) NSLayoutConstraint *bottomConstraintToSafeArea;
-@property (nonatomic, strong) NSLayoutConstraint *bottomConstraintToView;
 @end
 
 @implementation RCTCustomKeyboardViewController
@@ -70,66 +68,31 @@
     _rootView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.inputView addSubview:_rootView];
     
-    [self updateRootViewConstraints: self.isUsingSafeArea];
+    [self updateRootViewConstraints];
     [self.inputView setNeedsLayout];
 }
 
-- (void)setNeedSafeAreaUpdate:(BOOL)useSafeArea {
-    [self updateBottomConstraint:useSafeArea];
-    [self.inputView setNeedsLayout];
-}
-
-- (void)updateRootViewConstraints:(BOOL)useSafeArea {
+- (void)updateRootViewConstraints {
     [_rootView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor].active = YES;
     [_rootView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor].active = YES;
     [_rootView.topAnchor constraintEqualToAnchor:self.view.topAnchor].active = YES;
-    [self createBottomConstraintsOnce];
     
-    [self updateBottomConstraint:useSafeArea];
-}
-
-- (void)createBottomConstraintsOnce {
-    if (self.bottomConstraintToSafeArea && self.bottomConstraintToView) {
-        return;
-    }
-    NSLayoutYAxisAnchor *safeAreaAnchor = [self bottomLayoutAnchorUsingSafeArea:YES];
-    NSLayoutYAxisAnchor *bottomViewAnchor = [self bottomLayoutAnchorUsingSafeArea:NO];
-    
-    self.bottomConstraintToSafeArea = [_rootView.bottomAnchor constraintEqualToAnchor:safeAreaAnchor];
-    self.bottomConstraintToView = [_rootView.bottomAnchor constraintEqualToAnchor:bottomViewAnchor];
-}
-
-- (void)updateBottomConstraint:(BOOL)useSafeArea {
-    if (useSafeArea) {
-        [self activateSafeAreaConstraint];
-    } else {
-        [self activateBottomViewConstraint];
-    }
-}
-
-- (void)activateSafeAreaConstraint {
-    [self.bottomConstraintToView setActive:NO];
-    [self.bottomConstraintToSafeArea setActive:YES];
-}
-
-- (void)activateBottomViewConstraint {
-    [self.bottomConstraintToSafeArea setActive:NO];
-    [self.bottomConstraintToView setActive:YES];
+    NSLayoutYAxisAnchor *yAxisAnchor = [self bottomLayoutAnchorUsingSafeArea:self.isUsingSafeArea];
+    [_rootView.bottomAnchor constraintEqualToAnchor:yAxisAnchor].active = YES;
 }
 
 - (NSLayoutYAxisAnchor *)bottomLayoutAnchorUsingSafeArea:(BOOL)useSafeArea {
-    NSLayoutYAxisAnchor *bottomAnchor = self.view.bottomAnchor;
+    NSLayoutYAxisAnchor *yAxisAnchor = self.view.bottomAnchor;
     
     if (!useSafeArea) {
-        return bottomAnchor;
+        return yAxisAnchor;
     }
     
 #if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_10_3
     if (@available(iOS 11.0, *)) {
-        bottomAnchor = self.view.safeAreaLayoutGuide.bottomAnchor;
+        yAxisAnchor = self.view.safeAreaLayoutGuide.bottomAnchor;
     }
 #endif
-    return bottomAnchor;
+    return yAxisAnchor;
 }
-
 @end
