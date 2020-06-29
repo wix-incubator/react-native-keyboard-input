@@ -89,14 +89,11 @@ export default class KeyboardInput extends Component {
     });
   }
 
-  safeAreaSwitchToggleForIOS = () => {
-    if (Platform.OS !== 'ios') {
-      return (<View />);
-    }
+  safeAreaSwitchToggle = () => {
     const {useSafeArea} = this.state;
     return (
       <View style={styles.safeAreaSwitchContainer}>
-        <Text>Safe Area Enabled:</Text>
+        <Text>(iOS) Safe Area Enabled:</Text>
         <Switch style={styles.switch} value={useSafeArea} onValueChange={this.toggleUseSafeArea}/>
       </View>
     );
@@ -123,7 +120,7 @@ export default class KeyboardInput extends Component {
             <Text>Action</Text>
           </TouchableOpacity>
         </View>
-        { this.safeAreaSwitchToggleForIOS() }
+        { this.safeAreaSwitchToggle() }
         <View style={{flexDirection: 'row'}}>
           {
             this.getToolbarButtons().map((button, index) =>

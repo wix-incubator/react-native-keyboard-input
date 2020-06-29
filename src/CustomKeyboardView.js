@@ -96,6 +96,8 @@ export default class CustomKeyboardView extends Component {
       } else {
         TextInputKeyboardManagerIOS.removeInputComponent(inputRef);
       }
+    } else if (IsIOS && useSafeArea !== this.props.useSafeArea) {
+      TextInputKeyboardManagerIOS.setUsingSafeArea(useSafeArea);
     }
 
     if (onRequestShowKeyboard && !this.registeredRequestShowKeyboard) {
