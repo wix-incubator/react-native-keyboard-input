@@ -64,6 +64,7 @@ NSString *const RCTCustomInputControllerKeyboardResigendEvent = @"kbdResigned";
 }
 
 @property (nonatomic) BOOL customInputComponentPresented;
+@property (nonatomic, strong) RCTCustomKeyboardViewController* customKeyboardController;
 @end
 
 @implementation RCTCustomInputController
@@ -117,6 +118,10 @@ RCT_EXPORT_MODULE(CustomInputController)
     return [params[@"useSafeArea"] isEqual:@(1)];
 }
 
+RCT_EXPORT_METHOD(updateSafeArea:(BOOL)useSafeArea) {
+    [self.customKeyboardController setNeedSafeAreaUpdate:useSafeArea];
+}
+
 RCT_EXPORT_METHOD(presentCustomInputComponent:(nonnull NSNumber*)inputFieldTag params:(nonnull NSDictionary*)params)
 {
     RCTBridge* bridge = [self.bridge valueForKey:@"parentBridge"];
@@ -140,8 +145,8 @@ RCT_EXPORT_METHOD(presentCustomInputComponent:(nonnull NSNumber*)inputFieldTag p
     self.customInputComponentPresented = NO;
     
     BOOL useSafeArea = [self shouldUseSafeAreaFrom:params];
-    RCTCustomKeyboardViewController* customKeyboardController = [[RCTCustomKeyboardViewController alloc] initWithUsingSafeArea:useSafeArea];
-    customKeyboardController.rootView = rv;
+    self.customKeyboardController = [[RCTCustomKeyboardViewController alloc] initWithUsingSafeArea:useSafeArea];
+    self.customKeyboardController.rootView = rv;
     
     _WXInputHelperView* helperView = [[_WXInputHelperView alloc] initWithFrame:CGRectZero];
     helperView.tag = kHlperViewTag;
@@ -195,7 +200,7 @@ RCT_EXPORT_METHOD(presentCustomInputComponent:(nonnull NSNumber*)inputFieldTag p
     [inputField.superview addSubview:helperView];
     [inputField.superview sendSubviewToBack:helperView];
     
-    helperView.inputViewController = customKeyboardController;
+    helperView.inputViewController = self.customKeyboardController;
     [helperView reloadInputViews];
     [helperView becomeFirstResponder];
     
