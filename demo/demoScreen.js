@@ -16,6 +16,7 @@ import {KeyboardRegistry} from 'react-native-keyboard-input';
 import {_} from 'lodash';
 
 import './demoKeyboards';
+import CustomKeyboardView from '../src/CustomKeyboardView';
 
 const IsIOS = Platform.OS === 'ios';
 const TrackInteractive = true;
@@ -35,10 +36,6 @@ export default class KeyboardInput extends Component {
     this.isCustomKeyboardOpen = this.isCustomKeyboardOpen.bind(this);
 
     this.state = {
-      lastOpenedKeyboard: {
-        component: undefined,
-        initialProps: undefined,
-      },
       customKeyboard: {
         component: undefined,
         initialProps: undefined,
@@ -74,13 +71,21 @@ export default class KeyboardInput extends Component {
       {
         text: 'reset',
         testID: 'reset',
-        onPress: () => this.resetKeyboardView(),
+        onPress: () => this.resetKeyboardView(false),
       },
     ];
   }
 
-  resetKeyboardView() {
+  resetKeyboardView(reopenKeyboard = true) {
+    const {customKeyboard} = this.state;
     this.setState({customKeyboard: {}});
+
+    if (!reopenKeyboard) {
+      return;
+    }
+    setTimeout(() => {
+      this.setState({customKeyboard});
+    }, 500);
   }
 
   showKeyboardView(component, title) {
@@ -90,18 +95,14 @@ export default class KeyboardInput extends Component {
         component,
         initialProps: {title},
       },
-      lastOpenedKeyboard: {
-        component,
-        initialProps: {title},
-      }
     });
   }
 
   showLastKeyboard() {
-    const {lastOpenedKeyboard} = this.state;
+    const {customKeyboard} = this.state;
     this.setState({
       keyboardOpenState: true,
-      customKeyboard: lastOpenedKeyboard,
+      customKeyboard,
     });
   }
 
@@ -117,21 +118,19 @@ export default class KeyboardInput extends Component {
     });
 
     if (this.isCustomKeyboardOpen()) {
-      setTimeout(() => {
-        this.showLastKeyboard();
-      }, 500);
+      this.showLastKeyboard();
     }
   }
 
   safeAreaSwitchToggle = () => {
+    if (!IsIOS) {
+      return (<View />);
+    }
     const {useSafeArea} = this.state;
     return (
       <View style={styles.safeAreaSwitchContainer}>
         <Text>Safe Area Enabled:</Text>
         <Switch style={styles.switch} value={useSafeArea} onValueChange={this.toggleUseSafeArea}/>
-        <View style={{margin: 15}}>
-          <Text>Keyboard Open: {this.state.keyboardOpenState ? 'true' : 'false'}</Text>
-        </View>
       </View>
     );
   }
