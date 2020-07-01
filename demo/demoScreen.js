@@ -71,20 +71,13 @@ export default class KeyboardInput extends Component {
       {
         text: 'reset',
         testID: 'reset',
-        onPress: () => this.resetKeyboardView(false),
+        onPress: () => this.resetKeyboardView(),
       },
     ];
   }
 
-  resetKeyboardView(reopenKeyboard = true) {
-    const {customKeyboard} = this.state;
+  resetKeyboardView() {
     this.setState({customKeyboard: {}});
-
-    if (reopenKeyboard) {
-      setTimeout(() => {
-        this.setState({customKeyboard});
-      }, 500);
-    }
   }
 
   showKeyboardView(component, title) {
@@ -97,12 +90,20 @@ export default class KeyboardInput extends Component {
     });
   }
 
+  dismissKeyboard() {
+    KeyboardUtils.dismiss();
+  }
+
   showLastKeyboard() {
     const {customKeyboard} = this.state;
-    this.setState({
-      keyboardOpenState: true,
-      customKeyboard,
-    });
+    this.setState({customKeyboard: {}});
+
+    setTimeout(() => {
+      this.setState({
+        keyboardOpenState: true,
+        customKeyboard,
+      });
+    }, 500);
   }
 
   isCustomKeyboardOpen = () => {
@@ -112,11 +113,10 @@ export default class KeyboardInput extends Component {
 
   toggleUseSafeArea = () => {
     const {useSafeArea} = this.state;
-    this.setState({
-      useSafeArea: !useSafeArea,
-    });
+    this.setState({useSafeArea: !useSafeArea});
 
     if (this.isCustomKeyboardOpen()) {
+      this.dismissKeyboard();
       this.showLastKeyboard();
     }
   }
@@ -185,7 +185,6 @@ export default class KeyboardInput extends Component {
         </ScrollView>
 
         <KeyboardAccessoryView
-          key={this.state.useSafeArea}
           renderContent={this.keyboardAccessoryViewContent}
           onHeightChanged={height => this.setState({keyboardAccessoryViewHeight: IsIOS ? height : undefined})}
           trackInteractive={TrackInteractive}
