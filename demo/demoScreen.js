@@ -80,12 +80,11 @@ export default class KeyboardInput extends Component {
     const {customKeyboard} = this.state;
     this.setState({customKeyboard: {}});
 
-    if (!reopenKeyboard) {
-      return;
+    if (reopenKeyboard) {
+      setTimeout(() => {
+        this.setState({customKeyboard});
+      }, 500);
     }
-    setTimeout(() => {
-      this.setState({customKeyboard});
-    }, 500);
   }
 
   showKeyboardView(component, title) {
