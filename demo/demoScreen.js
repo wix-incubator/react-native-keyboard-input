@@ -7,12 +7,16 @@ import {
   TouchableOpacity,
   PixelRatio,
   Platform,
+  Switch,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import {AutoGrowingTextInput} from 'react-native-autogrow-textinput';
 import {KeyboardAccessoryView, KeyboardUtils} from 'react-native-keyboard-input';
+import {KeyboardRegistry} from 'react-native-keyboard-input';
+import {_} from 'lodash';
 
 import './demoKeyboards';
+import CustomKeyboardView from '../src/CustomKeyboardView';
 
 const IsIOS = Platform.OS === 'ios';
 const TrackInteractive = true;
@@ -28,6 +32,8 @@ export default class KeyboardInput extends Component {
     this.onKeyboardItemSelected = this.onKeyboardItemSelected.bind(this);
     this.resetKeyboardView = this.resetKeyboardView.bind(this);
     this.onKeyboardResigned = this.onKeyboardResigned.bind(this);
+    this.showLastKeyboard = this.showLastKeyboard.bind(this);
+    this.isCustomKeyboardOpen = this.isCustomKeyboardOpen.bind(this);
 
     this.state = {
       customKeyboard: {
@@ -35,6 +41,8 @@ export default class KeyboardInput extends Component {
         initialProps: undefined,
       },
       receivedKeyboardData: undefined,
+      useSafeArea: true,
+      keyboardOpenState: false,
     };
   }
 
@@ -44,6 +52,7 @@ export default class KeyboardInput extends Component {
   }
 
   onKeyboardResigned() {
+    this.setState({keyboardOpenState: false});
     this.resetKeyboardView();
   }
 
@@ -73,6 +82,7 @@ export default class KeyboardInput extends Component {
 
   showKeyboardView(component, title) {
     this.setState({
+      keyboardOpenState: true,
       customKeyboard: {
         component,
         initialProps: {title},
@@ -80,11 +90,54 @@ export default class KeyboardInput extends Component {
     });
   }
 
+  dismissKeyboard() {
+    KeyboardUtils.dismiss();
+  }
+
+  showLastKeyboard() {
+    const {customKeyboard} = this.state;
+    this.setState({customKeyboard: {}});
+
+    setTimeout(() => {
+      this.setState({
+        keyboardOpenState: true,
+        customKeyboard,
+      });
+    }, 500);
+  }
+
+  isCustomKeyboardOpen = () => {
+    const {keyboardOpenState, customKeyboard} = this.state;
+    return keyboardOpenState && !_.isEmpty(customKeyboard);
+  }
+
+  toggleUseSafeArea = () => {
+    const {useSafeArea} = this.state;
+    this.setState({useSafeArea: !useSafeArea});
+
+    if (this.isCustomKeyboardOpen()) {
+      this.dismissKeyboard();
+      this.showLastKeyboard();
+    }
+  }
+
+  safeAreaSwitchToggle = () => {
+    if (!IsIOS) {
+      return (<View />);
+    }
+    const {useSafeArea} = this.state;
+    return (
+      <View style={styles.safeAreaSwitchContainer}>
+        <Text>Safe Area Enabled:</Text>
+        <Switch style={styles.switch} value={useSafeArea} onValueChange={this.toggleUseSafeArea}/>
+      </View>
+    );
+  }
+
   keyboardAccessoryViewContent() {
     return (
       <View style={styles.keyboardContainer}>
         <View style={{borderTopWidth: StyleSheet.hairlineWidth, borderColor: '#bbb'}}/>
-
         <View style={styles.inputContainer}>
           <AutoGrowingTextInput
             maxHeight={200}
@@ -101,7 +154,6 @@ export default class KeyboardInput extends Component {
             <Text>Action</Text>
           </TouchableOpacity>
         </View>
-
         <View style={{flexDirection: 'row'}}>
           {
             this.getToolbarButtons().map((button, index) =>
@@ -129,11 +181,12 @@ export default class KeyboardInput extends Component {
         >
           <Text style={styles.welcome}>{this.props.message ? this.props.message : 'Keyboards example'}</Text>
           <Text testID={'demo-message'}>{this.state.receivedKeyboardData}</Text>
+          { this.safeAreaSwitchToggle() }
         </ScrollView>
 
         <KeyboardAccessoryView
           renderContent={this.keyboardAccessoryViewContent}
-          onHeightChanged={IsIOS ? height => this.setState({keyboardAccessoryViewHeight: height}) : undefined}
+          onHeightChanged={height => this.setState({keyboardAccessoryViewHeight: IsIOS ? height : undefined})}
           trackInteractive={TrackInteractive}
           kbInputRef={this.textInputRef}
           kbComponent={this.state.customKeyboard.component}
@@ -141,6 +194,7 @@ export default class KeyboardInput extends Component {
           onItemSelected={this.onKeyboardItemSelected}
           onKeyboardResigned={this.onKeyboardResigned}
           revealKeyboardInteractive
+          useSafeArea={this.state.useSafeArea}
         />
       </View>
     );
@@ -197,5 +251,13 @@ const styles = StyleSheet.create({
     paddingRight: 15,
     paddingLeft: 15,
     alignSelf: 'center',
+  },
+  switch: {
+    marginLeft: 15,
+  },
+  safeAreaSwitchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

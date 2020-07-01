@@ -1,7 +1,7 @@
 {
   "name": "react-native-keyboard-input",
   "description": "React Native Custom Input Controller",
-  "version": "6.0.1",
+  "version": "6.0.2",
   "main": "src/index.js",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"

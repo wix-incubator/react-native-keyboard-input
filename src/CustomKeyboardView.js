@@ -16,20 +16,22 @@ export default class CustomKeyboardView extends Component {
     initialProps: PropTypes.object,
     component: PropTypes.string,
     onItemSelected: PropTypes.func,
+    useSafeArea: PropTypes.bool,
   };
   static defaultProps = {
     initialProps: {},
+    useSafeArea: true,
   };
 
   constructor(props) {
     super(props);
 
-    const {inputRef, component, initialProps, onItemSelected} = props;
+    const {inputRef, component, initialProps, onItemSelected, useSafeArea} = props;
     if (component) {
       this.addOnItemSelectListener(onItemSelected, component);
 
       if (TextInputKeyboardManagerIOS && inputRef) {
-        TextInputKeyboardManagerIOS.setInputComponent(inputRef, {component, initialProps});
+        TextInputKeyboardManagerIOS.setInputComponent(inputRef, {component, initialProps, useSafeArea});
       }
 
       this.registeredRequestShowKeyboard = false;
@@ -76,7 +78,7 @@ export default class CustomKeyboardView extends Component {
   }
 
   async UNSAFE_componentWillReceiveProps(nextProps) { //eslint-disable-line
-    const {inputRef, component, initialProps, onRequestShowKeyboard} = nextProps;
+    const {inputRef, component, initialProps, onRequestShowKeyboard, useSafeArea} = nextProps;
 
     if (IsAndroid) {
       if (this.props.component !== component && !component) {
@@ -86,7 +88,11 @@ export default class CustomKeyboardView extends Component {
 
     if (IsIOS && TextInputKeyboardManagerIOS && inputRef && component !== this.props.component) {
       if (component) {
-        TextInputKeyboardManagerIOS.setInputComponent(inputRef, {component, initialProps});
+        TextInputKeyboardManagerIOS.setInputComponent(inputRef, {
+          component,
+          initialProps,
+          useSafeArea,
+        });
       } else {
         TextInputKeyboardManagerIOS.removeInputComponent(inputRef);
       }
