@@ -72,7 +72,7 @@ To utilize this feature you'll need to add `KeyboardTrackingView` to your projec
 From Xcode menu:
  
  1. `product -> scheme -> manage schemes -> double-click your project`
- 2. Slect build at the right menu, click the + icon at the bottom of the targets list and select `KeyboardTrackingView`.
+ 2. Select build at the right menu, click the + icon at the bottom of the targets list and select `KeyboardTrackingView`.
  3. Drag and position `KeyboardTrackingView` to be first, above your project, and unmark "Parallelize Build" option at the top.
 
 If necessary, you can take a look at how it is set-up in the demo project.
