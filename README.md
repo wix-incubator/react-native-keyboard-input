@@ -1,3 +1,15 @@
+# Important: deprecation alert
+This library is being deprecated and the repository will not be maintaned, the components have moved to our UI library - please start migrating to [RN-UILib](https://github.com/wix/react-native-ui-lib/).    
+If you want to try out our excelent (and constantly improving) UI compoenent library, please use:  
+```
+import {Keyboard} from 'react-native-ui-lib';
+const KeyboardAccessoryView = Keyboard.KeyboardAccessoryView;
+```
+If you don't want to import the whole library, you can use only the `keyboard` package:  
+```
+import {KeyboardAccessoryView} from 'react-native-ui-lib/keyboard';
+```
+
 # React Native Keyboard Input
 
 Presents a React component as an input view which replaces the system keyboard. Can be used for creating custom input views such as an image gallery, stickers, etc.
