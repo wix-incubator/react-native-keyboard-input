@@ -64,6 +64,8 @@ If you have pro-guard enabled and are having trouble with your build, apply this
 ```
 
 ## iOS
+
+### Option: Manually
 In Xcode, drag both `RCTCustomInputController.xcodeproj` and `KeyboardTrackingView.xcodeproj` from your `node_modules` to the Libraries folder in the Project Navigator, then add `libRCTCustomInputController.a` and `libKeyboardTrackingView.a` to your app target "Linked Frameworks and Libraries".
 
 #### Covering the whold keyboard in predictive mode
@@ -76,6 +78,15 @@ From Xcode menu:
  3. Drag and position `KeyboardTrackingView` to be first, above your project, and unmark "Parallelize Build" option at the top.
 
 If necessary, you can take a look at how it is set-up in the demo project.
+
+### Option: With [CocoaPods](https://cocoapods.org/)
+
+Add the following two pods to your `Podfile` and run `pod update`:
+
+```
+pod 'react-native-keyboard-input', :path => '../node_modules/react-native-keyboard-input'
+pod 'react-native-keyboard-tracking-view', :path => '../node_modules/react-native-keyboard-tracking-view'
+```
 
 
 # Usage
