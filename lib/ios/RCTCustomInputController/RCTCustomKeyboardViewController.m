@@ -65,6 +65,7 @@
     }
     
     _rootView = rootView;
+    _rootView.backgroundColor = nil; // Let iOS's natural keyboard color pass throught
     _rootView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.inputView addSubview:_rootView];
     
