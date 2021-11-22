@@ -23,9 +23,9 @@ public class KeyboardInputModule extends ReactContextBaseJavaModule {
         return REACT_CLASS;
     }
 
-    @ReactProp(name = "useSafeArea" , defaultBoolean= false)
-    public void setUseSafeArea(CustomKeyboardLayout layout,Boolean useSafeArea) {
-        layout.setUseSafeArea(useSafeArea);
+    @ReactMethod
+    public void setUseSafeArea(Boolean useSafeArea) {
+        mLayout.setUseSafeArea(useSafeArea);
     }
 
     @ReactMethod
