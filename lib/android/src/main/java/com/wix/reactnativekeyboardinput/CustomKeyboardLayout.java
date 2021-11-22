@@ -25,6 +25,16 @@ public class CustomKeyboardLayout implements ReactSoftKeyboardMonitor.Listener, 
     private final InputMethodManager mInputMethodManager;
     private final ReactSoftKeyboardMonitor mKeyboardMonitor;
     private WeakReference<CustomKeyboardRootViewShadow> mShadowNode = new WeakReference<>(null);
+    public boolean useSafeArea = false;
+
+    @Override
+    public boolean isUseSafeArea() {
+        return useSafeArea;
+    }
+
+    public void setUseSafeArea(boolean useSafeArea) {
+        this.useSafeArea = useSafeArea;
+    }
 
     public CustomKeyboardLayout(ReactContext reactContext, ReactSoftKeyboardMonitor keyboardMonitor, ReactScreenMonitor screenMonitor) {
         mKeyboardMonitor = keyboardMonitor;
@@ -66,9 +76,9 @@ public class CustomKeyboardLayout implements ReactSoftKeyboardMonitor.Listener, 
         runOnUIThread(new Runnable() {
             @Override
             public void run() {
+                hideSoftKeyboardIfNeeded();
                 showCustomKeyboardContent();
                 setKeyboardOverlayMode();
-                hideSoftKeyboardIfNeeded();
             }
         });
     }

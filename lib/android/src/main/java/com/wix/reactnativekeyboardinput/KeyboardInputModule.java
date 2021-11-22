@@ -4,6 +4,7 @@ import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.uimanager.annotations.ReactProp;
 
 public class KeyboardInputModule extends ReactContextBaseJavaModule {
 
@@ -20,6 +21,11 @@ public class KeyboardInputModule extends ReactContextBaseJavaModule {
     @Override
     public String getName() {
         return REACT_CLASS;
+    }
+
+    @ReactProp(name = "useSafeArea" , defaultBoolean= false)
+    public void setUseSafeArea(CustomKeyboardLayout layout,Boolean useSafeArea) {
+        layout.setUseSafeArea(useSafeArea);
     }
 
     @ReactMethod
