@@ -29,4 +29,16 @@ public class CustomKeyboardRootView extends FrameLayout {
         }
         super.onViewAdded(child);
     }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        mLayout.setShown(true);
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        mLayout.setShown(false);
+        super.onDetachedFromWindow();
+    }
 }

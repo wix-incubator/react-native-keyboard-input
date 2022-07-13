@@ -25,6 +25,8 @@ public class CustomKeyboardLayout implements ReactSoftKeyboardMonitor.Listener, 
     private final InputMethodManager mInputMethodManager;
     private final ReactSoftKeyboardMonitor mKeyboardMonitor;
     private WeakReference<CustomKeyboardRootViewShadow> mShadowNode = new WeakReference<>(null);
+    private int mSoftInputMode;
+    private boolean mIsShown = false;
 
     public CustomKeyboardLayout(ReactContext reactContext, ReactSoftKeyboardMonitor keyboardMonitor, ReactScreenMonitor screenMonitor) {
         mKeyboardMonitor = keyboardMonitor;
@@ -32,6 +34,18 @@ public class CustomKeyboardLayout implements ReactSoftKeyboardMonitor.Listener, 
 
         mKeyboardMonitor.setListener(this);
         screenMonitor.addListener(this);
+    }
+
+    public void setShown(boolean isShown) {
+        mIsShown = isShown;
+        Window window = getWindow();
+        if (window != null) {
+            if (mIsShown) {
+                mSoftInputMode = window.getAttributes().softInputMode;
+            } else {
+                window.setSoftInputMode(mSoftInputMode);
+            }
+        }
     }
 
     @Override
@@ -77,14 +91,17 @@ public class CustomKeyboardLayout implements ReactSoftKeyboardMonitor.Listener, 
         runOnUIThread(new Runnable() {
             @Override
             public void run() {
-                final View focusedView = getCurrentActivity().getCurrentFocus();
-                if (focusedView instanceof EditText) {
-                    showSoftKeyboard();
-                } else {
-                    hideCustomKeyboardContent();
-                    clearKeyboardOverlayMode();
+                Activity currentActivity = getCurrentActivity();
+                if (currentActivity != null) {
+                    final View focusedView = currentActivity.getCurrentFocus();
+                    if (focusedView instanceof EditText) {
+                        showSoftKeyboard();
+                    } else {
+                        hideCustomKeyboardContent();
+                        clearKeyboardOverlayMode();
+                    }
+                    promise.resolve(null);
                 }
-                promise.resolve(null);
             }
         });
     }
@@ -93,9 +110,12 @@ public class CustomKeyboardLayout implements ReactSoftKeyboardMonitor.Listener, 
         runOnUIThread(new Runnable() {
             @Override
             public void run() {
-                final View focusedView = getCurrentActivity().getCurrentFocus();
-                if (focusedView != null) {
-                    focusedView.clearFocus();
+                Activity currentActivity = getCurrentActivity();
+                if (currentActivity != null) {
+                    final View focusedView = currentActivity.getCurrentFocus();
+                    if (focusedView != null) {
+                        focusedView.clearFocus();
+                    }
                 }
             }
         });
@@ -169,11 +189,20 @@ public class CustomKeyboardLayout implements ReactSoftKeyboardMonitor.Listener, 
     }
 
     private void setKeyboardOverlayMode() {
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
     }
 
     private void clearKeyboardOverlayMode() {
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+    }
+
+    private void setSoftInputMode(int softInputMode) {
+        if (mIsShown) {
+            Window window = getWindow();
+            if (window != null) {
+                window.setSoftInputMode(softInputMode);
+            }
+        }
     }
 
     private void sendCustomKeyboardResignedEvent() {
