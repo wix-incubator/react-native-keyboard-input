@@ -7,7 +7,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-
+// nguyen95
 import com.facebook.react.ReactRootView;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactContext;
