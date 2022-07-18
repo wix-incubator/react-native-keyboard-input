@@ -6,12 +6,12 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
-  "homepage": "https://github.com/wix/react-native-keyboard-input",
+  "homepage": "https://github.com/nguyen95/react-native-keyboard-input.git",
   "author": "Leo Natan <lnatan@wix.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/wix/react-native-keyboard-input.git"
+    "url": "https://github.com/nguyen95/react-native-keyboard-input.git"
   },
   "nativePackage": true,
   "keywords": [
